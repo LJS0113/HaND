@@ -26,6 +26,7 @@ namespace ya
 		//tr->SetPos(Vector2(400.0f, 400.0f));
 		//tr->SetScale(Vector2(1.5f, 1.5f));
 
+		// 기존 컵헤드
 		Image* mImage = Resources::Load<Image>(L"Cuphead", L"..\\Resources\\Cuphead_Stage.bmp");
 		mAnimator = AddComponent<Animator>();
 		mAnimator->CreateAnimation(L"FowardRun", mImage, Vector2::Zero, 16, 8, 16, Vector2::Zero, 0.1);
@@ -37,6 +38,14 @@ namespace ya
 		mAnimator->GetStartEvent(L"ChaliseIdle") = std::bind(&Cuphead::idleCompleteEvent, this);
 		mAnimator->Play(L"ChaliseIdle", true);
 		
+		// 타이틀 플레이어 실험
+		//Image* mImage = Resources::Load<Image>(L"TitlePlayer", L"..\\Resources\\HaND_Resource\\Title_Player_tea.bmp");
+		//mAnimator = AddComponent<Animator>();
+		//mAnimator->CreateAnimation(L"Idle", mImage, Vector2(0.0f, 0.0f), 9, 1, 9, Vector2(0.0f, 0.0f), 0.1f);
+
+		//mAnimator->Play(L"Idle", true);
+
+
 		Collider* collider = AddComponent<Collider>();
 		collider->SetCenter(Vector2(-75.0f, -145.0f));
 		collider->SetSize(Vector2(150.0f, 150.0f));

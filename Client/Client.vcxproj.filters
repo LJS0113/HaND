@@ -77,6 +77,12 @@
     <Filter Include="Contents\Tile">
       <UniqueIdentifier>{6e1cb779-e112-48a8-b50a-f53acda8ab1a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{d4402194-e16e-47f4-9fda-bb1bf7aaf76d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resource\Base">
+      <UniqueIdentifier>{1d822ed5-bb87-4cb1-85e4-9d1f39ab7828}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -136,12 +142,6 @@
     <ClInclude Include="yaInput.h">
       <Filter>Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="yaResource.h">
-      <Filter>Engine\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="yaResources.h">
-      <Filter>Engine\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="yaImage.h">
       <Filter>Engine\Resource</Filter>
     </ClInclude>
@@ -192,6 +192,21 @@
     </ClInclude>
     <ClInclude Include="yaSound.h" />
     <ClInclude Include="yaSoundManager.h" />
+    <ClInclude Include="yaBgImage.h">
+      <Filter>Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="yaLogoPlayer.h">
+      <Filter>Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="yaResource.h">
+      <Filter>Engine\Resource\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaResources.h">
+      <Filter>Engine\Resource\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="yaLoadingScene.h">
+      <Filter>Contents\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -243,12 +258,6 @@
     <ClCompile Include="yaInput.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
-    <ClCompile Include="yaResource.cpp">
-      <Filter>Engine\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="yaResources.cpp">
-      <Filter>Engine\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="yaImage.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
@@ -299,5 +308,20 @@
     </ClCompile>
     <ClCompile Include="yaSound.cpp" />
     <ClCompile Include="yaSoundManager.cpp" />
+    <ClCompile Include="yaBgImage.cpp">
+      <Filter>Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="yaLogoPlayer.cpp">
+      <Filter>Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="yaResource.cpp">
+      <Filter>Engine\Resource\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaResources.cpp">
+      <Filter>Engine\Resource\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaLoadingScene.cpp">
+      <Filter>Contents\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

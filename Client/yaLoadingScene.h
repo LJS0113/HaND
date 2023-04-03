@@ -5,11 +5,11 @@ namespace ya
 {
 	class Image;
 	class Animator;
-	class TitleScene : public Scene
+	class LoadingScene : public Scene
 	{
 	public:
-		TitleScene();
-		~TitleScene();
+		LoadingScene();
+		~LoadingScene();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
@@ -19,8 +19,7 @@ namespace ya
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
 	private:
-		Image* mBgImage;
-		Image* mBgLogoImage;
+		Image* mImage;
 		Animator* mAnimator;
 	};
 }

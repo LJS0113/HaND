@@ -7,10 +7,23 @@
 #include "yaTransform.h"
 #include "yaCamera.h"
 #include "yaObject.h"
+#include "yaImage.h"
+#include "yaApplication.h"
+#include "yaResources.h"
+#include "yaComponent.h"
+#include "yaAnimator.h"
+#include "yaAnimation.h"
+#include "yaGameObject.h"
+#include "yaLogoPlayer.h"
+
+extern ya::Application application;
 
 namespace ya
 {
 	TitleScene::TitleScene()
+		: mBgImage(nullptr)
+		, mBgLogoImage(nullptr)
+		, mAnimator(nullptr)
 	{
 	}
 	TitleScene::~TitleScene()
@@ -20,7 +33,10 @@ namespace ya
 	{
 		Scene::Initialize();
 
-		int a = 0;
+		mBgImage = Resources::Load<Image>(L"TitleBg", L"..\\Resources\\HaND_Resource\\TitleScene.bmp");
+		mBgLogoImage = Resources::Load<Image>(L"TitleLogo", L"..\\Resources\\HaND_Resource\\HaND_LOGO.bmp");
+
+		LogoPlayer* logoPlayer = object::Instantiate<LogoPlayer>(Vector2(650.0f, 450.0f), eLayerType::UI);
 
 	}
 	void TitleScene::Update()
@@ -35,7 +51,22 @@ namespace ya
 	}
 	void TitleScene::Render(HDC hdc)
 	{
+		TransparentBlt(hdc, 0, 0
+			, application.GetWidth(), application.GetHeight()
+			, mBgImage->GetHdc()
+			, 0, 0
+			, mBgImage->GetWidth(), mBgImage->GetHeight()
+			, RGB(255, 255, 255));
+
+		TransparentBlt(hdc, 50, 50
+			, mBgLogoImage->GetWidth()/3, mBgLogoImage->GetHeight()/3
+			, mBgLogoImage->GetHdc()
+			, 0, 0
+			, mBgLogoImage->GetWidth(), mBgLogoImage->GetHeight()
+			, RGB(255, 255, 255));
+
 		Scene::Render(hdc);
+
 	}
 	void TitleScene::Release()
 	{

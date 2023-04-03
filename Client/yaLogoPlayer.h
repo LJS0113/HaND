@@ -1,26 +1,24 @@
 #pragma once
-#include "yaScene.h"
+#include "yaGameObject.h"
 
 namespace ya
 {
-	class Image;
 	class Animator;
-	class TitleScene : public Scene
+	class Image;
+	class LogoPlayer : public GameObject
 	{
 	public:
-		TitleScene();
-		~TitleScene();
+		LogoPlayer();
+		~LogoPlayer();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
 
-		virtual void OnEnter() override;
-		virtual void OnExit() override;
 	private:
-		Image* mBgImage;
-		Image* mBgLogoImage;
+		Image* mImage;
 		Animator* mAnimator;
 	};
+
 }
