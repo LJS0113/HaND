@@ -20,7 +20,8 @@ namespace ya
 	{
 		Scene::Initialize();
 
-		
+		int a = 0;
+
 	}
 	void TitleScene::Update()
 	{
