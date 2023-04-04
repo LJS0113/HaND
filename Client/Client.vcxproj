@@ -139,11 +139,11 @@
     <ClInclude Include="yaAnimation.h" />
     <ClInclude Include="yaAnimator.h" />
     <ClInclude Include="yaBaseBullet.h" />
-    <ClInclude Include="yaBgImage.h" />
     <ClInclude Include="yaCamera.h" />
     <ClInclude Include="yaCollider.h" />
     <ClInclude Include="yaCollisionManager.h" />
     <ClInclude Include="yaGround.h" />
+    <ClInclude Include="yaLoading.h" />
     <ClInclude Include="yaLoadingScene.h" />
     <ClInclude Include="yaLogoPlayer.h" />
     <ClInclude Include="yaMonster.h" />
@@ -180,11 +180,11 @@
     <ClCompile Include="yaAnimation.cpp" />
     <ClCompile Include="yaAnimator.cpp" />
     <ClCompile Include="yaBaseBullet.cpp" />
-    <ClCompile Include="yaBgImage.cpp" />
     <ClCompile Include="yaCamera.cpp" />
     <ClCompile Include="yaCollider.cpp" />
     <ClCompile Include="yaCollisionManager.cpp" />
     <ClCompile Include="yaGround.cpp" />
+    <ClCompile Include="yaLoading.cpp" />
     <ClCompile Include="yaLoadingScene.cpp" />
     <ClCompile Include="yaLogoPlayer.cpp" />
     <ClCompile Include="yaMonster.cpp" />

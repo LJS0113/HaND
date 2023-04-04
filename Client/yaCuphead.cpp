@@ -33,8 +33,8 @@ namespace ya
 		//mAnimator->CreateAnimation(L"FowardRight", mImage, Vector2(0.0f, 113.0f), 16, 8, 15, Vector2::Zero, 0.1);
 		//mAnimator->CreateAnimation(L"Idle", mImage, Vector2(0.0f, 113.0f * 5), 16, 8, 9, Vector2(-50.0f, -50.0f), 0.1);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Idle\\Idle", Vector2::Zero, 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Run\\Run", Vector2::Zero, 0.1f);
-
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Run\\Run\\Right", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Run\\Run\\Left", Vector2::Zero, 0.1f);
 		//mAnimator->GetStartEvent(L"IdleIdle") = std::bind(&Cuphead::idleCompleteEvent, this);
 		mAnimator->Play(L"IdleIdle", true);
 		
@@ -153,14 +153,16 @@ namespace ya
 		Vector2 pos = tr->GetPos();
 		
 		if (Input::GetKey(eKeyCode::A))
+		{
 			mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
 			//pos.x -= 100.0f * Time::DeltaTime();
-
+			mAnimator->Play(L"RunLeft", true);
+		}
 		if (Input::GetKey(eKeyCode::D))
 		{
 			mRigidbody->AddForce(Vector2(200.0f, 0.0f));
 			//pos.x += 100.0f * Time::DeltaTime();
-			mAnimator->Play(L"RunRun", true);
+			mAnimator->Play(L"RunRight", true);
 		}
 		if (Input::GetKey(eKeyCode::W))
 			mRigidbody->AddForce(Vector2(0.0f, -200.0f));

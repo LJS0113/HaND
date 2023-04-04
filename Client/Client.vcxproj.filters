@@ -192,9 +192,6 @@
     </ClInclude>
     <ClInclude Include="yaSound.h" />
     <ClInclude Include="yaSoundManager.h" />
-    <ClInclude Include="yaBgImage.h">
-      <Filter>Engine\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="yaLogoPlayer.h">
       <Filter>Engine\Resource</Filter>
     </ClInclude>
@@ -206,6 +203,9 @@
     </ClInclude>
     <ClInclude Include="yaLoadingScene.h">
       <Filter>Contents\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="yaLoading.h">
+      <Filter>Engine\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -308,9 +308,6 @@
     </ClCompile>
     <ClCompile Include="yaSound.cpp" />
     <ClCompile Include="yaSoundManager.cpp" />
-    <ClCompile Include="yaBgImage.cpp">
-      <Filter>Engine\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="yaLogoPlayer.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
@@ -322,6 +319,9 @@
     </ClCompile>
     <ClCompile Include="yaLoadingScene.cpp">
       <Filter>Contents\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="yaLoading.cpp">
+      <Filter>Engine\Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

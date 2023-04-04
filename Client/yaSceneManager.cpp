@@ -4,6 +4,7 @@
 #include "yaCollisionManager.h"
 #include "yaCamera.h"
 #include "yaToolScene.h"
+#include "yaLoadingScene.h"
 
 namespace ya
 {	
@@ -17,6 +18,7 @@ namespace ya
 		mScenes.resize((UINT)eSceneType::End);
 
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
+		mScenes[(UINT)eSceneType::Loading] = new LoadingScene();
 		mScenes[(UINT)eSceneType::Play] = new PlayeScene();
 		mScenes[(UINT)eSceneType::Tool] = new ToolScene();
 		
