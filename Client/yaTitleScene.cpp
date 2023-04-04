@@ -33,10 +33,11 @@ namespace ya
 	{
 		Scene::Initialize();
 
+
 		mBgImage = Resources::Load<Image>(L"TitleBg", L"..\\Resources\\HaND_Resource\\TitleScene.bmp");
 		mBgLogoImage = Resources::Load<Image>(L"TitleLogo", L"..\\Resources\\HaND_Resource\\HaND_LOGO.bmp");
 
-		LogoPlayer* logoPlayer = object::Instantiate<LogoPlayer>(Vector2(650.0f, 450.0f), eLayerType::UI);
+		LogoPlayer* logoPlayer = object::Instantiate<LogoPlayer>(Vector2(650.0f, 450.0f), eLayerType::Player);
 
 	}
 	void TitleScene::Update()

@@ -27,16 +27,16 @@ namespace ya
 		//tr->SetScale(Vector2(1.5f, 1.5f));
 
 		// 기존 컵헤드
-		Image* mImage = Resources::Load<Image>(L"Cuphead", L"..\\Resources\\Cuphead_Stage.bmp");
+		//Image* mImage = Resources::Load<Image>(L"Cuphead", L"..\\Resources\\Cuphead_Stage.bmp");
 		mAnimator = AddComponent<Animator>();
-		mAnimator->CreateAnimation(L"FowardRun", mImage, Vector2::Zero, 16, 8, 16, Vector2::Zero, 0.1);
-		mAnimator->CreateAnimation(L"FowardRight", mImage, Vector2(0.0f, 113.0f), 16, 8, 15, Vector2::Zero, 0.1);
-		mAnimator->CreateAnimation(L"Idle", mImage, Vector2(0.0f, 113.0f * 5), 16, 8, 9, Vector2(-50.0f, -50.0f), 0.1);
-		mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Idle", Vector2::Zero, 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\Chalise\\Aim\\Straight", Vector2::Zero, 0.1f);
+		//mAnimator->CreateAnimation(L"FowardRun", mImage, Vector2::Zero, 16, 8, 16, Vector2::Zero, 0.1);
+		//mAnimator->CreateAnimation(L"FowardRight", mImage, Vector2(0.0f, 113.0f), 16, 8, 15, Vector2::Zero, 0.1);
+		//mAnimator->CreateAnimation(L"Idle", mImage, Vector2(0.0f, 113.0f * 5), 16, 8, 9, Vector2(-50.0f, -50.0f), 0.1);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Idle\\Idle", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Run\\Run", Vector2::Zero, 0.1f);
 
-		mAnimator->GetStartEvent(L"ChaliseIdle") = std::bind(&Cuphead::idleCompleteEvent, this);
-		mAnimator->Play(L"ChaliseIdle", true);
+		//mAnimator->GetStartEvent(L"IdleIdle") = std::bind(&Cuphead::idleCompleteEvent, this);
+		mAnimator->Play(L"IdleIdle", true);
 		
 		// 타이틀 플레이어 실험
 		//Image* mImage = Resources::Load<Image>(L"TitlePlayer", L"..\\Resources\\HaND_Resource\\Title_Player_tea.bmp");
@@ -157,9 +157,11 @@ namespace ya
 			//pos.x -= 100.0f * Time::DeltaTime();
 
 		if (Input::GetKey(eKeyCode::D))
+		{
 			mRigidbody->AddForce(Vector2(200.0f, 0.0f));
 			//pos.x += 100.0f * Time::DeltaTime();
-
+			mAnimator->Play(L"RunRun", true);
+		}
 		if (Input::GetKey(eKeyCode::W))
 			mRigidbody->AddForce(Vector2(0.0f, -200.0f));
 			//pos.y -= 100.0f * Time::DeltaTime();

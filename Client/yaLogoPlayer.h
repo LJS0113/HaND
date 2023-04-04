@@ -18,7 +18,18 @@ namespace ya
 
 	private:
 		Image* mImage;
-		Animator* mAnimator;
+
+		GameObject* mHead;
+		GameObject* mBody;
+		GameObject* mArm;
+		GameObject* mWeapon;
+		GameObject* mSmoke;
+		
+		Animator* mHeadAnimator;
+		Animator* mBodyAnimator;
+		Animator* mArmAnimator;
+		Animator* mWeaponAnimator;
+		Animator* mSmokeAnimator;
 	};
 
 }
