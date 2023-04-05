@@ -3,6 +3,7 @@
 #include "yaSceneManager.h"
 #include "yaLoading.h"
 #include "yaObject.h"
+#include "yaTransform.h"
 
 namespace ya
 {
@@ -17,8 +18,9 @@ namespace ya
 	void LoadingScene::Initialize()
 	{
 		Scene::Initialize();
-		
+
 		Loading* loading = object::Instantiate<Loading>(Vector2(500.0f, 500.0f), eLayerType::UI);
+
 	}
 
 	void LoadingScene::Update()

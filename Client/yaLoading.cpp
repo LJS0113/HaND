@@ -15,7 +15,7 @@ namespace ya
 	void Loading::Initialize()
 	{
 		Transform* tr = GetComponent<Transform>();
-		tr->SetScale(Vector2(1.0f, 1.0f));
+		tr->SetScale(Vector2(2.0f, 2.0f));
 
 		//mImage = Resources::Load<Image>(L"TitlePlayer", L"..\\Resources\\HaND_Resource\\Title_Player_tea.bmp");
 		//mAnimator = AddComponent<Animator>();
@@ -25,7 +25,7 @@ namespace ya
 
 
 		mAnimator = AddComponent<Animator>();
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Loading", Vector2(0.0f, 0.0f), 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Loading", Vector2(-100.0f, -100.0f), 0.08f);
 		mAnimator->Play(L"HaND_ResourceLoading", true);
 
 

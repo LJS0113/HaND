@@ -11,6 +11,8 @@ namespace ya
 		enum class eCupheadState
 		{
 			Move,
+			Dash,
+			Jump,
 			Shoot,
 			Death,
 			Idle,
@@ -33,7 +35,8 @@ namespace ya
 		void shoot();
 		void death();
 		void idle();
-
+		void dash();
+		void jump();
 		void idleCompleteEvent();
 
 	private:

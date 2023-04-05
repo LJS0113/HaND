@@ -34,10 +34,10 @@ namespace ya
 		mHeadAnimator->Play(L"TitlePlayerHomeScreenHead", true);
 		tr->SetPos(Vector2(650.0f, 450.0f));
 
-		mBodyAnimator = AddComponent<Animator>();
-		mBodyAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\TitlePlayer\\HomeScreenBody", Vector2(0.0f, 0.0f), 0.1f);
-		mBodyAnimator->Play(L"TitlePlayerHomeScreenBody", true);
-		tr->SetPos(Vector2(650.0f, 750.0f));
+		//mBodyAnimator = AddComponent<Animator>();
+		//mBodyAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\TitlePlayer\\HomeScreenBody", Vector2(0.0f, 0.0f), 0.1f);
+		//mBodyAnimator->Play(L"TitlePlayerHomeScreenBody", true);
+		//tr->SetPos(Vector2(650.0f, 750.0f));
 
 
 		//mWeaponAnimator = AddComponent<Animator>();

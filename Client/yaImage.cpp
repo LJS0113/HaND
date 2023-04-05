@@ -31,9 +31,20 @@ namespace ya
 		image->SetKey(name);
 		Resources::Insert<Image>(name, image);
 
+		HBRUSH brush;
+		HBRUSH oldBrush;
 		// Setting Image Color
-		HBRUSH brush = CreateSolidBrush(rgb);
-		HBRUSH oldBrush = (HBRUSH)SelectObject(image->GetHdc(), brush);
+		if (rgb == RGB(255,255,255))
+		{
+			brush = CreateSolidBrush(NULL_BRUSH);
+			oldBrush = (HBRUSH)SelectObject(image->GetHdc(), brush);
+		}
+		else 
+		{
+			brush = CreateSolidBrush(rgb);
+			oldBrush = (HBRUSH)SelectObject(image->GetHdc(), brush);
+		}
+
 		Rectangle(image->GetHdc(), -1, -1, image->mWidth + 1, image->mHeight + 1);
 		SelectObject(image->GetHdc(), oldBrush);
 		DeleteObject(oldBrush);

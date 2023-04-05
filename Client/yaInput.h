@@ -11,7 +11,7 @@ namespace ya
 
 		UP, DOWN, LEFT, RIGHT, SPACE,
 		LBUTTON, RBUTTON,
-		END,
+		LSHIFT,END
 	};
 
 	enum class eKeyState
