@@ -16,6 +16,7 @@ namespace ya
 			Shoot,
 			Death,
 			Idle,
+			Attack,
 		};
 
 		Cuphead();
@@ -37,11 +38,15 @@ namespace ya
 		void idle();
 		void dash();
 		void jump();
+		void attack();
 		void idleCompleteEvent();
 
 	private:
 		eCupheadState mState;
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
+
+		bool mbRight;
+		bool mbLeft;
 	};
 }

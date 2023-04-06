@@ -5,6 +5,7 @@
 #include "yaResources.h"
 #include "yaTransform.h"
 #include "yaAnimator.h"
+#include "yaAnimation.h"
 #include "yaCollider.h"
 #include "yaBaseBullet.h"
 #include "yaScene.h"
@@ -14,6 +15,8 @@
 namespace ya
 {
 	Cuphead::Cuphead()
+		: mbRight(false)
+		, mbLeft(false)
 	{
 	}
 	Cuphead::~Cuphead()
@@ -32,17 +35,18 @@ namespace ya
 		//mAnimator->CreateAnimation(L"FowardRun", mImage, Vector2::Zero, 16, 8, 16, Vector2::Zero, 0.1);
 		//mAnimator->CreateAnimation(L"FowardRight", mImage, Vector2(0.0f, 113.0f), 16, 8, 15, Vector2::Zero, 0.1);
 		//mAnimator->CreateAnimation(L"Idle", mImage, Vector2(0.0f, 113.0f * 5), 16, 8, 9, Vector2(-50.0f, -50.0f), 0.1);
-		
+
 		// Idle
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Idle\\Idle", Vector2::Zero, 0.1f);
-		
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Idle\\Idle\\Right", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Idle\\Idle\\Left", Vector2::Zero, 0.1f);
+
 		// Run
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Run\\Run\\Right", Vector2::Zero, 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Run\\Run\\Left", Vector2::Zero, 0.1f);
-		
+
 		//Jump
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Jump", Vector2::Zero, 0.1f);
-		
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Jump\\Right", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Jump\\Left", Vector2::Zero, 0.1f);
 		// Dash
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Dash\\Right", Vector2::Zero, 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Dash\\Left", Vector2::Zero, 0.1f);
@@ -52,9 +56,9 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack2", Vector2::Zero, 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack3", Vector2::Zero, 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack4", Vector2::Zero, 0.1f);
-		
+
 		//mAnimator->GetStartEvent(L"IdleIdle") = std::bind(&Cuphead::idleCompleteEvent, this);
-		mAnimator->Play(L"IdleIdle", true);
+		mAnimator->Play(L"IdleRight", true);
 
 		Collider* collider = AddComponent<Collider>();
 		collider->SetCenter(Vector2(-75.0f, -145.0f));
@@ -85,6 +89,9 @@ namespace ya
 			break;
 		case ya::Cuphead::eCupheadState::Shoot:
 			shoot();
+			break;
+		case ya::Cuphead::eCupheadState::Attack:
+			attack();
 			break;
 		case ya::Cuphead::eCupheadState::Death:
 			death();
@@ -156,20 +163,13 @@ namespace ya
 
 	void Cuphead::move()
 	{
-		if (Input::GetKeyUp(eKeyCode::A)
-			|| Input::GetKeyUp(eKeyCode::D)
-			|| Input::GetKeyUp(eKeyCode::S)
-			|| Input::GetKeyUp(eKeyCode::W))
-		{
-			mState = eCupheadState::Idle;
-			//mAnimator->Play(L"Idle", true);
-		}
-
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
 
 		if (Input::GetKey(eKeyCode::A))
 		{
+			mbLeft = true;
+			mbRight = false;
 			if (Input::GetKeyDown(eKeyCode::LSHIFT))
 			{
 				Vector2 velocity = mRigidbody->GetVelocity();
@@ -180,15 +180,41 @@ namespace ya
 
 				mAnimator->Play(L"DashLeft", false);
 			}
+			else if (Input::GetKeyDown(eKeyCode::SPACE))
+			{
+				Vector2 velocity = mRigidbody->GetVelocity();
+				velocity.y -= 500.0f;
+
+				mRigidbody->SetVelocity(velocity);
+				mRigidbody->SetGround(false);
+
+				if (mbRight)
+				{
+					mAnimator->Play(L"JumpRight", false);
+				}
+				if (mbLeft)
+				{
+					mAnimator->Play(L"JumpLeft", false);
+				}
+			}
+
+			if (mAnimator->IsComplete() && mbLeft)
+			{
+				mAnimator->Play(L"RunLeft", true);
+			}
+			if (mAnimator->IsComplete() && mbRight)
+			{
+				mAnimator->Play(L"RunRight", true);
+			}
 			else
 			{
 				mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
-				//pos.x -= 100.0f * Time::DeltaTime();
-				mAnimator->Play(L"RunLeft", true);
 			}
 		}
 		if (Input::GetKey(eKeyCode::D))
 		{
+			mbRight = true;
+			mbLeft = false;
 			if (Input::GetKeyDown(eKeyCode::LSHIFT))
 			{
 				Vector2 velocity = mRigidbody->GetVelocity();
@@ -199,23 +225,87 @@ namespace ya
 
 				mAnimator->Play(L"DashRight", false);
 			}
+			else if (Input::GetKeyDown(eKeyCode::SPACE))
+			{
+				Vector2 velocity = mRigidbody->GetVelocity();
+				velocity.y -= 500.0f;
+
+				mRigidbody->SetVelocity(velocity);
+				mRigidbody->SetGround(false);
+
+				if (mbRight)
+				{
+					mAnimator->Play(L"JumpRight", false);
+				}
+				if (mbLeft)
+				{
+					mAnimator->Play(L"JumpLeft", false);
+				}
+			}
+
+			if (mAnimator->IsComplete() && mbLeft)
+			{
+				mAnimator->Play(L"RunLeft", true);
+			}
+			if (mAnimator->IsComplete() && mbRight)
+			{
+				mAnimator->Play(L"RunRight", true);
+			}
 			else
 			{
 				mRigidbody->AddForce(Vector2(200.0f, 0.0f));
-				//pos.x += 100.0f * Time::DeltaTime();
-				mAnimator->Play(L"RunRight", true);
 			}
 		}
 		if (Input::GetKey(eKeyCode::W))
 			mRigidbody->AddForce(Vector2(0.0f, -200.0f));
-		//pos.y -= 100.0f * Time::DeltaTime();
 
 		if (Input::GetKey(eKeyCode::S))
 			mRigidbody->AddForce(Vector2(0.0f, +200.0f));
 
+		// attack
+		if (Input::GetKeyDown(eKeyCode::U))
+		{
+			mAnimator->Play(L"AttackAttack1", false);
+			mState = eCupheadState::Attack;
+		}
 
+		if (Input::GetKeyDown(eKeyCode::I))
+		{
+			mAnimator->Play(L"AttackAttack2", false);
+			mState = eCupheadState::Attack;
+		}
 
-		//pos.y += 100.0f * Time::DeltaTime();
+		if (Input::GetKeyDown(eKeyCode::O))
+		{
+			mAnimator->Play(L"AttackAttack3", false);
+			mState = eCupheadState::Attack;
+		}
+
+		if (Input::GetKeyDown(eKeyCode::P))
+		{
+			mAnimator->Play(L"AttackAttack4", false);
+			mState = eCupheadState::Attack;
+		}
+
+		if (Input::GetKeyUp(eKeyCode::W)
+			|| Input::GetKeyUp(eKeyCode::S)
+			|| Input::GetKeyUp(eKeyCode::A)
+			|| Input::GetKeyUp(eKeyCode::D))
+		{
+			if (mbLeft)
+				mAnimator->Play(L"IdleLeft", true);
+			if (mbRight)
+				mAnimator->Play(L"IdleRight", true);
+			mState = eCupheadState::Idle;
+		}
+
+		if (Input::GetKeyDown(eKeyCode::W)
+			|| Input::GetKeyDown(eKeyCode::S)
+			|| Input::GetKeyDown(eKeyCode::A)
+			|| Input::GetKeyDown(eKeyCode::D))
+		{
+			mState = eCupheadState::Move;
+		}
 
 		tr->SetPos(pos);
 	}
@@ -238,15 +328,62 @@ namespace ya
 	}
 	void Cuphead::idle()
 	{
-		if (Input::GetKeyDown(eKeyCode::A)
-			|| Input::GetKeyDown(eKeyCode::D)
-			|| Input::GetKeyDown(eKeyCode::S)
-			|| Input::GetKeyDown(eKeyCode::W))
+		if (Input::GetKeyDown(eKeyCode::A))
 		{
-			mState = eCupheadState::Move;
-			//mAnimator->Play(L"FowardRun", true);
+			if (Input::GetKeyDown(eKeyCode::LSHIFT))
+			{
+				Vector2 velocity = mRigidbody->GetVelocity();
+
+				velocity.x -= 300.0f;
+				mRigidbody->SetVelocity(velocity);
+				mRigidbody->SetGround(false);
+
+				mAnimator->Play(L"DashLeft", false);
+				mState = eCupheadState::Move;
+			}
+			else
+			{
+				mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
+				mAnimator->Play(L"RunLeft", true);
+				mState = eCupheadState::Move;
+			}
 		}
 
+		if (Input::GetKeyDown(eKeyCode::D))
+		{
+			if (Input::GetKeyDown(eKeyCode::LSHIFT))
+			{
+				Vector2 velocity = mRigidbody->GetVelocity();
+
+				velocity.x += 300.0f;
+				mRigidbody->SetVelocity(velocity);
+				mRigidbody->SetGround(false);
+
+				mAnimator->Play(L"DashRight", false);
+				mState = eCupheadState::Move;
+			}
+			else
+			{
+				mRigidbody->AddForce(Vector2(200.0f, 0.0f));
+				//pos.x += 100.0f * Time::DeltaTime();
+				mAnimator->Play(L"RunRight", true);
+				mState = eCupheadState::Move;
+			}
+		}
+
+		if (Input::GetKeyDown(eKeyCode::W))
+		{
+			mRigidbody->AddForce(Vector2(0.0f, -200.0f));
+			mState = eCupheadState::Move;
+		}
+
+		if (Input::GetKeyDown(eKeyCode::S))
+		{
+			mRigidbody->AddForce(Vector2(0.0f, +200.0f));
+			mState = eCupheadState::Move;
+		}
+
+		// jump
 		if (Input::GetKeyDown(eKeyCode::SPACE))
 		{
 			Vector2 velocity = mRigidbody->GetVelocity();
@@ -255,9 +392,27 @@ namespace ya
 			mRigidbody->SetVelocity(velocity);
 			mRigidbody->SetGround(false);
 
-			mAnimator->Play(L"PlayerJump", false);
+			if (mbRight)
+			{
+				mAnimator->Play(L"JumpRight", false);
+				mState = eCupheadState::Jump;
+			}
+			if (mbLeft)
+			{
+				mAnimator->Play(L"JumpLeft", false);
+				mState = eCupheadState::Jump;
+			}
 		}
 
+		//if (mAnimator->IsComplete() && mbLeft)
+		//{
+		//	mAnimator->Play(L"IdleLeft", false);
+		//}
+		//if (mAnimator->IsComplete() && mbRight)
+		//{
+		//	mAnimator->Play(L"IdleRight", false);
+		//}
+		// dash
 		if (Input::GetKeyDown(eKeyCode::LSHIFT))
 		{
 			Vector2 velocity = mRigidbody->GetVelocity();
@@ -268,12 +423,53 @@ namespace ya
 			mAnimator->Play(L"DashRight", false);
 		}
 
-		if (Input::GetKeyDown(eKeyCode::K))
+		// attack
+		if (Input::GetKeyDown(eKeyCode::U))
 		{
-			mState = eCupheadState::Shoot;
-			mAnimator->Play(L"AimStraight", true);
+			mAnimator->Play(L"AttackAttack1", false);
+			mState = eCupheadState::Attack;
 		}
 
+		if (Input::GetKeyDown(eKeyCode::I))
+		{
+			mAnimator->Play(L"AttackAttack2", false);
+			mState = eCupheadState::Attack;
+		}
+
+		if (Input::GetKeyDown(eKeyCode::O))
+		{
+			mAnimator->Play(L"AttackAttack3", false);
+			mState = eCupheadState::Attack;
+		}
+
+		if (Input::GetKeyDown(eKeyCode::P))
+		{
+			mAnimator->Play(L"AttackAttack4", false);
+			mState = eCupheadState::Attack;
+		}
+
+	}
+
+	void Cuphead::dash()
+	{
+	}
+
+	void Cuphead::jump()
+	{
+		if (mAnimator->IsComplete() && mbLeft)
+		{
+			mAnimator->Play(L"IdleLeft", true);
+			mState = eCupheadState::Idle;
+		}
+		if (mAnimator->IsComplete() && mbRight)
+		{
+			mAnimator->Play(L"IdleRight", true);
+			mState = eCupheadState::Idle;
+		}
+	}
+
+	void Cuphead::attack()
+	{
 		if (Input::GetKeyDown(eKeyCode::U))
 		{
 			mAnimator->Play(L"AttackAttack1", false);
@@ -294,14 +490,22 @@ namespace ya
 			mAnimator->Play(L"AttackAttack4", false);
 		}
 
-	}
+		if (Input::GetKeyUp(eKeyCode::U)
+			|| Input::GetKeyUp(eKeyCode::I)
+			|| Input::GetKeyUp(eKeyCode::O)
+			|| Input::GetKeyUp(eKeyCode::P))
+		{
+			mState = eCupheadState::Idle;
+		}
 
-	void Cuphead::dash()
-	{
-	}
+		if (Input::GetKey(eKeyCode::W)
+			|| Input::GetKey(eKeyCode::A)
+			|| Input::GetKey(eKeyCode::S)
+			|| Input::GetKey(eKeyCode::D))
+		{
+			mState = eCupheadState::Move;
+		}
 
-	void Cuphead::jump()
-	{
 	}
 
 	void Cuphead::idleCompleteEvent(/*const Cuphead* this*/)

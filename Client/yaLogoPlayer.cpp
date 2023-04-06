@@ -28,6 +28,7 @@ namespace ya
 		//Animator* mBodyAnimator;
 		//Animator* mWeaponAnimator;
 		//Animator* mSmokeAnimator;
+		
 		mHead = new GameObject();
 		mHeadAnimator = AddComponent<Animator>();
 		mHeadAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\TitlePlayer\\HomeScreenHead", Vector2(0.0f, 0.0f), 0.1f);
@@ -37,8 +38,7 @@ namespace ya
 		//mBodyAnimator = AddComponent<Animator>();
 		//mBodyAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\TitlePlayer\\HomeScreenBody", Vector2(0.0f, 0.0f), 0.1f);
 		//mBodyAnimator->Play(L"TitlePlayerHomeScreenBody", true);
-		//tr->SetPos(Vector2(650.0f, 750.0f));
-
+		//tr->SetPos(Vector2(650.0f, 850.0f));
 
 		//mWeaponAnimator = AddComponent<Animator>();
 		//mWeaponAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\TitlePlayer\\HomeScreenHead", Vector2(0.0f, 0.0f), 0.1f);

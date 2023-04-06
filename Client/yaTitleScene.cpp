@@ -33,7 +33,6 @@ namespace ya
 	{
 		Scene::Initialize();
 
-
 		mBgImage = Resources::Load<Image>(L"TitleBg", L"..\\Resources\\HaND_Resource\\TitleScene.bmp");
 		mBgLogoImage = Resources::Load<Image>(L"TitleLogo", L"..\\Resources\\HaND_Resource\\HaND_LOGO.bmp");
 
