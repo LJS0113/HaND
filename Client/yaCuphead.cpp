@@ -15,8 +15,9 @@
 namespace ya
 {
 	Cuphead::Cuphead()
-		: mbRight(false)
+		: mbRight(true)
 		, mbLeft(false)
+		, attackCount(0)
 	{
 	}
 	Cuphead::~Cuphead()
@@ -52,10 +53,15 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Dash\\Left", Vector2::Zero, 0.1f);
 
 		// Attack
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack1", Vector2::Zero, 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack2", Vector2::Zero, 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack3", Vector2::Zero, 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack4", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack1\\Right", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack2\\Right", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack3\\Right", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack4\\Right", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack1\\Left", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack2\\Left", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack3\\Left", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack\\Attack4\\Left", Vector2::Zero, 0.1f);
+		
 
 		//mAnimator->GetStartEvent(L"IdleIdle") = std::bind(&Cuphead::idleCompleteEvent, this);
 		mAnimator->Play(L"IdleRight", true);
@@ -103,38 +109,6 @@ namespace ya
 			break;
 		}
 
-		/*Transform* tr = GetComponent<Transform>();
-		Vector2 pos = tr->GetPos();
-		Animator* animator = GetComponent<Animator>();
-		if (Input::GetKeyState(eKeyCode::A) == eKeyState::Pressed)
-		{
-			pos.x -= 100.0f * Time::DeltaTime();
-		}
-
-		if (Input::GetKeyState(eKeyCode::D) == eKeyState::Pressed)
-		{
-			pos.x += 100.0f * Time::DeltaTime();
-		}
-
-		if (Input::GetKeyState(eKeyCode::W) == eKeyState::Pressed)
-		{
-			pos.y -= 100.0f * Time::DeltaTime();
-		}
-
-		if (Input::GetKeyState(eKeyCode::W) == eKeyState::Down)
-		{
-			animator->Play(L"FowardRun", true);
-		}
-		if (Input::GetKeyState(eKeyCode::W) == eKeyState::Up)
-		{
-			animator->Play(L"Idle", true);
-		}
-
-		if (Input::GetKeyState(eKeyCode::S) == eKeyState::Pressed)
-		{
-			pos.y += 100.0f * Time::DeltaTime();
-		}
-		tr->SetPos(pos);*/
 	}
 
 	void Cuphead::Render(HDC hdc)
@@ -262,30 +236,30 @@ namespace ya
 		if (Input::GetKey(eKeyCode::S))
 			mRigidbody->AddForce(Vector2(0.0f, +200.0f));
 
-		// attack
-		if (Input::GetKeyDown(eKeyCode::U))
-		{
-			mAnimator->Play(L"AttackAttack1", false);
-			mState = eCupheadState::Attack;
-		}
+		//// attack
+		//if (Input::GetKeyDown(eKeyCode::U))
+		//{
+		//	mAnimator->Play(L"AttackAttack1", false);
+		//	mState = eCupheadState::Attack;
+		//}
 
-		if (Input::GetKeyDown(eKeyCode::I))
-		{
-			mAnimator->Play(L"AttackAttack2", false);
-			mState = eCupheadState::Attack;
-		}
+		//if (Input::GetKeyDown(eKeyCode::I))
+		//{
+		//	mAnimator->Play(L"AttackAttack2", false);
+		//	mState = eCupheadState::Attack;
+		//}
 
-		if (Input::GetKeyDown(eKeyCode::O))
-		{
-			mAnimator->Play(L"AttackAttack3", false);
-			mState = eCupheadState::Attack;
-		}
+		//if (Input::GetKeyDown(eKeyCode::O))
+		//{
+		//	mAnimator->Play(L"AttackAttack3", false);
+		//	mState = eCupheadState::Attack;
+		//}
 
-		if (Input::GetKeyDown(eKeyCode::P))
-		{
-			mAnimator->Play(L"AttackAttack4", false);
-			mState = eCupheadState::Attack;
-		}
+		//if (Input::GetKeyDown(eKeyCode::P))
+		//{
+		//	mAnimator->Play(L"AttackAttack4", false);
+		//	mState = eCupheadState::Attack;
+		//}
 
 		if (Input::GetKeyUp(eKeyCode::W)
 			|| Input::GetKeyUp(eKeyCode::S)
@@ -330,45 +304,17 @@ namespace ya
 	{
 		if (Input::GetKeyDown(eKeyCode::A))
 		{
-			if (Input::GetKeyDown(eKeyCode::LSHIFT))
-			{
-				Vector2 velocity = mRigidbody->GetVelocity();
-
-				velocity.x -= 300.0f;
-				mRigidbody->SetVelocity(velocity);
-				mRigidbody->SetGround(false);
-
-				mAnimator->Play(L"DashLeft", false);
-				mState = eCupheadState::Move;
-			}
-			else
-			{
-				mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
-				mAnimator->Play(L"RunLeft", true);
-				mState = eCupheadState::Move;
-			}
+			mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
+			mAnimator->Play(L"RunLeft", true);
+			mState = eCupheadState::Move;
 		}
 
 		if (Input::GetKeyDown(eKeyCode::D))
 		{
-			if (Input::GetKeyDown(eKeyCode::LSHIFT))
-			{
-				Vector2 velocity = mRigidbody->GetVelocity();
-
-				velocity.x += 300.0f;
-				mRigidbody->SetVelocity(velocity);
-				mRigidbody->SetGround(false);
-
-				mAnimator->Play(L"DashRight", false);
-				mState = eCupheadState::Move;
-			}
-			else
-			{
-				mRigidbody->AddForce(Vector2(200.0f, 0.0f));
-				//pos.x += 100.0f * Time::DeltaTime();
-				mAnimator->Play(L"RunRight", true);
-				mState = eCupheadState::Move;
-			}
+			mRigidbody->AddForce(Vector2(200.0f, 0.0f));
+			//pos.x += 100.0f * Time::DeltaTime();
+			mAnimator->Play(L"RunRight", true);
+			mState = eCupheadState::Move;
 		}
 
 		if (Input::GetKeyDown(eKeyCode::W))
@@ -404,47 +350,32 @@ namespace ya
 			}
 		}
 
-		//if (mAnimator->IsComplete() && mbLeft)
-		//{
-		//	mAnimator->Play(L"IdleLeft", false);
-		//}
-		//if (mAnimator->IsComplete() && mbRight)
-		//{
-		//	mAnimator->Play(L"IdleRight", false);
-		//}
 		// dash
 		if (Input::GetKeyDown(eKeyCode::LSHIFT))
 		{
 			Vector2 velocity = mRigidbody->GetVelocity();
-			velocity.x += 300.0f;
-			mRigidbody->SetVelocity(velocity);
-			mRigidbody->SetGround(false);
-
-			mAnimator->Play(L"DashRight", false);
+			if (mbRight)
+			{
+				velocity.x += 300.0f;
+				mRigidbody->SetVelocity(velocity);
+				mRigidbody->SetGround(false);
+				mAnimator->Play(L"DashRight", false);
+				mState = eCupheadState::Dash;
+			}
+			if (mbLeft)
+			{
+				velocity.x -= 300.0f;
+				mRigidbody->SetVelocity(velocity);
+				mRigidbody->SetGround(false);
+				mAnimator->Play(L"DashLeft", false);
+				mState = eCupheadState::Dash;
+			}
 		}
 
 		// attack
-		if (Input::GetKeyDown(eKeyCode::U))
+		if (Input::GetKeyDown(eKeyCode::LBUTTON))
 		{
-			mAnimator->Play(L"AttackAttack1", false);
-			mState = eCupheadState::Attack;
-		}
-
-		if (Input::GetKeyDown(eKeyCode::I))
-		{
-			mAnimator->Play(L"AttackAttack2", false);
-			mState = eCupheadState::Attack;
-		}
-
-		if (Input::GetKeyDown(eKeyCode::O))
-		{
-			mAnimator->Play(L"AttackAttack3", false);
-			mState = eCupheadState::Attack;
-		}
-
-		if (Input::GetKeyDown(eKeyCode::P))
-		{
-			mAnimator->Play(L"AttackAttack4", false);
+			attackCount++;
 			mState = eCupheadState::Attack;
 		}
 
@@ -452,6 +383,16 @@ namespace ya
 
 	void Cuphead::dash()
 	{
+		if (mAnimator->IsComplete() && mbLeft)
+		{
+			mAnimator->Play(L"IdleLeft", true);
+			mState = eCupheadState::Idle;
+		}
+		if (mAnimator->IsComplete() && mbRight)
+		{
+			mAnimator->Play(L"IdleRight", true);
+			mState = eCupheadState::Idle;
+		}
 	}
 
 	void Cuphead::jump()
@@ -470,33 +411,36 @@ namespace ya
 
 	void Cuphead::attack()
 	{
-		if (Input::GetKeyDown(eKeyCode::U))
-		{
-			mAnimator->Play(L"AttackAttack1", false);
-		}
+		// 4타 이후에는 다시 1타로 돌아옴
+		if (attackCount > 4)
+			attackCount = 1;
 
-		if (Input::GetKeyDown(eKeyCode::I))
-		{
-			mAnimator->Play(L"AttackAttack2", false);
-		}
+		if (attackCount == 1 && mbRight)
+			mAnimator->Play(L"Attack1Right", false);
+		if (attackCount == 2 && mbRight)
+			mAnimator->Play(L"Attack2Right", false);
+		if (attackCount == 3 && mbRight)
+			mAnimator->Play(L"Attack3Right", false);
+		if (attackCount == 4 && mbRight)
+			mAnimator->Play(L"Attack4Right", false);
 
-		if (Input::GetKeyDown(eKeyCode::O))
-		{
-			mAnimator->Play(L"AttackAttack3", false);
-		}
+		if (attackCount == 1 && mbLeft)
+			mAnimator->Play(L"Attack1Left", false);
+		if (attackCount == 2 && mbLeft)
+			mAnimator->Play(L"Attack2Left", false);
+		if (attackCount == 3 && mbLeft)
+			mAnimator->Play(L"Attack3Left", false);
+		if (attackCount == 4 && mbLeft)
+			mAnimator->Play(L"Attack4Left", false);
 
-		if (Input::GetKeyDown(eKeyCode::P))
-		{
-			mAnimator->Play(L"AttackAttack4", false);
-		}
+		mTime += Time::DeltaTime();
 
-		if (Input::GetKeyUp(eKeyCode::U)
-			|| Input::GetKeyUp(eKeyCode::I)
-			|| Input::GetKeyUp(eKeyCode::O)
-			|| Input::GetKeyUp(eKeyCode::P))
+		if (mTime > 2.0f)
 		{
 			mState = eCupheadState::Idle;
 		}
+
+
 
 		if (Input::GetKey(eKeyCode::W)
 			|| Input::GetKey(eKeyCode::A)

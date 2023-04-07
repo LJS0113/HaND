@@ -46,6 +46,8 @@ namespace ya
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
 
+		UINT attackCount;
+		float mTime;
 		bool mbRight;
 		bool mbLeft;
 	};
