@@ -6,6 +6,10 @@ enum class eSceneType
 	Title,
 	Loading,
 	Play,
+	Hung,
+	Brad,
+	BradV2,
+	Waldo,
 	Ending,
 
 	Tool,
@@ -20,8 +24,8 @@ enum class eLayerType
 	Player,
 	Bullet,
 	Ground,
-	Test,
 	Effect,
+
 	UI,
 	End = 16,
 };

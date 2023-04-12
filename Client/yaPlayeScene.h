@@ -1,9 +1,10 @@
 #pragma once
 #include "yaScene.h"
+#include "yaImage.h"
 
 namespace ya
 {
-	class Cuphead;
+	class Player;
 	class PlayeScene : public Scene
 	{
 	public:
@@ -19,6 +20,7 @@ namespace ya
 		virtual void OnExit() override;
 
 	private:
-		Cuphead* mCuphead;
+		Player* mPlayer;
+		Image* mBgImage;
 	};
 }

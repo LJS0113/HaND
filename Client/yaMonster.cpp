@@ -25,10 +25,10 @@ namespace ya
 		//tr->SetPos(Vector2(700.0f, 400.0f));
 		//tr->SetScale(Vector2(1.5f, 1.5f));
 
-		mAnimator = AddComponent<Animator>();
-		mAnimator->CreateAnimations(L"..\\Resources\\Goopy Le Grande\\Phase 1\\Jump", Vector2::Zero, 0.1f);
+		//mAnimator = AddComponent<Animator>();
+		//mAnimator->CreateAnimations(L"..\\Resources\\Goopy Le Grande\\Phase 1\\Jump", Vector2::Zero, 0.1f);
 
-		mAnimator->Play(L"Phase 1Jump", true);
+		//mAnimator->Play(L"Phase 1Jump", true);
 
 		Collider* collider = AddComponent<Collider>();
 		collider->SetCenter(Vector2(-60.0f, -80.0f));

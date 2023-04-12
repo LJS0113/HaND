@@ -36,7 +36,7 @@ namespace ya
 		// Setting Image Color
 		if (rgb == RGB(255,255,255))
 		{
-			brush = CreateSolidBrush(NULL_BRUSH);
+			brush = (HBRUSH)GetStockObject(NULL_BRUSH);
 			oldBrush = (HBRUSH)SelectObject(image->GetHdc(), brush);
 		}
 		else 
@@ -47,7 +47,7 @@ namespace ya
 
 		Rectangle(image->GetHdc(), -1, -1, image->mWidth + 1, image->mHeight + 1);
 		SelectObject(image->GetHdc(), oldBrush);
-		DeleteObject(oldBrush);
+		//DeleteObject(oldBrush);
 
 		return image;
 	}

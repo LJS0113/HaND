@@ -18,11 +18,11 @@ namespace ya
 		virtual void OnCollisionStay(class Collider* other);
 		virtual void OnCollisionExit(class Collider* other);
 
-		void SetPlayer(class Cuphead* player) { mPlayer = player; }
+		void SetPlayer(class Player* player) { mPlayer = player; }
 
 	private:
 		class Collider* mCollider;
 		class Image* mImage;
-		class Cuphead* mPlayer;
+		class Player* mPlayer;
 	};
 }

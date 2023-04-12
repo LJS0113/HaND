@@ -19,7 +19,6 @@ namespace ya
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
 	private:
-		Image* mBgImage;
 		Image* mBgLogoImage;
 		Animator* mAnimator;
 	};

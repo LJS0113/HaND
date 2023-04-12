@@ -32,7 +32,7 @@ namespace ya
 		mHead = new GameObject();
 		mHeadAnimator = AddComponent<Animator>();
 		mHeadAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\TitlePlayer\\HomeScreenHead", Vector2(0.0f, 0.0f), 0.1f);
-		mHeadAnimator->Play(L"TitlePlayerHomeScreenHead", true);
+		mHeadAnimator->Play(L"HaND_ResourceTitlePlayerHomeScreenHead", true);
 		tr->SetPos(Vector2(650.0f, 450.0f));
 
 		//mBodyAnimator = AddComponent<Animator>();

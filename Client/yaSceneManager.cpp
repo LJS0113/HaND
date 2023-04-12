@@ -5,6 +5,11 @@
 #include "yaCamera.h"
 #include "yaToolScene.h"
 #include "yaLoadingScene.h"
+#include "yaBradScene.h"
+#include "yaBradV2Scene.h"
+#include "yaHungScene.h"
+#include "yaWaldoScene.h"
+
 
 namespace ya
 {	
@@ -20,6 +25,10 @@ namespace ya
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
 		mScenes[(UINT)eSceneType::Loading] = new LoadingScene();
 		mScenes[(UINT)eSceneType::Play] = new PlayeScene();
+		mScenes[(UINT)eSceneType::Hung] = new HungScene();
+		mScenes[(UINT)eSceneType::Brad] = new BradScene();
+		mScenes[(UINT)eSceneType::BradV2] = new BradV2Scene();
+		mScenes[(UINT)eSceneType::Waldo] = new WaldoScene();
 		mScenes[(UINT)eSceneType::Tool] = new ToolScene();
 		
 		for ( Scene* scene : mScenes )

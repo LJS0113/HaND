@@ -139,10 +139,17 @@
     <ClInclude Include="yaAnimation.h" />
     <ClInclude Include="yaAnimator.h" />
     <ClInclude Include="yaBaseBullet.h" />
+    <ClInclude Include="yaBGImageObject.h" />
+    <ClInclude Include="yaBrad.h" />
+    <ClInclude Include="yaBradScene.h" />
+    <ClInclude Include="yaBradV2.h" />
+    <ClInclude Include="yaBradV2Scene.h" />
     <ClInclude Include="yaCamera.h" />
     <ClInclude Include="yaCollider.h" />
     <ClInclude Include="yaCollisionManager.h" />
     <ClInclude Include="yaGround.h" />
+    <ClInclude Include="yaHung.h" />
+    <ClInclude Include="yaHungScene.h" />
     <ClInclude Include="yaLoading.h" />
     <ClInclude Include="yaLoadingScene.h" />
     <ClInclude Include="yaLogoPlayer.h" />
@@ -152,7 +159,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="yaApplication.h" />
     <ClInclude Include="yaComponent.h" />
-    <ClInclude Include="yaCuphead.h" />
+    <ClInclude Include="yaPlayer.h" />
     <ClInclude Include="yaEntity.h" />
     <ClInclude Include="yaEnums.h" />
     <ClInclude Include="yaGameObject.h" />
@@ -174,16 +181,25 @@
     <ClInclude Include="yaTitleScene.h" />
     <ClInclude Include="yaToolScene.h" />
     <ClInclude Include="yaTransform.h" />
+    <ClInclude Include="yaWaldo.h" />
+    <ClInclude Include="yaWaldoScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="yaAnimation.cpp" />
     <ClCompile Include="yaAnimator.cpp" />
     <ClCompile Include="yaBaseBullet.cpp" />
+    <ClCompile Include="yaBGImageObject.cpp" />
+    <ClCompile Include="yaBrad.cpp" />
+    <ClCompile Include="yaBradScene.cpp" />
+    <ClCompile Include="yaBradV2.cpp" />
+    <ClCompile Include="yaBradV2Scene.cpp" />
     <ClCompile Include="yaCamera.cpp" />
     <ClCompile Include="yaCollider.cpp" />
     <ClCompile Include="yaCollisionManager.cpp" />
     <ClCompile Include="yaGround.cpp" />
+    <ClCompile Include="yaHung.cpp" />
+    <ClCompile Include="yaHungScene.cpp" />
     <ClCompile Include="yaLoading.cpp" />
     <ClCompile Include="yaLoadingScene.cpp" />
     <ClCompile Include="yaLogoPlayer.cpp" />
@@ -191,7 +207,7 @@
     <ClCompile Include="yaResources.cpp" />
     <ClCompile Include="yaApplication.cpp" />
     <ClCompile Include="yaComponent.cpp" />
-    <ClCompile Include="yaCuphead.cpp" />
+    <ClCompile Include="yaPlayer.cpp" />
     <ClCompile Include="yaEntity.cpp" />
     <ClCompile Include="yaGameObject.cpp" />
     <ClCompile Include="yaImage.cpp" />
@@ -211,6 +227,8 @@
     <ClCompile Include="yaTitleScene.cpp" />
     <ClCompile Include="yaToolScene.cpp" />
     <ClCompile Include="yaTransform.cpp" />
+    <ClCompile Include="yaWaldo.cpp" />
+    <ClCompile Include="yaWaldoScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />

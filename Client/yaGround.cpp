@@ -1,11 +1,10 @@
 #include "yaGround.h"
 #include "yaCollider.h"
-#include "yaCuphead.h"
+#include "yaPlayer.h"
 #include "yaRigidbody.h"
 #include "yaTransform.h"
 #include "yaResources.h"
 #include "yaImage.h"
-#include "yaCuphead.h"
 
 namespace ya
 {
@@ -22,8 +21,7 @@ namespace ya
 		mCollider = AddComponent<Collider>();
 		mCollider->SetSize(Vector2(1600.0f, 50.0f));
 
-
-		mImage = Resources::Load<Image>(L"Ground", L"..\\Resources\\GroundPixel.bmp");
+		mImage = Resources::Load<Image>(L"Ground", L"..\\Resources\\Ground.bmp");
 
 		GameObject::Initialize();
 	}
@@ -79,14 +77,14 @@ namespace ya
 
 	void Ground::OnCollisionEnter(Collider* other)
 	{
-		Cuphead* cuphead = dynamic_cast<Cuphead*>(other->GetOwner());
-		if (cuphead == nullptr)
+		Player* player = dynamic_cast<Player*>(other->GetOwner());
+		if (player == nullptr)
 			return;
 
-		Rigidbody* rb = cuphead->GetComponent<Rigidbody>();
+		Rigidbody* rb = player->GetComponent<Rigidbody>();
 		rb->SetGround(true);
 
-		Collider* cupheadCol = cuphead->GetComponent<Collider>();
+		Collider* cupheadCol = player->GetComponent<Collider>();
 		Vector2 cupheadPos = cupheadCol->GetPos();
 
 		Collider* groundCol = this->GetComponent<Collider>();
@@ -97,7 +95,7 @@ namespace ya
 
 		if (fLen < fSize)
 		{
-			Transform* cupTr = cuphead->GetComponent<Transform>();
+			Transform* cupTr = player->GetComponent<Transform>();
 			Transform* grTr = this->GetComponent<Transform>();
 
 			Vector2 cupPos = cupTr->GetPos();

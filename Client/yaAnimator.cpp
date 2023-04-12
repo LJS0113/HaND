@@ -106,9 +106,10 @@ namespace ya
 			fileCount++;
 		}
 
-		std::wstring key = fs.parent_path().filename();
+		std::wstring key = fs.parent_path().parent_path().filename();
+		key += fs.parent_path().filename();
 		key += fs.filename();
-		mSpriteSheet = Image::Create(key, width * fileCount, height);
+		mSpriteSheet = Image::Create(key, width * fileCount, height, RGB(255,0,255));
 
 		//
 		int index = 0;
