@@ -13,6 +13,7 @@
 #include "yaImage.h"
 #include "yaApplication.h"
 #include "yaBGImageObject.h"
+#include "yaElevator.h"
 
 extern ya::Application application;
 
@@ -34,16 +35,13 @@ namespace ya
 		//	= Resources::Load<Sound>(L"MainTheme", L"..\\Resources\\Sound\\BGTheme.wav");
 		//mainTheme->Play(true);
 
-		//mBgImage = Resources::Load<Image>(L"LobbyBG", L"..\\Resources\\HaND_Resource\\Map\\LobbyBG.bmp");
-
 		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		bgImage->SetImage(L"LobbyBG", L"LobbyBG.bmp");
 
+		Elevator* elevator = object::Instantiate<Elevator>(Vector2(2000.0f, 700.0f), eLayerType::BG);
 		Player* player = object::Instantiate<Player>(Vector2(500.0f, 400.0f), eLayerType::Player);
-		//object::Instantiate<Monster>(Vector2(500.0f, 500.0f), eLayerType::Player);
 		Ground* ground = object::Instantiate<Ground>(Vector2(0.0f, 0.0f), eLayerType::Ground);
 		ground->SetPlayer(player);
-
 	}
 
 	void PlayeScene::Update()
@@ -58,13 +56,6 @@ namespace ya
 
 	void PlayeScene::Render(HDC hdc)
 	{
-		//TransparentBlt(hdc, 0, 0
-		//	, 1600, application.GetHeight()
-		//	, mBgImage->GetHdc()
-		//	, 0, 0
-		//	, mBgImage->GetWidth(), mBgImage->GetHeight()
-		//	, RGB(255, 0, 255));
-		//Super::Tick();
 		Scene::Render(hdc);
 	}
 

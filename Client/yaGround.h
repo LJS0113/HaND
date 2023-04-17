@@ -24,5 +24,6 @@ namespace ya
 		class Collider* mCollider;
 		class Image* mImage;
 		class Player* mPlayer;
+		class Monster* mMonster;
 	};
 }

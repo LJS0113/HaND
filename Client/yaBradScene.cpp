@@ -27,8 +27,8 @@ namespace ya
 		//mBgImage = Resources::Load<Image>(L"BradBG", L"..\\Resources\\HaND_Resource\\Map\\BradBG.bmp");
 		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		bgImage->SetImage(L"BradBG", L"BradBG.bmp");
-		Player* player = object::Instantiate<Player>(Vector2(500.0f, 400.0f), eLayerType::Player);
-		Brad* brad = object::Instantiate<Brad>(Vector2(500.0f, 400.0f), eLayerType::Monster);
+		Player* player = object::Instantiate<Player>(Vector2(200.0f, 200.0f), eLayerType::Player);
+		Brad* brad = object::Instantiate<Brad>(Vector2(800.0f, 650.0f), eLayerType::Monster);
 
 		Ground* ground = object::Instantiate<Ground>(Vector2(0.0f, 0.0f), eLayerType::Ground);
 		ground->SetPlayer(player);
@@ -41,7 +41,7 @@ namespace ya
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			SceneManager::LoadScene(eSceneType::BradV2);
-		}
+		}	
 		Scene::Update();
 	}
 

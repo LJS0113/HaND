@@ -5,6 +5,7 @@
 #include "yaTransform.h"
 #include "yaResources.h"
 #include "yaImage.h"
+#include "yaMonster.h"
 
 namespace ya
 {
@@ -18,8 +19,8 @@ namespace ya
 
 	void Ground::Initialize()
 	{
-		mCollider = AddComponent<Collider>();
-		mCollider->SetSize(Vector2(1600.0f, 50.0f));
+		//mCollider = AddComponent<Collider>();
+		//mCollider->SetSize(Vector2(1600.0f, 50.0f));
 
 		mImage = Resources::Load<Image>(L"Ground", L"..\\Resources\\Ground.bmp");
 
@@ -47,6 +48,7 @@ namespace ya
 		{
 			rb->SetGround(false);
 		}
+
 	}
 
 	void Ground::Render(HDC hdc)
@@ -61,14 +63,6 @@ namespace ya
 			, 0, 0
 			, mImage->GetWidth(), mImage->GetHeight()
 			, RGB(255, 255, 255));
-
-
-		//TransparentBlt(hdc, tr->GetPos().x, tr->GetPos().y
-		//	, mImage->GetWidth(), mImage->GetHeight()
-		//	, mImage->GetHdc()
-		//	, 0, 0
-		//	, mImage->GetWidth(), mImage->GetHeight()
-		//	, RGB(255, 255, 255));
 	}
 
 	void Ground::Release()

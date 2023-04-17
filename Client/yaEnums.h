@@ -18,12 +18,12 @@ enum class eSceneType
 
 enum class eLayerType
 {
+	Ground,
 	BG,
 	Tile,
 	Monster,
 	Player,
 	Bullet,
-	Ground,
 	Effect,
 
 	UI,

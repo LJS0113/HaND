@@ -3,10 +3,18 @@
 
 namespace ya
 {
+	class Rigidbody;
 	class Animator;
-	class Hung : public GameObject
+	class Hung : public Monster
 	{
 	public:
+		enum class eHungState
+		{
+			Move,
+			Death,
+			Idle,
+			Attack,
+		};
 		Hung();
 		~Hung();
 
@@ -15,7 +23,14 @@ namespace ya
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
 
+		void move();
+		void death();
+		void idle();
+		void attack();
+
 	private:
 		Animator* mAnimator;
+		Rigidbody* mRigidbody;
+		eHungState mState;
 	};
 }

@@ -34,10 +34,10 @@ namespace ya
 	{
 
 		if (Input::GetKey(eKeyCode::LEFT))
-			mLookPosition.x -= 500.0f * Time::DeltaTime();
+			mLookPosition.x -= 200.0f * Time::DeltaTime();
 
 		if (Input::GetKey(eKeyCode::RIGHT))
-			mLookPosition.x += 500.0f * Time::DeltaTime();
+			mLookPosition.x += 200.0f * Time::DeltaTime();
 
 		if (Input::GetKey(eKeyCode::UP))
 			mLookPosition.y -= 100.0f * Time::DeltaTime();

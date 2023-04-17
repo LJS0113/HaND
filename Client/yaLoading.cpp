@@ -25,7 +25,7 @@ namespace ya
 
 
 		mAnimator = AddComponent<Animator>();
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Loading", Vector2(-100.0f, -100.0f), 0.08f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Loading", Vector2(-100.0f, -100.0f), 0.1f);
 		mAnimator->Play(L"ResourcesHaND_ResourceLoading", true);
 
 

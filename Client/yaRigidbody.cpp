@@ -15,8 +15,8 @@ namespace ya
 		mLimitedVelocity.x = 200.0f;
 		mLimitedVelocity.y = 1000.0f;
 		mbGround = false;
-		mGravity = Vector2(0.0f, 800.0f);
-		mFriction = 100.0f;
+		mGravity = Vector2(0.0f, 500.0f);
+		mFriction = 400.0f;
 	}
 
 	Rigidbody::~Rigidbody()
@@ -49,7 +49,7 @@ namespace ya
 		}
 		else
 		{
-			mVelocity += mGravity * Time::DeltaTime();
+			mVelocity += mGravity * 2.0f * Time::DeltaTime();
 		}
 
 		// 중력가속도 최대 속도 제한
@@ -89,7 +89,7 @@ namespace ya
 				mVelocity += friction;
 			}
 		}
-		//
+		
 
 		// 속도에 맞게끔 물체를 이동시킨다.
 		Transform* tr = GetOwner()->GetComponent<Transform>();

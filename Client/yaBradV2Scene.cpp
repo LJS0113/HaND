@@ -26,8 +26,8 @@ namespace ya
 		bgImage->SetImage(L"BradBG", L"BradBG.bmp");
 		//mBgImage = Resources::Load<Image>(L"BradBG", L"..\\Resources\\HaND_Resource\\Map\\BradBG.bmp");
 
-		Player* player = object::Instantiate<Player>(Vector2(500.0f, 400.0f), eLayerType::Player);
-		BradV2* bradV2 = object::Instantiate<BradV2>(Vector2(500.0f, 400.0f), eLayerType::Monster);
+		Player* player = object::Instantiate<Player>(Vector2(200.0f, 200.0f), eLayerType::Player);
+		BradV2* bradV2 = object::Instantiate<BradV2>(Vector2(800.0f, 650.0f), eLayerType::Monster);
 
 		Ground* ground = object::Instantiate<Ground>(Vector2(0.0f, 0.0f), eLayerType::Ground);
 		ground->SetPlayer(player);

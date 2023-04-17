@@ -244,6 +244,9 @@
     <ClInclude Include="yaBGImageObject.h">
       <Filter>Engine\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="yaElevator.h">
+      <Filter>Engine\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -389,6 +392,9 @@
       <Filter>Sound</Filter>
     </ClCompile>
     <ClCompile Include="yaBGImageObject.cpp">
+      <Filter>Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="yaElevator.cpp">
       <Filter>Engine\Resource</Filter>
     </ClCompile>
   </ItemGroup>
