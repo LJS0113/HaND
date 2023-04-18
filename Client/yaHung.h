@@ -6,7 +6,7 @@ namespace ya
 	class Rigidbody;
 	class Animator;
 	class Player;
-	class Hung : public GameObject
+	class Hung : public Monster
 	{
 	public:
 		enum class eHungState

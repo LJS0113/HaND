@@ -26,7 +26,6 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		mAnimator = AddComponent<Animator>();
 
-
 		// Idlen
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Idle\\Left", Vector2::Zero, 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Idle\\Right", Vector2::Zero, 0.1f);
@@ -42,6 +41,7 @@ namespace ya
 
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\AttackSpecial\\Left", Vector2::Zero, 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\AttackSpecial\\Right", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\AttackSpecial\\FX", Vector2::Zero, 0.1f);
 
 		// Death
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Death", Vector2::Zero, 0.1f);
@@ -59,12 +59,15 @@ namespace ya
 
 		Collider* collider = AddComponent<Collider>();
 
+		//mRigidbody = AddComponent<Rigidbody>();
+		//mRigidbody->SetMass(1.0f);
+
 		collider->SetCenter(Vector2(-200.0f,-200.0f));
 		collider->SetSize(Vector2(mAnimator->GetSize().x, mAnimator->GetSize().y));
 
 		GameObject::Initialize();
 
-
+		//Transform* playerTr = mPlayer->GetComponent<Transform>();
 	}
 	void Hung::Update()
 	{
@@ -107,10 +110,15 @@ namespace ya
 	}
 	void Hung::idle()
 	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 pos = tr->GetPos();
+
+		//Vector2 velocity = mRigidbody->GetVelocity();
 		std::srand((unsigned int)time(NULL));
 		rand = (std::rand() % 3) + 1;
 
 		mTime += Time::DeltaTime();
+
 
 		if (mTime > 3.0f)
 		{
@@ -119,6 +127,8 @@ namespace ya
 			{
 			case 1:
 				mAnimator->Play(L"HungAttackSpecialRight", false);
+				rand = (std::rand() % 1023) + 1;
+
 				break;
 			case 2:
 				mAnimator->Play(L"AttackLassoRightThrow", false);
@@ -132,7 +142,7 @@ namespace ya
 			mState = eHungState::Attack;
 			mTime = 0;
 		}
-
+		tr->SetPos(pos);
 	}
 	void Hung::attack()
 	{

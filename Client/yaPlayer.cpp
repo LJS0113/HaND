@@ -348,7 +348,7 @@ namespace ya
 			//mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
 			pos.x -= 100.0f * Time::DeltaTime();
 			mAnimator->Play(L"PlayerRunLeft", true);
-			mPrevState == ePlayerState::Idle;
+			mPrevState = ePlayerState::Idle;
 			mState = ePlayerState::Move;
 		}
 
@@ -357,21 +357,21 @@ namespace ya
 			//mRigidbody->AddForce(Vector2(200.0f, 0.0f));
 			pos.x += 100.0f * Time::DeltaTime();
 			mAnimator->Play(L"PlayerRunRight", true);
-			mPrevState == ePlayerState::Idle;
+			mPrevState = ePlayerState::Idle;
 			mState = ePlayerState::Move;
 		}
 
 		if (Input::GetKeyDown(eKeyCode::W))
 		{
 			mRigidbody->AddForce(Vector2(0.0f, -200.0f));
-			mPrevState == ePlayerState::Idle;
+			mPrevState = ePlayerState::Idle;
 			mState = ePlayerState::Move;
 		}
 
 		if (Input::GetKeyDown(eKeyCode::S))
 		{
 			mRigidbody->AddForce(Vector2(0.0f, +200.0f));
-			mPrevState == ePlayerState::Idle;
+			mPrevState = ePlayerState::Idle;
 			mState = ePlayerState::Move;
 		}
 
@@ -409,7 +409,7 @@ namespace ya
 				mRigidbody->SetVelocity(velocity);
 				mRigidbody->SetGround(false);
 
-				mPrevState == ePlayerState::Idle;
+				mPrevState = ePlayerState::Idle;
 				mState = ePlayerState::Dash;
 			}
 			if (mbLeft)
@@ -419,7 +419,7 @@ namespace ya
 				mRigidbody->SetVelocity(velocity);
 				mRigidbody->SetGround(false);
 
-				mPrevState == ePlayerState::Idle;
+				mPrevState = ePlayerState::Idle;
 				mState = ePlayerState::Dash;
 			}
 		}
@@ -546,13 +546,13 @@ namespace ya
 			mState = ePlayerState::Dash;
 		}
 
-		if (Input::GetKey(eKeyCode::W)
-			|| Input::GetKey(eKeyCode::A)
-			|| Input::GetKey(eKeyCode::S)
-			|| Input::GetKey(eKeyCode::D))
-		{
-			mState = ePlayerState::Move;
-		}
+		//if (Input::GetKey(eKeyCode::W)
+		//	|| Input::GetKey(eKeyCode::A)
+		//	|| Input::GetKey(eKeyCode::S)
+		//	|| Input::GetKey(eKeyCode::D))
+		//{
+		//	mState = ePlayerState::Move;
+		//}
 		tr->SetPos(pos);
 	}
 
