@@ -1,6 +1,6 @@
 #pragma once
 #include "yaMonster.h"
-
+#include "yaRigidbody.h"
 
 namespace ya
 {	
@@ -8,6 +8,14 @@ namespace ya
 	class Brad : public GameObject
 	{
 	public:
+		enum class eBradState
+		{
+			Move,
+			Death,
+			Idle,
+			Attack,
+		};
+
 		Brad();
 		~Brad();
 
@@ -16,7 +24,19 @@ namespace ya
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
 
+		void move();
+		void death();
+		void idle();
+		void attack();
+
 	private:
 		Animator* mAnimator;
+		Rigidbody* mRigidbody;
+		eBradState mState;
+
+		UINT rand;
+		float mTime;
+		bool mbLeft;
+		bool mbRight;
 	};
 }

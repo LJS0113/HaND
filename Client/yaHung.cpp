@@ -62,8 +62,8 @@ namespace ya
 		//mRigidbody = AddComponent<Rigidbody>();
 		//mRigidbody->SetMass(1.0f);
 
-		collider->SetCenter(Vector2(-200.0f,-200.0f));
-		collider->SetSize(Vector2(mAnimator->GetSize().x, mAnimator->GetSize().y));
+		collider->SetCenter(Vector2(-100.0f,-200.0f));
+		collider->SetSize(Vector2(230.0f, 230.0f));
 
 		GameObject::Initialize();
 
