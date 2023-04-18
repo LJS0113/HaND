@@ -41,8 +41,8 @@ namespace ya
 		//Jump
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Jump\\Right", Vector2::Zero, 0.08f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Jump\\Left", Vector2::Zero, 0.08f);
-		//mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Falling\\Right", Vector2::Zero, 0.1f);
-		//mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Falling\\Left", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Falling\\Right", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Falling\\Left", Vector2::Zero, 0.1f);
 
 
 		// Dash
@@ -141,31 +141,35 @@ namespace ya
 			if (Input::GetKeyDown(eKeyCode::LSHIFT))
 			{
 				Vector2 velocity = mRigidbody->GetVelocity();
-
-				velocity.x -= 500.0f;
+				mAnimator->Play(L"PlayerDashLeft", false);
+				pos.x -= 300.0f;
 				mRigidbody->SetVelocity(velocity);
 				mRigidbody->SetGround(false);
 				mPrevState = ePlayerState::Move;
 				mState = ePlayerState::Dash;
-				mAnimator->Play(L"PlayerDashLeft", false);
+
 			}
 			else if (Input::GetKeyDown(eKeyCode::SPACE))
 			{
-				Vector2 velocity = mRigidbody->GetVelocity();
-				velocity.y -= 800.0f;
-
-				mRigidbody->SetVelocity(velocity);
-				mRigidbody->SetGround(false);
-
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerJumpRight", false);
+					Vector2 velocity = mRigidbody->GetVelocity();
+					velocity.y -= 800.0f;
+
+					mRigidbody->SetVelocity(velocity);
+					mRigidbody->SetGround(false);
 					mPrevState = ePlayerState::Move;
 					mState = ePlayerState::Jump;
 				}
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerJumpLeft", false);
+					Vector2 velocity = mRigidbody->GetVelocity();
+					velocity.y -= 800.0f;
+
+					mRigidbody->SetVelocity(velocity);
+					mRigidbody->SetGround(false);
 					mPrevState = ePlayerState::Move;
 					mState = ePlayerState::Jump;
 				}
@@ -197,32 +201,36 @@ namespace ya
 			if (Input::GetKeyDown(eKeyCode::LSHIFT))
 			{
 				Vector2 velocity = mRigidbody->GetVelocity();
-
-				velocity.x += 500.0f;
+				mAnimator->Play(L"PlayerDashRight", false);
+				pos.x += 300.0f;
 				mRigidbody->SetVelocity(velocity);
 				mRigidbody->SetGround(false);
 
-				mAnimator->Play(L"PlayerDashRight", false);
+
 				mPrevState = ePlayerState::Move;
 				mState = ePlayerState::Dash;
 			}
 			else if (Input::GetKeyDown(eKeyCode::SPACE))
 			{
-				Vector2 velocity = mRigidbody->GetVelocity();
-				velocity.y -= 800.0f;
-
-				mRigidbody->SetVelocity(velocity);
-				mRigidbody->SetGround(false);
-
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerJumpRight", false);
+					Vector2 velocity = mRigidbody->GetVelocity();
+					velocity.y -= 800.0f;
+
+					mRigidbody->SetVelocity(velocity);
+					mRigidbody->SetGround(false);
 					mPrevState = ePlayerState::Move;
 					mState = ePlayerState::Jump;
 				}
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerJumpLeft", false);
+					Vector2 velocity = mRigidbody->GetVelocity();
+					velocity.y -= 800.0f;
+
+					mRigidbody->SetVelocity(velocity);
+					mRigidbody->SetGround(false);
 					mPrevState = ePlayerState::Move;
 					mState = ePlayerState::Jump;
 				}
@@ -370,22 +378,22 @@ namespace ya
 		// jump
 		if (Input::GetKeyDown(eKeyCode::SPACE))
 		{
-			Vector2 velocity = mRigidbody->GetVelocity();
-			velocity.y -= 800.0f;
-
-			mRigidbody->SetVelocity(velocity);
-			mRigidbody->SetGround(false);
-
 			if (mbRight)
 			{
+				Vector2 velocity = mRigidbody->GetVelocity();
+				velocity.y -= 800.0f;
+				mRigidbody->SetVelocity(velocity);
+				mRigidbody->SetGround(false);
 				mAnimator->Play(L"PlayerJumpRight", false);
-				mPrevState == ePlayerState::Idle;
 				mState = ePlayerState::Jump;
 			}
 			if (mbLeft)
 			{
+				Vector2 velocity = mRigidbody->GetVelocity();
+				velocity.y -= 800.0f;
+				mRigidbody->SetVelocity(velocity);
+				mRigidbody->SetGround(false);
 				mAnimator->Play(L"PlayerJumpLeft", false);
-				mPrevState == ePlayerState::Idle;
 				mState = ePlayerState::Jump;
 			}
 		}
@@ -396,19 +404,21 @@ namespace ya
 			Vector2 velocity = mRigidbody->GetVelocity();
 			if (mbRight)
 			{
-				velocity.x += 500.0f;
+				mAnimator->Play(L"PlayerDashRight", false);
+				pos.x += 300.0f;
 				mRigidbody->SetVelocity(velocity);
 				mRigidbody->SetGround(false);
-				mAnimator->Play(L"PlayerDashRight", false);
+
 				mPrevState == ePlayerState::Idle;
 				mState = ePlayerState::Dash;
 			}
 			if (mbLeft)
 			{
-				velocity.x -= 500.0f;
+				mAnimator->Play(L"PlayerDashLeft", false);
+				pos.x -= 300.0f;
 				mRigidbody->SetVelocity(velocity);
 				mRigidbody->SetGround(false);
-				mAnimator->Play(L"PlayerDashLeft", false);
+
 				mPrevState == ePlayerState::Idle;
 				mState = ePlayerState::Dash;
 			}
@@ -452,7 +462,6 @@ namespace ya
 			}
 			mState = ePlayerState::Attack;
 		}
-
 		tr->SetPos(pos);
 	}
 
@@ -473,54 +482,53 @@ namespace ya
 
 		if (mAnimator->IsComplete() && mbLeft && mPrevState == ePlayerState::Jump)
 		{
-			mAnimator->Play(L"PlayerJumpLeft", false);
+			mAnimator->Play(L"PlayerFallingLeft", false);
 			mPrevState = ePlayerState::Dash;
 			mState = ePlayerState::Idle;
 		}
 		if (mAnimator->IsComplete() && mbRight && mPrevState == ePlayerState::Jump)
 		{
-			mAnimator->Play(L"PlayerJumpRight", false);
+			mAnimator->Play(L"PlayerFallingRight", false);
 			mPrevState = ePlayerState::Dash;
 			mState = ePlayerState::Idle;
 		}
+		if (Input::GetKey(eKeyCode::W)
+			|| Input::GetKey(eKeyCode::A)
+			|| Input::GetKey(eKeyCode::S)
+			|| Input::GetKey(eKeyCode::D))
+		{
+			mState = ePlayerState::Move;
+		}
+
 	}
 
 	void Player::jump()
 	{
-		if (mAnimator->IsComplete() && mbLeft && mPrevState == ePlayerState::Idle)
+		Transform* tr = GetComponent<Transform>();
+		Vector2 pos = tr->GetPos();
+
+		if (mAnimator->IsComplete() && mbLeft)
 		{
 			mAnimator->Play(L"PlayerIdleLeft", true);
-			mPrevState = ePlayerState::Jump;
 			mState = ePlayerState::Idle;
 		}
-		if (mAnimator->IsComplete() && mbRight && mPrevState == ePlayerState::Idle)
+		if (mAnimator->IsComplete() && mbRight)
 		{
 			mAnimator->Play(L"PlayerIdleRight", true);
-			mPrevState = ePlayerState::Jump;
 			mState = ePlayerState::Idle;
 		}
-		if (mAnimator->IsComplete() && mbLeft && mPrevState == ePlayerState::Move)
-		{
-			mAnimator->Play(L"PlayerRunLeft", true);
-			mPrevState = ePlayerState::Jump;
-			mState = ePlayerState::Move;
-		}
-		if (mAnimator->IsComplete() && mbRight && mPrevState == ePlayerState::Move)
-		{
-			mAnimator->Play(L"PlayerRunRight", true);
-			mPrevState = ePlayerState::Jump;
-			mState = ePlayerState::Move;
-		}
+
 
 		if (Input::GetKeyDown(eKeyCode::LSHIFT) && mbLeft)
 		{
 			Vector2 velocity = mRigidbody->GetVelocity();
+			mAnimator->Play(L"PlayerDashLeft", false);
 
-			velocity.x -= 500.0f;
+			pos.x -= 300.0f;
 			mRigidbody->SetVelocity(velocity);
 			mRigidbody->SetGround(false);
 
-			mAnimator->Play(L"PlayerDashLeft", false);
+			
 			mPrevState = ePlayerState::Jump;
 			mState = ePlayerState::Dash;
 		}
@@ -528,15 +536,24 @@ namespace ya
 		if (Input::GetKeyDown(eKeyCode::LSHIFT) && mbRight)
 		{
 			Vector2 velocity = mRigidbody->GetVelocity();
-
-			velocity.x += 500.0f;
+			mAnimator->Play(L"PlayerDashRight", false);
+			pos.x += 300.0f;
 			mRigidbody->SetVelocity(velocity);
 			mRigidbody->SetGround(false);
 
-			mAnimator->Play(L"PlayerDashRight", false);
+
 			mPrevState = ePlayerState::Jump;
 			mState = ePlayerState::Dash;
 		}
+
+		if (Input::GetKey(eKeyCode::W)
+			|| Input::GetKey(eKeyCode::A)
+			|| Input::GetKey(eKeyCode::S)
+			|| Input::GetKey(eKeyCode::D))
+		{
+			mState = ePlayerState::Move;
+		}
+		tr->SetPos(pos);
 	}
 
 	void Player::attack()

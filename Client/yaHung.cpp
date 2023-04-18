@@ -32,9 +32,9 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Idle\\Right", Vector2::Zero, 0.1f);
 
 		// Attack
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\AttackLasso\\Right\\Throw", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\AttackLasso\\Right\\Throw", Vector2::Zero, 0.08f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\AttackLasso\\Right\\Success", Vector2::Zero, 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\AttackLasso\\Left\\Throw", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\AttackLasso\\Left\\Throw", Vector2::Zero, 0.08f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\AttackLasso\\Left\\Success", Vector2::Zero, 0.1f);
 
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\AttackMelee\\Left", Vector2::Zero, 0.1f);
@@ -64,8 +64,7 @@ namespace ya
 
 		GameObject::Initialize();
 
-		std::srand((unsigned int)time(NULL));
-		rand = (std::rand() % 3) + 1;
+
 	}
 	void Hung::Update()
 	{
@@ -113,8 +112,23 @@ namespace ya
 
 		mTime += Time::DeltaTime();
 
-		if (mTime > 2.0f)
+		if (mTime > 3.0f)
 		{
+
+			switch (rand)
+			{
+			case 1:
+				mAnimator->Play(L"HungAttackSpecialRight", false);
+				break;
+			case 2:
+				mAnimator->Play(L"AttackLassoRightThrow", false);
+				break;
+			case 3:
+				mAnimator->Play(L"HungAttackMeleeRight", false);
+				break;
+			default:
+				break;
+			}
 			mState = eHungState::Attack;
 			mTime = 0;
 		}
@@ -122,67 +136,15 @@ namespace ya
 	}
 	void Hung::attack()
 	{
-		switch (rand)
+		if (mAnimator->IsComplete() && mbRight)
 		{
-		case 1:
-			mAnimator->Play(L"HungAttackSpecialRight", false);
-			if (mAnimator->IsComplete() && mbLeft)
-			{
-				mAnimator->Play(L"HungIdleLeft", true);
-				mState = eHungState::Idle;
-			}
-			if (mAnimator->IsComplete() && mbRight)
-			{
-				mAnimator->Play(L"HungIdleRight", true);
-				mState = eHungState::Idle;
-			}
-			break;
-		case 2:
-			mAnimator->Play(L"AttackLassoRightThrow", false);
-			if (mAnimator->IsComplete() && mbLeft)
-			{
-				mAnimator->Play(L"HungIdleLeft", true);
-				mState = eHungState::Idle;
-			}
-			if (mAnimator->IsComplete() && mbRight)
-			{
-				mAnimator->Play(L"HungIdleRight", true);
-				mState = eHungState::Idle;
-			}
-			break;
-		case 3:
-			mAnimator->Play(L"HungAttackMeleeRight", false);
-			if (mAnimator->IsComplete() && mbLeft)
-			{
-				mAnimator->Play(L"HungIdleLeft", true);
-				mState = eHungState::Idle;
-			}
-			if (mAnimator->IsComplete() && mbRight)
-			{
-				mAnimator->Play(L"HungIdleRight", true);
-				mState = eHungState::Idle;
-			}
-			break;
-		default:
-			break;
+			mAnimator->Play(L"HungIdleRight", true);
+			mState = eHungState::Idle;
 		}
-
-
-		//if (Input::GetKeyDown(eKeyCode::I))
-		//{
-		//	mAnimator->Play(L"HungAttackSpecialRight", false);
-		//}
-		//if (Input::GetKeyDown(eKeyCode::O))
-		//{
-		//	mAnimator->Play(L"AttackLassoRightThrow", false);
-		//}
-		//if (Input::GetKeyDown(eKeyCode::U))
-		//{
-		//	mAnimator->Play(L"AttackLassoRightSuccess", false);
-		//}
-		//if (Input::GetKeyDown(eKeyCode::P))
-		//{
-		//	mAnimator->Play(L"HungAttackMeleeRight", false);
-		//}
+		if (mAnimator->IsComplete() && mbLeft)
+		{
+			mAnimator->Play(L"HungIdleLeft", true);
+			mState = eHungState::Idle;
+		}
 	}
 }
