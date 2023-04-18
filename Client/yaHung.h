@@ -5,7 +5,8 @@ namespace ya
 {
 	class Rigidbody;
 	class Animator;
-	class Hung : public Monster
+	class Player;
+	class Hung : public GameObject
 	{
 	public:
 		enum class eHungState
@@ -32,5 +33,11 @@ namespace ya
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
 		eHungState mState;
+		Player* mPlayer;
+
+		UINT rand;
+		float mTime;
+		bool mbLeft;
+		bool mbRight;
 	};
 }

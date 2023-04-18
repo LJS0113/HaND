@@ -69,6 +69,7 @@ namespace ya
 		animation->Create(sheet, leftTop, coulmn, row, spriteLength, offset, duration);
 		animation->SetAnimationName(name);
 		animation->SetAnimator(this);
+		mSize = animation->GetSize();
 
 		mAnimations.insert(std::make_pair(name, animation));
 		Events* event = new Events();

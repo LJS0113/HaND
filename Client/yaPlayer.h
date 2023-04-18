@@ -13,7 +13,6 @@ namespace ya
 			Move,
 			Dash,
 			Jump,
-			Shoot,
 			Death,
 			Idle,
 			Attack,
@@ -31,9 +30,10 @@ namespace ya
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
 		
+		Vector2 GetPos() { return mPos; }
+
 	private:
 		void move();
-		void shoot();
 		void death();
 		void idle();
 		void dash();
@@ -47,6 +47,7 @@ namespace ya
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
 
+		Vector2 mPos;
 		UINT attackCount;
 		float mTime;
 		bool mbRight;

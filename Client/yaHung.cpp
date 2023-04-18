@@ -4,11 +4,18 @@
 #include "yaRigidbody.h"
 #include "yaTransform.h"
 #include "yaInput.h"
-
+#include "yaComponent.h"
+#include "yaGameObject.h"
+#include "yaPlayer.h"
+#include "yaLayer.h"
+#include "yaScene.h"
+#include "yaTime.h"
 
 namespace ya
 {
 	Hung::Hung()
+		: mbLeft(true)
+		, mbRight(false)
 	{
 	}
 	Hung::~Hung()
@@ -18,6 +25,7 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		mAnimator = AddComponent<Animator>();
+
 
 		// Idlen
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Idle\\Left", Vector2::Zero, 0.1f);
@@ -51,11 +59,13 @@ namespace ya
 
 		Collider* collider = AddComponent<Collider>();
 
-		//mRigidbody = AddComponent<Rigidbody>();
-		//mRigidbody->SetMass(1.0f);
+		collider->SetCenter(Vector2(-200.0f,-200.0f));
+		collider->SetSize(Vector2(mAnimator->GetSize().x, mAnimator->GetSize().y));
 
-		collider->SetCenter(Vector2(-60.0f, -80.0f));
 		GameObject::Initialize();
+
+		std::srand((unsigned int)time(NULL));
+		rand = (std::rand() % 3) + 1;
 	}
 	void Hung::Update()
 	{
@@ -89,32 +99,90 @@ namespace ya
 	}
 	void Hung::move()
 	{
+		Vector2 playerPos =	mPlayer->GetPos();
 
+		int a = 0;
 	}
 	void Hung::death()
 	{
 	}
 	void Hung::idle()
 	{
-		if (Input::GetKeyDown(eKeyCode::I))
+		std::srand((unsigned int)time(NULL));
+		rand = (std::rand() % 3) + 1;
+
+		mTime += Time::DeltaTime();
+
+		if (mTime > 2.0f)
 		{
-			mAnimator->Play(L"HungAttackSpecialRight", false);
+			mState = eHungState::Attack;
+			mTime = 0;
 		}
-		if (Input::GetKeyDown(eKeyCode::O))
-		{
-			mAnimator->Play(L"AttackLassoRightThrow", false);
-		}
-		if (Input::GetKeyDown(eKeyCode::U))
-		{
-			mAnimator->Play(L"AttackLassoRightSuccess", false);
-		}
-		if (Input::GetKeyDown(eKeyCode::P))
-		{
-			mAnimator->Play(L"HungAttackMeleeRight", false);
-		}
+
 	}
 	void Hung::attack()
 	{
+		switch (rand)
+		{
+		case 1:
+			mAnimator->Play(L"HungAttackSpecialRight", false);
+			if (mAnimator->IsComplete() && mbLeft)
+			{
+				mAnimator->Play(L"HungIdleLeft", true);
+				mState = eHungState::Idle;
+			}
+			if (mAnimator->IsComplete() && mbRight)
+			{
+				mAnimator->Play(L"HungIdleRight", true);
+				mState = eHungState::Idle;
+			}
+			break;
+		case 2:
+			mAnimator->Play(L"AttackLassoRightThrow", false);
+			if (mAnimator->IsComplete() && mbLeft)
+			{
+				mAnimator->Play(L"HungIdleLeft", true);
+				mState = eHungState::Idle;
+			}
+			if (mAnimator->IsComplete() && mbRight)
+			{
+				mAnimator->Play(L"HungIdleRight", true);
+				mState = eHungState::Idle;
+			}
+			break;
+		case 3:
+			mAnimator->Play(L"HungAttackMeleeRight", false);
+			if (mAnimator->IsComplete() && mbLeft)
+			{
+				mAnimator->Play(L"HungIdleLeft", true);
+				mState = eHungState::Idle;
+			}
+			if (mAnimator->IsComplete() && mbRight)
+			{
+				mAnimator->Play(L"HungIdleRight", true);
+				mState = eHungState::Idle;
+			}
+			break;
+		default:
+			break;
+		}
 
+
+		//if (Input::GetKeyDown(eKeyCode::I))
+		//{
+		//	mAnimator->Play(L"HungAttackSpecialRight", false);
+		//}
+		//if (Input::GetKeyDown(eKeyCode::O))
+		//{
+		//	mAnimator->Play(L"AttackLassoRightThrow", false);
+		//}
+		//if (Input::GetKeyDown(eKeyCode::U))
+		//{
+		//	mAnimator->Play(L"AttackLassoRightSuccess", false);
+		//}
+		//if (Input::GetKeyDown(eKeyCode::P))
+		//{
+		//	mAnimator->Play(L"HungAttackMeleeRight", false);
+		//}
 	}
 }

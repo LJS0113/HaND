@@ -89,6 +89,9 @@
     <Filter Include="Sound">
       <UniqueIdentifier>{e6042f91-f5ef-4269-82f3-19bdbfaef131}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Component\Base">
+      <UniqueIdentifier>{ee6b2fd5-e5aa-47b3-a8dc-a73eeaa3b9c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -129,9 +132,6 @@
     </ClInclude>
     <ClInclude Include="yaSceneManager.h">
       <Filter>Engine\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="yaComponent.h">
-      <Filter>Engine\Component</Filter>
     </ClInclude>
     <ClInclude Include="yaLayer.h">
       <Filter>Engine\Layer</Filter>
@@ -247,6 +247,9 @@
     <ClInclude Include="yaElevator.h">
       <Filter>Engine\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="yaComponent.h">
+      <Filter>Engine\Component\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -325,9 +328,6 @@
     <ClCompile Include="yaCamera.cpp">
       <Filter>Engine\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="yaComponent.cpp">
-      <Filter>Engine\Component</Filter>
-    </ClCompile>
     <ClCompile Include="yaRigidbody.cpp">
       <Filter>Engine\Component\RigidBody</Filter>
     </ClCompile>
@@ -396,6 +396,9 @@
     </ClCompile>
     <ClCompile Include="yaElevator.cpp">
       <Filter>Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="yaComponent.cpp">
+      <Filter>Engine\Component\Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

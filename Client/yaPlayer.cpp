@@ -27,9 +27,7 @@ namespace ya
 	void Player::Initialize()
 	{
 		Transform* tr = GetComponent<Transform>();
-		//tr->SetPos(Vector2(400.0f, 400.0f));
-		//tr->SetScale(Vector2(1.5f, 1.5f));
-
+		mPos = tr->GetPos();
 		mAnimator = AddComponent<Animator>();
 
 		// Idle
@@ -65,8 +63,8 @@ namespace ya
 		mAnimator->Play(L"PlayerIdleRight", true);
 
 		Collider* collider = AddComponent<Collider>();
-		collider->SetCenter(Vector2(-75.0f, -145.0f));
-		collider->SetSize(Vector2(150.0f, 150.0f));
+		collider->SetCenter(Vector2(-60.0f, -140.0f));
+		collider->SetSize(Vector2(130.0f, 150.0f));
 
 		mRigidbody = AddComponent<Rigidbody>();
 		mRigidbody->SetMass(1.0f);
@@ -91,9 +89,6 @@ namespace ya
 			break;
 		case ya::Player::ePlayerState::Jump:
 			jump();
-			break;
-		case ya::Player::ePlayerState::Shoot:
-			shoot();
 			break;
 		case ya::Player::ePlayerState::Attack:
 			attack();
@@ -177,7 +172,8 @@ namespace ya
 			}
 			else
 			{
-				mRigidbody->AddForce(Vector2(-500.0f, 0.0f));
+				//mRigidbody->AddForce(Vector2(-500.0f, 0.0f));
+				pos.x -= 400.0f * Time::DeltaTime();
 				mPrevState = ePlayerState::Move;
 				mState = ePlayerState::Move;
 			}
@@ -193,13 +189,6 @@ namespace ya
 				mPrevState = ePlayerState::Move;
 				mState = ePlayerState::Move;
 			}
-
-			if (Input::GetKeyDown(eKeyCode::LBUTTON))
-			{
-				attackCount++;
-				mState = ePlayerState::Attack;
-			}
-
 		}
 		if (Input::GetKey(eKeyCode::D))
 		{
@@ -240,7 +229,8 @@ namespace ya
 			}
 			else
 			{
-				mRigidbody->AddForce(Vector2(500.0f, 0.0f));
+				//mRigidbody->AddForce(Vector2(500.0f, 0.0f));
+				pos.x += 400.0f * Time::DeltaTime();
 				mPrevState = ePlayerState::Move;
 				mState = ePlayerState::Move;
 			}
@@ -256,12 +246,6 @@ namespace ya
 				mAnimator->Play(L"PlayerRunRight", true);
 				mPrevState = ePlayerState::Move;
 				mState = ePlayerState::Move;
-			}
-
-			if (Input::GetKeyDown(eKeyCode::LBUTTON))
-			{
-				attackCount++;
-				mState = ePlayerState::Attack;
 			}
 		}
 		if (Input::GetKey(eKeyCode::W))
@@ -300,33 +284,61 @@ namespace ya
 			mState = ePlayerState::Move;
 		}
 
-		tr->SetPos(pos);
-	}
-	void Player::shoot()
-	{
-		Transform* tr = GetComponent<Transform>();
-		if (Input::GetKey(eKeyCode::K))
+		if (Input::GetKeyDown(eKeyCode::LBUTTON))
 		{
-			object::Instantiate<BaseBullet>(Vector2(400.0f, 400.0f), eLayerType::Bullet);
+			attackCount++;
+			// 4타 이후에는 다시 1타로 돌아옴
+			if (attackCount > 4)
+				attackCount = 1;
 
-			/*Scene* curScene = SceneManager::GetActiveScene();
-			BaseBullet* bullet = new BaseBullet();
-			bullet->GetComponent<Transform>()->SetPos(tr->GetPos());
-			curScene->AddGameObeject(bullet, eLayerType::Bullet);*/
+			if (attackCount == 1)
+			{
+				if (mbLeft)
+					mAnimator->Play(L"PlayerAttack1Left", false);
+				if (mbRight)
+					mAnimator->Play(L"PlayerAttack1Right", false);
+			}
+			if (attackCount == 2)
+			{
+				if (mbLeft)
+					mAnimator->Play(L"PlayerAttack2Left", false);
+				if (mbRight)
+					mAnimator->Play(L"PlayerAttack2Right", false);
+			}
+			if (attackCount == 3)
+			{
+				if (mbLeft)
+					mAnimator->Play(L"PlayerAttack3Left", false);
+				if (mbRight)
+					mAnimator->Play(L"PlayerAttack3Right", false);
+			}
+			if (attackCount == 4)
+			{
+				if (mbLeft)
+					mAnimator->Play(L"PlayerAttack4Left", false);
+				if (mbRight)
+					mAnimator->Play(L"PlayerAttack4Right", false);
+			}
+			mState = ePlayerState::Attack;
 		}
 
+		tr->SetPos(pos);
 	}
 	void Player::death()
 	{
 	}
 	void Player::idle()
 	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 pos = tr->GetPos();
+
 		mPrevState = ePlayerState::Idle;
 		mState = ePlayerState::Idle;
 
 		if (Input::GetKeyDown(eKeyCode::A))
 		{
-			mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
+			//mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
+			pos.x -= 100.0f * Time::DeltaTime();
 			mAnimator->Play(L"PlayerRunLeft", true);
 			mPrevState == ePlayerState::Idle;
 			mState = ePlayerState::Move;
@@ -334,8 +346,8 @@ namespace ya
 
 		if (Input::GetKeyDown(eKeyCode::D))
 		{
-			mRigidbody->AddForce(Vector2(200.0f, 0.0f));
-			//pos.x += 100.0f * Time::DeltaTime();
+			//mRigidbody->AddForce(Vector2(200.0f, 0.0f));
+			pos.x += 100.0f * Time::DeltaTime();
 			mAnimator->Play(L"PlayerRunRight", true);
 			mPrevState == ePlayerState::Idle;
 			mState = ePlayerState::Move;
@@ -360,7 +372,6 @@ namespace ya
 		{
 			Vector2 velocity = mRigidbody->GetVelocity();
 			velocity.y -= 800.0f;
-
 
 			mRigidbody->SetVelocity(velocity);
 			mRigidbody->SetGround(false);
@@ -407,8 +418,42 @@ namespace ya
 		if (Input::GetKeyDown(eKeyCode::LBUTTON))
 		{
 			attackCount++;
+			// 4타 이후에는 다시 1타로 돌아옴
+			if (attackCount > 4)
+				attackCount = 1;
+
+			if (attackCount == 1)
+			{
+				if (mbLeft)
+					mAnimator->Play(L"PlayerAttack1Left", false);
+				if (mbRight)
+					mAnimator->Play(L"PlayerAttack1Right", false);
+			}
+			if (attackCount == 2)
+			{
+				if (mbLeft)
+					mAnimator->Play(L"PlayerAttack2Left", false);
+				if (mbRight)
+					mAnimator->Play(L"PlayerAttack2Right", false);
+			}
+			if (attackCount == 3)
+			{
+				if (mbLeft)
+					mAnimator->Play(L"PlayerAttack3Left", false);
+				if (mbRight)
+					mAnimator->Play(L"PlayerAttack3Right", false);
+			}
+			if (attackCount == 4)
+			{
+				if (mbLeft)
+					mAnimator->Play(L"PlayerAttack4Left", false);
+				if (mbRight)
+					mAnimator->Play(L"PlayerAttack4Right", false);
+			}
 			mState = ePlayerState::Attack;
 		}
+
+		tr->SetPos(pos);
 	}
 
 	void Player::dash()
@@ -500,95 +545,30 @@ namespace ya
 		if (attackCount > 4)
 			attackCount = 1;
 
-		switch (attackCount)
-		{
-		case 1:
-			if (mbRight)
-			{
-				mAnimator->Play(L"PlayerAttack1Right", false);
-				if (mAnimator->IsComplete() && mbLeft)
-				{
-					mAnimator->Play(L"PlayerIdleLeft", true);
-					mState = ePlayerState::Idle;
-				}
-				if (mAnimator->IsComplete() && mbRight)
-				{
-					mAnimator->Play(L"PlayerIdleRight", true);
-					mState = ePlayerState::Idle;
-				}
-			}
-			if (mbLeft)
-			{
-				mAnimator->Play(L"PlayerAttack1Left", false);
-				if (mAnimator->IsComplete() && mbLeft)
-				{
-					mAnimator->Play(L"PlayerIdleLeft", true);
-					mState = ePlayerState::Idle;
-				}
-				if (mAnimator->IsComplete() && mbRight)
-				{
-					mAnimator->Play(L"PlayerIdleRight", true);
-					mState = ePlayerState::Idle;
-				}
-			}
-			break;
-		case 2:
-			if (mbRight)
-			{
-				mAnimator->Play(L"PlayerAttack2Right", false);
-			}
-			if (mbLeft)
-			{
-				mAnimator->Play(L"PlayerAttack2Left", false);
-			}
-			break;
-		case 3:
-			if (mbRight)
-			{
-				mAnimator->Play(L"PlayerAttack3Right", false);
-			}
-			if (mbLeft)
-			{
-				mAnimator->Play(L"PlayerAttack3Left", false);
-			}
-			break;
-		case 4:
-			if (mbRight)
-			{
-				mAnimator->Play(L"PlayerAttack4Right", false);
-			}
-			if (mbLeft)
-			{
-				mAnimator->Play(L"PlayerAttack4Left", false);
-			}
-			break;
-		default:
-			break;
-		}
-
-		mTime += Time::DeltaTime();
-
-		//if (mTime > 2.0f)
-		//{
-		//	attackCount = 1;
-		//}
-
 		if (Input::GetKey(eKeyCode::W)
 			|| Input::GetKey(eKeyCode::A)
 			|| Input::GetKey(eKeyCode::S)
 			|| Input::GetKey(eKeyCode::D))
 		{
 			mState = ePlayerState::Move;
+		} 
+
+		if (mAnimator->IsComplete() && mbLeft)
+		{
+			mAnimator->Play(L"PlayerIdleLeft", true);
+			mState = ePlayerState::Idle;
 		}
-
-
+		if (mAnimator->IsComplete() && mbRight)
+		{
+			mAnimator->Play(L"PlayerIdleRight", true);
+			mState = ePlayerState::Idle;
+		}
 
 	}
 
 	void Player::idleCompleteEvent(/*const Player* this*/)
 	{
 		int a = 0;
-		//mState =
 		//Transform* tr = GetComponent<Transform>();
 		//Scene* curScene = SceneManager::GetActiveScene();
 		//BaseBullet* bullet = new BaseBullet();

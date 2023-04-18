@@ -80,7 +80,7 @@ namespace ya
 		mLayers[(UINT)layer].AddGameObject(obj);
 	}
 	std::vector<GameObject*>& Scene::GetGameObjects(eLayerType layer)
-	{
+	{ 
 		return mLayers[(UINT)layer].GetGameObjects();
 	}
 }

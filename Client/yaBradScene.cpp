@@ -47,12 +47,7 @@ namespace ya
 
 	void BradScene::Render(HDC hdc)
 	{
-		//TransparentBlt(hdc, 0, 0
-		//	, application.GetWidth(), application.GetHeight()
-		//	, mBgImage->GetHdc()
-		//	, 0, 0
-		//	, mBgImage->GetWidth(), mBgImage->GetHeight()
-		//	, RGB(255, 0, 255));
+
 
 		Scene::Render(hdc);
 	}

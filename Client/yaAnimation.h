@@ -38,6 +38,7 @@ namespace ya
 		void SetAnimator(Animator* animator) { mAnimator = animator; }
 		void SetAnimationName(const std::wstring& name) { mAnimationName = name; }
 		std::wstring& GetAnimationName() { return mAnimationName; }
+		Vector2 GetSize() { return mSize; }
 
 	private:
 		Animator* mAnimator;
@@ -47,5 +48,6 @@ namespace ya
 		float mTime;
 		bool mbComplete;
 		int mSpriteIndex;
+		Vector2 mSize;
 	};
 }

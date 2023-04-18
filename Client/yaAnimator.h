@@ -56,8 +56,7 @@ namespace ya
 		std::function<void()>& GetCompleteEvent(const std::wstring& name);
 		std::function<void()>& GetEndEvent(const std::wstring& name);
 		bool IsComplete() { return mActiveAnimation->IsComplete(); }
-
-
+		Vector2 GetSize() { return mSize; }
 
 	private:
 		std::map<std::wstring, Animation*> mAnimations;
@@ -66,5 +65,6 @@ namespace ya
 		Animation* mActiveAnimation;
 		Image* mSpriteSheet;
 		bool mbLoop;
+		Vector2 mSize;
 	};
 }
