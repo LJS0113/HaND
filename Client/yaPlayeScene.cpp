@@ -16,6 +16,7 @@
 #include "yaElevator.h"
 
 extern ya::Application application;
+extern ya::Player* player;
 
 namespace ya
 {
@@ -38,10 +39,11 @@ namespace ya
 		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		bgImage->SetImage(L"LobbyBG", L"LobbyBG.bmp");
 
-		Elevator* elevator = object::Instantiate<Elevator>(Vector2(2000.0f, 700.0f), eLayerType::BG);
-		Player* player = object::Instantiate<Player>(Vector2(500.0f, 400.0f), eLayerType::Player);
+		Elevator* elevator = object::Instantiate<Elevator>(Vector2(800.0f, 700.0f), eLayerType::BG);
+		player = object::Instantiate<Player>(Vector2(100.0f, 700.0f), eLayerType::Player);
 		Ground* ground = object::Instantiate<Ground>(Vector2(0.0f, 0.0f), eLayerType::Ground);
 		ground->SetPlayer(player);
+
 	}
 
 	void PlayeScene::Update()

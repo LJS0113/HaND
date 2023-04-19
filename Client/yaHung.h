@@ -29,11 +29,14 @@ namespace ya
 		void idle();
 		void attack();
 
+		virtual void OnCollisionEnter(class Collider* other) override;
+		virtual void OnCollisionStay(class Collider* other) override;
+		virtual void OnCollisionExit(class Collider* other) override;
+
 	private:
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
 		eHungState mState;
-		Player* mPlayer;
 
 		UINT rand;
 		float mTime;

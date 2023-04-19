@@ -9,8 +9,10 @@
 #include "yaResources.h"
 #include "yaHung.h"
 #include "yaBGImageObject.h"
+#include "yaCollisionManager.h"
 
 extern ya::Application application;
+extern ya::Player* player;
 
 namespace ya
 {
@@ -26,7 +28,7 @@ namespace ya
 		
 		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		bgImage->SetImage(L"HungBG", L"HungBG.bmp");
-		Player* player = object::Instantiate<Player>(Vector2(200.0f, 700.0f), eLayerType::Player);
+		player = object::Instantiate<Player>(Vector2(200.0f, 700.0f), eLayerType::Player);
 		Hung* hung = object::Instantiate<Hung>(Vector2(800.0f, 650.0f), eLayerType::Monster);
 
 		Ground* ground = object::Instantiate<Ground>(Vector2(0.0f, 0.0f), eLayerType::Ground);
@@ -42,7 +44,6 @@ namespace ya
 	}
 	void HungScene::Render(HDC hdc)
 	{
-
 		Scene::Render(hdc);
 	}
 	void HungScene::Release()
@@ -51,6 +52,7 @@ namespace ya
 	}
 	void HungScene::OnEnter()
 	{
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 	}
 	void HungScene::OnExit()
 	{

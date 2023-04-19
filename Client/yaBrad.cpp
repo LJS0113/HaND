@@ -106,6 +106,7 @@ namespace ya
 				break;
 			case 2:
 				mAnimator->Play(L"BradDiveLeft", false);
+
 				break;
 			case 3:
 				mAnimator->Play(L"BradFly_StompLeft", false);
@@ -132,5 +133,4 @@ namespace ya
 			mState = eBradState::Idle;
 		}
 	}
-
 }

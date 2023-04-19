@@ -6,6 +6,7 @@
 #include "yaApplication.h"
 #include "yaSceneManager.h"
 #include "yaResources.h"
+#include "yaPlayer.h"
 
 #define MAX_LOADSTRING 100
 
@@ -14,7 +15,8 @@ HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
-ya::Application application;
+ya::Application application; 
+ya::Player* player;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance, LPCWSTR name, WNDPROC proc);

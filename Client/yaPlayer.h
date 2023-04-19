@@ -3,6 +3,7 @@
 
 namespace ya
 {
+	class Collider;
 	class Rigidbody;
 	class Animator;
 	class Player : public GameObject
@@ -30,7 +31,6 @@ namespace ya
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
 		
-		Vector2 GetPos() { return mPos; }
 
 	private:
 		void move();
@@ -46,8 +46,8 @@ namespace ya
 		ePlayerState mPrevState;
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
-
-		Vector2 mPos;
+		Collider* collider;
+		Collider* attackCollider;
 		UINT attackCount;
 		float mTime;
 		bool mbRight;

@@ -11,6 +11,8 @@
 #include "yaScene.h"
 #include "yaTime.h"
 
+extern ya::Player* player;
+
 namespace ya
 {
 	Hung::Hung()
@@ -25,6 +27,7 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		mAnimator = AddComponent<Animator>();
+		
 
 		// Idlen
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Idle\\Left", Vector2::Zero, 0.1f);
@@ -62,12 +65,12 @@ namespace ya
 		//mRigidbody = AddComponent<Rigidbody>();
 		//mRigidbody->SetMass(1.0f);
 
-		collider->SetCenter(Vector2(-100.0f,-200.0f));
-		collider->SetSize(Vector2(230.0f, 230.0f));
+		collider->SetCenter(Vector2(30.0f, -140.0f));
+		collider->SetSize(Vector2(60.0f, 140.0f));
 
 		GameObject::Initialize();
 
-		//Transform* playerTr = mPlayer->GetComponent<Transform>();
+
 	}
 	void Hung::Update()
 	{
@@ -101,9 +104,7 @@ namespace ya
 	}
 	void Hung::move()
 	{
-		Vector2 playerPos =	mPlayer->GetPos();
 
-		int a = 0;
 	}
 	void Hung::death()
 	{
@@ -156,5 +157,18 @@ namespace ya
 			mAnimator->Play(L"HungIdleLeft", true);
 			mState = eHungState::Idle;
 		}
+	}
+	void Hung::OnCollisionEnter(Collider* other)
+	{
+		Transform* playTr = player->GetComponent<Transform>();
+		Vector2 pos = playTr->GetPos();
+		
+		int a = 0;
+	}
+	void Hung::OnCollisionStay(Collider* other)
+	{
+	}
+	void Hung::OnCollisionExit(Collider* other)
+	{
 	}
 }
