@@ -11,7 +11,6 @@
 #include "yaBGImageObject.h"
 
 extern ya::Application application;
-extern ya::Player* player;
 
 namespace ya
 {
@@ -28,11 +27,11 @@ namespace ya
 		bgImage->SetImage(L"WaldoBG", L"WaldoBG.bmp");
 		//mBgImage = Resources::Load<Image>(L"WaldoBG", L"..\\Resources\\HaND_Resource\\Map\\WaldoBG.bmp");
 
-		player = object::Instantiate<Player>(Vector2(1000.0f, 500.0f), eLayerType::Player);
-		//Brad* brad = object::Instantiate<Brad>(Vector2(500.0f, 400.0f), eLayerType::Monster);
+		//player = object::Instantiate<Player>(Vector2(1000.0f, 500.0f), eLayerType::Player);
+		////Brad* brad = object::Instantiate<Brad>(Vector2(500.0f, 400.0f), eLayerType::Monster);
 
-		Ground* ground = object::Instantiate<Ground>(Vector2(0.0f, 0.0f), eLayerType::Ground);
-		ground->SetPlayer(player);
+		//Ground* ground = object::Instantiate<Ground>(Vector2(0.0f, 0.0f), eLayerType::Ground);
+		//ground->SetPlayer(player);
 
 
 	}

@@ -6,8 +6,7 @@
 #include "yaResources.h"
 #include "yaImage.h"
 #include "yaBGImageObject.h"
-
-extern ya::Player* player;
+#include "yaPlayer.h"
 
 namespace ya
 {
@@ -26,12 +25,11 @@ namespace ya
 		//BGImageObject* bgImage = new BGImageObject();
 		bgImage->SetImage(L"BradBG", L"BradBG.bmp");
 		//mBgImage = Resources::Load<Image>(L"BradBG", L"..\\Resources\\HaND_Resource\\Map\\BradBG.bmp");
-
-		player = object::Instantiate<Player>(Vector2(200.0f, 200.0f), eLayerType::Player);
+		this->AddGameObeject(gPlayer, eLayerType::Player);
 		BradV2* bradV2 = object::Instantiate<BradV2>(Vector2(800.0f, 650.0f), eLayerType::Monster);
 
 		Ground* ground = object::Instantiate<Ground>(Vector2(0.0f, 0.0f), eLayerType::Ground);
-		ground->SetPlayer(player);
+		ground->SetPlayer(gPlayer);
 	}
 
 	void BradV2Scene::Update()

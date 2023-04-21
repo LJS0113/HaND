@@ -250,6 +250,12 @@
     <ClInclude Include="yaComponent.h">
       <Filter>Engine\Component\Base</Filter>
     </ClInclude>
+    <ClInclude Include="yaHungAS.h">
+      <Filter>Contents\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="yaColliderObj.h">
+      <Filter>Contents\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -399,6 +405,12 @@
     </ClCompile>
     <ClCompile Include="yaComponent.cpp">
       <Filter>Engine\Component\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="yaHungAS.cpp">
+      <Filter>Contents\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="yaColliderObj.cpp">
+      <Filter>Contents\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

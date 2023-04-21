@@ -1,6 +1,6 @@
 #pragma once
 #include "yaMonster.h"
-
+#include "yaCollider.h"
 namespace ya
 {
 	class Rigidbody;
@@ -37,7 +37,7 @@ namespace ya
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
 		eHungState mState;
-
+		Collider* collider;
 		UINT rand;
 		float mTime;
 		bool mbLeft;

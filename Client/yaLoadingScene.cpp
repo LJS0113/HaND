@@ -19,7 +19,7 @@ namespace ya
 	{
 		Scene::Initialize();
 
-		Loading* loading = object::Instantiate<Loading>(Vector2(500.0f, 500.0f), eLayerType::UI);
+		Loading* loading = object::Instantiate<Loading>(Vector2(800.0f, 450.0f), eLayerType::UI);
 
 	}
 

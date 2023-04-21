@@ -10,6 +10,7 @@ namespace ya
 {
 	BGImageObject::BGImageObject()
 		: mImage(nullptr)
+		, mScale(Vector2::One)
 	{
 	}
 
@@ -31,14 +32,13 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
-		Vector2 scale = tr->GetScale();
 		Vector2 finalPos = pos;
 
 		Vector2 rect;
 		rect.x = application.GetWidth();
 		rect.y = application.GetHeight();
 
-		TransparentBlt(hdc, finalPos.x, finalPos.y, rect.x, rect.y
+		TransparentBlt(hdc, finalPos.x, finalPos.y, rect.x * mScale.x, rect.y * mScale.y
 			, mImage->GetHdc(), 0, 0, mImage->GetWidth(), mImage->GetHeight()
 			, RGB(255, 0, 255));
 		GameObject::Render(hdc);

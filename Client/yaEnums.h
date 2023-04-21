@@ -21,9 +21,11 @@ enum class eLayerType
 	Ground,
 	BG,
 	Tile,
+	Elevator,
 	Monster,
 	Player,
-	Bullet,
+	ColliderObj,
+	HungAS,
 	Effect,
 
 	UI,

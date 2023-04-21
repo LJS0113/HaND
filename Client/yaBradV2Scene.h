@@ -20,8 +20,6 @@ namespace ya
 		virtual void OnExit() override;
 
 	private:
-		Player* mPlayer;
-		Monster* mBradV2;
 		Image* mBgImage;
 	};
 }

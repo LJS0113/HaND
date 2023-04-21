@@ -146,10 +146,12 @@
     <ClInclude Include="yaBradV2Scene.h" />
     <ClInclude Include="yaCamera.h" />
     <ClInclude Include="yaCollider.h" />
+    <ClInclude Include="yaColliderObj.h" />
     <ClInclude Include="yaCollisionManager.h" />
     <ClInclude Include="yaElevator.h" />
     <ClInclude Include="yaGround.h" />
     <ClInclude Include="yaHung.h" />
+    <ClInclude Include="yaHungAS.h" />
     <ClInclude Include="yaHungScene.h" />
     <ClInclude Include="yaLoading.h" />
     <ClInclude Include="yaLoadingScene.h" />
@@ -197,10 +199,12 @@
     <ClCompile Include="yaBradV2Scene.cpp" />
     <ClCompile Include="yaCamera.cpp" />
     <ClCompile Include="yaCollider.cpp" />
+    <ClCompile Include="yaColliderObj.cpp" />
     <ClCompile Include="yaCollisionManager.cpp" />
     <ClCompile Include="yaElevator.cpp" />
     <ClCompile Include="yaGround.cpp" />
     <ClCompile Include="yaHung.cpp" />
+    <ClCompile Include="yaHungAS.cpp" />
     <ClCompile Include="yaHungScene.cpp" />
     <ClCompile Include="yaLoading.cpp" />
     <ClCompile Include="yaLoadingScene.cpp" />

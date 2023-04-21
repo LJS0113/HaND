@@ -20,7 +20,6 @@ namespace ya
 		virtual void OnExit() override;
 
 	private:
-		Player* mPlayer;
 		Image* mBgImage;
 	};
 }

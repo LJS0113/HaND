@@ -3,6 +3,7 @@
 
 namespace ya
 {
+	class Image;
 	class Ground : public GameObject
 	{
 	public:
@@ -19,6 +20,7 @@ namespace ya
 		virtual void OnCollisionExit(class Collider* other);
 
 		void SetPlayer(class Player* player) { mPlayer = player; }
+		void SetImage(const std::wstring& key, const std::wstring& fileName);
 
 	private:
 		class Collider* mCollider;

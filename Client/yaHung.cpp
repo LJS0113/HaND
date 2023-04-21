@@ -1,3 +1,4 @@
+#pragma once
 #include "yaHung.h"
 #include "yaAnimator.h"
 #include "yaCollider.h"
@@ -10,8 +11,11 @@
 #include "yaLayer.h"
 #include "yaScene.h"
 #include "yaTime.h"
+#include "yaObject.h"
+#include "yaHungAS.h"
+#include "yaPlayer.h"
 
-extern ya::Player* player;
+//extern ya::Player* player;
 
 namespace ya
 {
@@ -19,6 +23,7 @@ namespace ya
 		: mbLeft(true)
 		, mbRight(false)
 	{
+		//gPlayer->
 	}
 	Hung::~Hung()
 	{
@@ -27,7 +32,7 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		mAnimator = AddComponent<Animator>();
-		
+
 
 		// Idlen
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Idle\\Left", Vector2::Zero, 0.1f);
@@ -60,7 +65,7 @@ namespace ya
 		mAnimator->Play(L"HungIdleLeft", true);
 		mState = eHungState::Idle;
 
-		Collider* collider = AddComponent<Collider>();
+		collider = AddComponent<Collider>();
 
 		//mRigidbody = AddComponent<Rigidbody>();
 		//mRigidbody->SetMass(1.0f);
@@ -114,25 +119,68 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
 
+		Transform* playTr = gPlayer->GetComponent<Transform>();
+		Vector2 playerPos = playTr->GetPos();
+
 		//Vector2 velocity = mRigidbody->GetVelocity();
 		std::srand((unsigned int)time(NULL));
 		rand = (std::rand() % 3) + 1;
 
 		mTime += Time::DeltaTime();
 
+		if (Input::GetKeyDown(eKeyCode::K))
+		{
+			mAnimator->Play(L"HungAttackMeleeLeft", false);
+			collider->SetCenter(Vector2(-330.0f, -230.0f));
+			collider->SetSize(Vector2(430.0f, 230.0f));
+			
+			mbLeft = true;
+			mbRight = false;
 
-		if (mTime > 3.0f)
+			mState = eHungState::Attack;
+		}
+
+		if (Input::GetKeyDown(eKeyCode::L))
+		{
+			mAnimator->Play(L"HungAttackMeleeRight", false);
+			collider->SetCenter(Vector2(-100.0f, -230.0f));
+			collider->SetSize(Vector2(430.0f, 230.0f));
+			
+			mbLeft = false;
+			mbRight = true;
+
+			mState = eHungState::Attack;
+		}
+
+		if (Input::GetKey(eKeyCode::G))
+		{
+			//mRigidbody->AddForce(Vector2(-500.0f, 0.0f));
+			pos.x -= 400.0f * Time::DeltaTime();
+		}
+		if (Input::GetKey(eKeyCode::J))
+		{
+			//mRigidbody->AddForce(Vector2(-500.0f, 0.0f));
+			pos.x += 400.0f * Time::DeltaTime();
+		}
+
+
+		/*if (mTime > 3.0f)
 		{
 
 			switch (rand)
 			{
 			case 1:
 				mAnimator->Play(L"HungAttackSpecialRight", false);
-				rand = (std::rand() % 1023) + 1;
-
+				for (size_t i = 0; i < 4; i++)
+				{
+					rand = std::rand() % 1023;
+					object::Instantiate<HungAS>(Vector2(float(rand), 700.0f), eLayerType::HungAS);
+				}
 				break;
 			case 2:
 				mAnimator->Play(L"AttackLassoRightThrow", false);
+				collider->SetCenter(Vector2(30.0f, -140.0f));
+				collider->SetSize(Vector2(900.0f, 140.0f));
 				break;
 			case 3:
 				mAnimator->Play(L"HungAttackMeleeRight", false);
@@ -142,7 +190,7 @@ namespace ya
 			}
 			mState = eHungState::Attack;
 			mTime = 0;
-		}
+		}*/
 		tr->SetPos(pos);
 	}
 	void Hung::attack()
@@ -150,20 +198,21 @@ namespace ya
 		if (mAnimator->IsComplete() && mbRight)
 		{
 			mAnimator->Play(L"HungIdleRight", true);
+			collider->SetCenter(Vector2(-90.0f, -140.0f));
+			collider->SetSize(Vector2(60.0f, 140.0f));
 			mState = eHungState::Idle;
 		}
 		if (mAnimator->IsComplete() && mbLeft)
 		{
 			mAnimator->Play(L"HungIdleLeft", true);
+			collider->SetCenter(Vector2(30.0f, -140.0f));
+			collider->SetSize(Vector2(60.0f, 140.0f));
 			mState = eHungState::Idle;
 		}
 	}
 	void Hung::OnCollisionEnter(Collider* other)
 	{
-		Transform* playTr = player->GetComponent<Transform>();
-		Vector2 pos = playTr->GetPos();
-		
-		int a = 0;
+
 	}
 	void Hung::OnCollisionStay(Collider* other)
 	{

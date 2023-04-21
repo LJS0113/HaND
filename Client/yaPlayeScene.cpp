@@ -1,3 +1,4 @@
+#pragma once
 #include "yaPlayeScene.h"
 #include "yaPlayer.h"
 #include "yaInput.h"
@@ -16,7 +17,6 @@
 #include "yaElevator.h"
 
 extern ya::Application application;
-extern ya::Player* player;
 
 namespace ya
 {
@@ -39,20 +39,16 @@ namespace ya
 		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		bgImage->SetImage(L"LobbyBG", L"LobbyBG.bmp");
 
-		Elevator* elevator = object::Instantiate<Elevator>(Vector2(800.0f, 700.0f), eLayerType::BG);
-		player = object::Instantiate<Player>(Vector2(100.0f, 700.0f), eLayerType::Player);
+		Elevator* elevator = object::Instantiate<Elevator>(Vector2(1300.0f, 700.0f), eLayerType::Elevator);
+		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 700.0f), eLayerType::Player);
+
 		Ground* ground = object::Instantiate<Ground>(Vector2(0.0f, 0.0f), eLayerType::Ground);
-		ground->SetPlayer(player);
+		ground->SetPlayer(gPlayer);
 
 	}
 
 	void PlayeScene::Update()
 	{
-		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
-		{
-			SceneManager::LoadScene(eSceneType::Hung);
-		}
-
 		Scene::Update();
 	}
 
@@ -67,8 +63,10 @@ namespace ya
 	}
 	void PlayeScene::OnEnter()
 	{
-		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Player, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Elevator, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
+
+
 	}
 	void PlayeScene::OnExit()
 	{

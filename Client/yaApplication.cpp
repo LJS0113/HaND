@@ -25,8 +25,8 @@ namespace ya
 	{
 		mHwnd = hWnd;
 		mHdc = GetDC(hWnd);
-		mWidth = 1024;
-		mHeight = 768;
+		mWidth = 1600;
+		mHeight = 900;
 
 		//비트맵 해상도를 설정하기 위한 실제 윈도우 크기를 계산해준다.
 		RECT rect = { 0, 0, mWidth , mHeight };

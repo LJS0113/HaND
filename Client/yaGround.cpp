@@ -1,3 +1,4 @@
+#pragma once
 #include "yaGround.h"
 #include "yaCollider.h"
 #include "yaPlayer.h"
@@ -6,6 +7,8 @@
 #include "yaResources.h"
 #include "yaImage.h"
 #include "yaMonster.h"
+
+class ya::Player;
 
 namespace ya
 {
@@ -19,10 +22,9 @@ namespace ya
 
 	void Ground::Initialize()
 	{
-		//mCollider = AddComponent<Collider>();
-		//mCollider->SetSize(Vector2(1600.0f, 50.0f));
+		mCollider = AddComponent<Collider>();
 
-		mImage = Resources::Load<Image>(L"Ground", L"..\\Resources\\Ground.bmp");
+		mImage = Resources::Load<Image>(L"Ground", L"..\\Resources\\TitleGround.bmp");
 
 		GameObject::Initialize();
 	}
@@ -106,6 +108,14 @@ namespace ya
 
 	void Ground::OnCollisionExit(Collider* other)
 	{
+	}
+
+	void Ground::SetImage(const std::wstring& key, const std::wstring& fileName)
+	{
+		std::wstring path = L"..\\Resources\\";
+		path += fileName;
+
+		mImage = Resources::Load<Image>(L"BossGround", path);
 	}
 
 }

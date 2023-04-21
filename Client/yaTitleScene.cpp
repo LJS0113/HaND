@@ -36,9 +36,18 @@ namespace ya
 		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		bgImage->SetImage(L"TitleBG", L"TitleScene.bmp");
 
-		//mBgLogoImage = Resources::Load<Image>(L"TitleLogo", L"..\\Resources\\HaND_Resource\\HaND_LOGO.bmp");
+		BGImageObject* bgLogoImage = object::Instantiate<BGImageObject>(Vector2(100.0f, 100.0f), eLayerType::BG);
+		bgLogoImage->SetImage(L"TitleLogoBG", L"Logo.bmp");
+		bgLogoImage->SetScale(Vector2(0.5f, 0.5f));
 
-		LogoPlayer* logoPlayer = object::Instantiate<LogoPlayer>(Vector2(650.0f, 450.0f), eLayerType::Player);
+		LogoPlayer* logoPlayerWeapon = object::Instantiate<LogoPlayer>(Vector2(1100.0f, 800.0f), eLayerType::Player);
+		logoPlayerWeapon->SetPath(L"LogoTitlePlayerHomeScreenWeapon");
+		LogoPlayer* logoPlayerBody = object::Instantiate<LogoPlayer>(Vector2(1280.0f, 800.0f), eLayerType::Player);
+		logoPlayerBody->SetPath(L"LogoTitlePlayerHomeScreenBody");
+		LogoPlayer* logoPlayerArm = object::Instantiate<LogoPlayer>(Vector2(1320.0f, 670.0f), eLayerType::Player);
+		logoPlayerArm->SetPath(L"LogoTitlePlayerHomeScreenArm");
+		LogoPlayer* logoPlayerHead = object::Instantiate<LogoPlayer>(Vector2(1300.0f, 500.0f), eLayerType::Player);
+		logoPlayerHead->SetPath(L"LogoTitlePlayerHomeScreenHead");
 
 	}
 	void TitleScene::Update()
@@ -53,13 +62,6 @@ namespace ya
 	}
 	void TitleScene::Render(HDC hdc)
 	{
-		//TransparentBlt(hdc, 50, 50
-		//	, mBgLogoImage->GetWidth()/3, mBgLogoImage->GetHeight()/3
-		//	, mBgLogoImage->GetHdc()
-		//	, 0, 0
-		//	, mBgLogoImage->GetWidth(), mBgLogoImage->GetHeight()
-		//	, RGB(255, 255, 255));
-
 		Scene::Render(hdc);
 	}
 	void TitleScene::Release()
@@ -68,7 +70,7 @@ namespace ya
 	}
 	void TitleScene::OnEnter()
 	{
-		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
+		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 	}
 	void TitleScene::OnExit()
 	{

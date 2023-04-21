@@ -15,17 +15,12 @@ namespace ya
 		virtual void Update() override;
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
+		
+		void SetPath(const std::wstring& path);
 
 	private:
 		Image* mImage;
-		
-		GameObject* mHead;
-
-		Animator* mHeadAnimator;
-		Animator* mBodyAnimator;
-		Animator* mArmAnimator;
-		Animator* mWeaponAnimator;
-		Animator* mSmokeAnimator;
+		Animator* mAnimator;
 	};
 
 }

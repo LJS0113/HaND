@@ -1,8 +1,10 @@
 #pragma once
 #include "yaGameObject.h"
+#include "yaColliderObj.h"
 
 namespace ya
 {
+
 	class Collider;
 	class Rigidbody;
 	class Animator;
@@ -47,10 +49,13 @@ namespace ya
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
 		Collider* collider;
-		Collider* attackCollider;
+		ColliderObj* colliderObj;
+
 		UINT attackCount;
 		float mTime;
 		bool mbRight;
 		bool mbLeft;
 	};
+
+	extern Player* gPlayer;
 }

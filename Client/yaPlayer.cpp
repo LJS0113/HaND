@@ -1,3 +1,4 @@
+#pragma once
 #include "yaPlayer.h"
 #include "yaTime.h"
 #include "yaSceneManager.h"
@@ -11,16 +12,18 @@
 #include "yaScene.h"
 #include "yaObject.h"
 #include "yaRigidbody.h"
+#include "yaColliderObj.h"
 
 
 namespace ya
 {
+	Player* gPlayer = nullptr;
+
 	Player::Player()
 		: mbRight(true)
 		, mbLeft(false)
 		, attackCount(0)
 	{
-		Player* player = this;
 	}
 	Player::~Player()
 	{
@@ -30,6 +33,7 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		mAnimator = AddComponent<Animator>();
+		//colliderObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 
 		// Idle
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Idle\\Right", Vector2::Zero, 0.1f);
@@ -45,6 +49,9 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Falling\\Right", Vector2::Zero, 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Falling\\Left", Vector2::Zero, 0.1f);
 
+		// Elevator
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Elevator\\In", Vector2::Zero, 0.05f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Elevator\\Out", Vector2::Zero, 0.05f);
 
 		// Dash
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Dash\\Right", Vector2::Zero, 0.03f);
@@ -64,10 +71,6 @@ namespace ya
 		mAnimator->Play(L"PlayerIdleRight", true);
 
 		collider = AddComponent<Collider>();
-		//attackCollider = AddComponent<Collider>();
-
-		//attackCollider->SetCenter(Vector2(-100.0f, -100.0f));
-		//attackCollider->SetSize(Vector2(90.0f, 110.0f));
 
 		collider->SetCenter(Vector2(-50.0f, -130.0f));
 		collider->SetSize(Vector2(90.0f, 110.0f));
@@ -126,7 +129,17 @@ namespace ya
 
 	void Player::OnCollisionStay(Collider* other)
 	{
-
+		if (Input::GetKeyDown(eKeyCode::F))
+		{
+			mAnimator->Play(L"PlayerElevatorIn", false);
+		}
+		if (mAnimator->IsComplete())
+		{
+			SceneManager::LoadScene(eSceneType::Hung);
+			Transform* tr = GetComponent<Transform>();
+			tr->SetPos(Vector2(100.0f, 700.0f));
+			mAnimator->Play(L"PlayerIdleRight", true);
+		}
 	}
 
 	void Player::OnCollisionExit(Collider* other)
@@ -422,20 +435,22 @@ namespace ya
 		{
 			if (mbRight)
 			{
+				mAnimator->Play(L"PlayerJumpRight", false);
 				Vector2 velocity = mRigidbody->GetVelocity();
 				velocity.y -= 800.0f;
 				mRigidbody->SetVelocity(velocity);
 				mRigidbody->SetGround(false);
-				mAnimator->Play(L"PlayerJumpRight", false);
+
 				mState = ePlayerState::Jump;
 			}
 			if (mbLeft)
 			{
+				mAnimator->Play(L"PlayerJumpLeft", false);
 				Vector2 velocity = mRigidbody->GetVelocity();
 				velocity.y -= 800.0f;
 				mRigidbody->SetVelocity(velocity);
 				mRigidbody->SetGround(false);
-				mAnimator->Play(L"PlayerJumpLeft", false);
+
 				mState = ePlayerState::Jump;
 			}
 		}
@@ -602,7 +617,6 @@ namespace ya
 			mRigidbody->SetVelocity(velocity);
 			mRigidbody->SetGround(false);
 
-
 			mPrevState = ePlayerState::Jump;
 			mState = ePlayerState::Dash;
 		}
@@ -615,18 +629,9 @@ namespace ya
 			mRigidbody->SetVelocity(velocity);
 			mRigidbody->SetGround(false);
 
-
 			mPrevState = ePlayerState::Jump;
 			mState = ePlayerState::Dash;
 		}
-
-		//if (Input::GetKey(eKeyCode::W)
-		//	|| Input::GetKey(eKeyCode::A)
-		//	|| Input::GetKey(eKeyCode::S)
-		//	|| Input::GetKey(eKeyCode::D))
-		//{
-		//	mState = ePlayerState::Move;
-		//}
 		tr->SetPos(pos);
 	}
 
@@ -666,4 +671,17 @@ namespace ya
 		//bullet->GetComponent<Transform>()->SetPos(tr->GetPos());
 		//curScene->AddGameObeject(bullet, eLayerType::Bullet);
 	}
+	//void Player::shoot()
+	//{
+	//	Transform* tr = GetComponent<Transform>();
+	//	if (Input::GetKey(eKeyCode::K))
+	//	{
+	//		object::Instantiate<BaseBullet>(Vector2(400.0f, 400.0f), eLayerType::Bullet);
+
+	//		/*Scene* curScene = SceneManager::GetActiveScene();
+	//		BaseBullet* bullet = new BaseBullet();
+	//		bullet->GetComponent<Transform>()->SetPos(tr->GetPos());
+	//		curScene->AddGameObeject(bullet, eLayerType::Bullet);*/
+	//	}
+	//}
 }

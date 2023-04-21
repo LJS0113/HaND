@@ -1,3 +1,4 @@
+#pragma once
 #include "yaBrad.h"
 #include "yaAnimator.h"
 #include "yaCollider.h"
@@ -39,7 +40,8 @@ namespace ya
 		mState = eBradState::Idle;
 
 		Collider* collider = AddComponent<Collider>();
-		collider->SetCenter(Vector2(-60.0f, -80.0f));
+		collider->SetCenter(Vector2(-80.0f, -200.0f));
+		collider->SetSize(Vector2(170.0f, 200.0f));
 
 		GameObject::Initialize();
 	}
