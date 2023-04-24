@@ -35,6 +35,7 @@ namespace ya
 
 		UINT rand;
 		float mTime;
+		float mAttackDelay;
 		bool mbLeft;
 		bool mbRight;
 	};

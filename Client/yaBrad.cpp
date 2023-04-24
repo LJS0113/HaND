@@ -13,6 +13,7 @@ namespace ya
 	Brad::Brad()
 		: mbLeft(true)
 		, mbRight(false)
+		, mAttackDelay(0.0f)
 	{
 	}
 
@@ -23,7 +24,7 @@ namespace ya
 	void Brad::Initialize()
 	{
 		mAnimator = AddComponent<Animator>();
-		
+
 		// Idle
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Idle\\Left", Vector2::Zero, 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Idle\\Right", Vector2::Zero, 0.1f);
@@ -44,9 +45,14 @@ namespace ya
 
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Fly_Stomp\\Right", Vector2::Zero, 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Fly_Stomp\\Left", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Fly_Stomp_To_Idle\\Right", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Fly_Stomp_To_Idle\\Left", Vector2::Zero, 0.1f);
+
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\SpinAir", Vector2::Zero, 0.1f);
+
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\End", Vector2::Zero, 0.1f);
 
 		mAnimator->Play(L"BradIntroIntro", false);
-
 
 		collider = AddComponent<Collider>();
 		collider->SetCenter(Vector2(-80.0f, -200.0f));
@@ -108,80 +114,109 @@ namespace ya
 		rand = (std::rand() % 3) + 1;
 
 		mTime += Time::DeltaTime();
-
-		// 몬스터가 플레이어보다 오른쪽에 있을때, 왼쪽을 바라보고 왼쪽으로 이동.
-		if (monsterPos.x > playerPos.x)
+		if (Input::GetKeyDown(eKeyCode::K))
 		{
-			mbLeft = true;
-			mbRight = false;
-			monsterPos.x -= 200 * Time::DeltaTime();
-			//mAnimator->Play(L"HungRunLeft", true);
+			mAnimator->Play(L"DiveLeftAnticipation", false);
+			monsterPos.y -= 200 * Time::DeltaTime();
 
-			if (mTime > 2.0f)
+			if (mAnimator->IsComplete())
 			{
-				switch (rand)
-				{
-				case 1:
-					mAnimator->Play(L"BradAttack1Left", false);
-
-					break;
-				case 2:
-					mAnimator->Play(L"BradDiveLeft", false);
-					collider->SetCenter(Vector2(-420.0f, -140.0f));
-					collider->SetSize(Vector2(320.0f, 140.0f));
-					break;
-				case 3:
-					mAnimator->Play(L"BradFly_StompLeft", false);
-					collider->SetCenter(Vector2(-330.0f, -230.0f));
-					collider->SetSize(Vector2(430.0f, 230.0f));
-					break;
-				default:
-					break;
-				}
-				mState = eBradState::Attack;
-				mTime = 0;
+				mAnimator->Play(L"DiveLeftLoop", false);
+				monsterPos.x -= 200 * Time::DeltaTime();
 			}
+			else
+				Sleep(2000);
 
-		}
-		// 몬스터가 플레이어보다 왼쪽에 있을 때, 오른쪽을 바라보고 오른쪽으로 이동.
-		if (monsterPos.x < playerPos.x)
-		{
-			monsterPos.x += 200 * Time::DeltaTime();
-			//mAnimator->Play(L"HungRunRight", true);
-			if (monsterPos.x > playerPos.x)
-				return;
-
-			if (mTime > 3.0f)
+			if (mAnimator->IsComplete())
 			{
-				switch (rand)
-				{
-				case 1:
-					mAnimator->Play(L"BradAttack1Right", false);
-					break;
-				case 2:
-					mAnimator->Play(L"BradDiveRight", false);
-					collider->SetCenter(Vector2(100.0f, -140.0f));
-					collider->SetSize(Vector2(320.0f, 140.0f));
-					break;
-				case 3:
-					mAnimator->Play(L"BradFly_StompRight", false);
-					collider->SetCenter(Vector2(-100.0f, -230.0f));
-					collider->SetSize(Vector2(430.0f, 230.0f));
-					break;
-				default:
-					break;
-				}
-				mState = eBradState::Attack;
-				mTime = 0;
+				mAnimator->Play(L"DiveLeftEnd", false);
+				monsterPos.y += 200 * Time::DeltaTime();
 			}
+			else
+				Sleep(2000);
 		}
+		//// 몬스터가 플레이어보다 오른쪽에 있을때, 왼쪽을 바라보고 왼쪽으로 이동.
+		//if (monsterPos.x > playerPos.x)
+		//{
+		//	mbLeft = true;
+		//	mbRight = false;
+		//	monsterPos.x -= 200 * Time::DeltaTime();
+		//	//mAnimator->Play(L"HungRunLeft", true);
 
-		tr->SetPos(monsterPos);
+		//	if (mTime > 2.0f)
+		//	{
+		//		switch (rand)
+		//		{
+		//		case 1:
+		//			mAnimator->Play(L"BradAttack1Left", false);
 
+		//			break;
+		//		case 2:
+		//			mAttackDelay += Time::DeltaTime();
+		//			mAnimator->Play(L"DiveLeftAnticipation", false);
+		//			monsterPos.y -= 200 * Time::DeltaTime();
+		//			if (mAttackDelay > 3.0f)
+		//			{
+		//				mAnimator->Play(L"DiveLeftLoop", false);
+		//				monsterPos.x -= 200 * Time::DeltaTime();
+		//				mAttackDelay = 0.0f;
+		//			}
+		//			if (mAttackDelay > 3.0f)
+		//			{
+		//				mAnimator->Play(L"DiveLeftEnd", false);
+		//				monsterPos.y += 200 * Time::DeltaTime();
+		//				mAttackDelay = 0.0f;
+		//			}
+		//			break;
+		//		case 3:
+		//			mAnimator->Play(L"BradFly_StompLeft", false);
+		//			collider->SetCenter(Vector2(-330.0f, -230.0f));
+		//			collider->SetSize(Vector2(430.0f, 230.0f));
+		//			break;
+		//		default:
+		//			break;
+		//		}
+		//		mState = eBradState::Attack;
+		//		mTime = 0;
+		//	}
 
+		//
+		//// 몬스터가 플레이어보다 왼쪽에 있을 때, 오른쪽을 바라보고 오른쪽으로 이동.
+		//if (monsterPos.x < playerPos.x)
+		//{
+		//	monsterPos.x += 200 * Time::DeltaTime();
+		//	//mAnimator->Play(L"HungRunRight", true);
+		//	if (monsterPos.x > playerPos.x)
+		//		return;
 
+		//	if (mTime > 3.0f)
+		//	{
+		//		switch (rand)
+		//		{
+		//		case 1:
+		//			mAnimator->Play(L"BradAttack1Right", false);
+		//			break;
+		//		case 2:
+		//			mAnimator->Play(L"DiveRightAnticipation", false);
+		//			if(mAnimator->IsComplete())
+		//				mAnimator->Play(L"DiveRightLoop", false);
+		//			if (mAnimator->IsComplete())
+		//				mAnimator->Play(L"DiveRightEnd", false);
+		//			break;
+		//		case 3:
+		//			mAnimator->Play(L"BradFly_StompRight", false);
+		//			collider->SetCenter(Vector2(-100.0f, -230.0f));
+		//			collider->SetSize(Vector2(430.0f, 230.0f));
+		//			break;
+		//		default:
+		//			break;
+		//		}
+		//		mState = eBradState::Attack;
+		//		mTime = 0;
+		//	}
+		//}
 
-
+		//tr->SetPos(monsterPos);
 
 
 
