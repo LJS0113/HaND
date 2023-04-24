@@ -146,7 +146,7 @@
     <ClInclude Include="yaBradV2Scene.h" />
     <ClInclude Include="yaCamera.h" />
     <ClInclude Include="yaCollider.h" />
-    <ClInclude Include="yaColliderObj.h" />
+    <ClInclude Include="yaCollider2.h" />
     <ClInclude Include="yaCollisionManager.h" />
     <ClInclude Include="yaElevator.h" />
     <ClInclude Include="yaGround.h" />
@@ -199,7 +199,7 @@
     <ClCompile Include="yaBradV2Scene.cpp" />
     <ClCompile Include="yaCamera.cpp" />
     <ClCompile Include="yaCollider.cpp" />
-    <ClCompile Include="yaColliderObj.cpp" />
+    <ClCompile Include="yaCollider2.cpp" />
     <ClCompile Include="yaCollisionManager.cpp" />
     <ClCompile Include="yaElevator.cpp" />
     <ClCompile Include="yaGround.cpp" />

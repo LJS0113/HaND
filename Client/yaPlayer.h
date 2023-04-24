@@ -1,6 +1,6 @@
 #pragma once
 #include "yaGameObject.h"
-#include "yaColliderObj.h"
+#include "yaCollider2.h"
 
 namespace ya
 {
@@ -33,6 +33,9 @@ namespace ya
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
 		
+		virtual void OnCollisionEnter2(class Collider2* other) override;
+		virtual void OnCollisionStay2(class Collider2* other) override;
+		virtual void OnCollisionExit2(class Collider2* other) override;
 
 	private:
 		void move();
@@ -49,7 +52,7 @@ namespace ya
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
 		Collider* collider;
-		ColliderObj* colliderObj;
+		Collider2* collider2;
 
 		UINT attackCount;
 		float mTime;

@@ -1,6 +1,7 @@
 #include "yaLoading.h"
 #include "yaTransform.h"
 #include "yaAnimator.h"
+#include "yaSceneManager.h"
 
 namespace ya
 {
@@ -17,17 +18,10 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		tr->SetScale(Vector2(2.0f, 2.0f));
 
-		//mImage = Resources::Load<Image>(L"TitlePlayer", L"..\\Resources\\HaND_Resource\\Title_Player_tea.bmp");
-		//mAnimator = AddComponent<Animator>();
-		//mAnimator->CreateAnimation(L"Idle", mImage, Vector2(0.0f, 0.0f), 9, 1, 9, Vector2(30.0f, 30.0f), 0.1f);
-
-		//mAnimator->Play(L"Idle", true);
-
-
 		mAnimator = AddComponent<Animator>();
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Loading", Vector2(-100.0f, -100.0f), 0.1f);
-		mAnimator->Play(L"ResourcesHaND_ResourceLoading", true);
-
+		
+		mAnimator->Play(L"ResourcesHaND_ResourceLoading", false);
 
 		GameObject::Initialize();
 	}
@@ -35,6 +29,10 @@ namespace ya
 	void Loading::Update()
 	{
 		GameObject::Update();
+		if (mAnimator->IsComplete())
+		{
+			SceneManager::LoadScene(eSceneType::Play);
+		}
 	}
 
 	void Loading::Render(HDC hdc)

@@ -22,6 +22,6 @@ namespace ya
 
 	private:
 		Image* mBgImage;
-
+		Hung* hung;
 	};
 }

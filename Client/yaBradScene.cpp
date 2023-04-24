@@ -9,7 +9,7 @@
 #include "yaResources.h"
 #include "yaBGImageObject.h"
 #include "yaPlayer.h"
-
+#include "yaCollisionManager.h"
 
 namespace ya
 {
@@ -28,10 +28,10 @@ namespace ya
 		//mBgImage = Resources::Load<Image>(L"BradBG", L"..\\Resources\\HaND_Resource\\Map\\BradBG.bmp");
 		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		bgImage->SetImage(L"BradBG", L"BradBG.bmp");
-		Brad* brad = object::Instantiate<Brad>(Vector2(800.0f, 650.0f), eLayerType::Monster);
+		Brad* brad = object::Instantiate<Brad>(Vector2(1300.0f, 850.0f), eLayerType::Monster);
 		this->AddGameObeject(gPlayer, eLayerType::Player);
 
-		Ground* ground = object::Instantiate<Ground>(Vector2(0.0f, 0.0f), eLayerType::Ground);
+		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
 		ground->SetPlayer(gPlayer);
 
 		Scene::Initialize();
@@ -60,6 +60,8 @@ namespace ya
 
 	void BradScene::OnEnter()
 	{
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 	}
 
 	void BradScene::OnExit()

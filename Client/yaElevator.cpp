@@ -3,6 +3,11 @@
 #include "yaAnimator.h"
 #include "yaTransform.h"
 #include "yaCollider.h"
+#include "yaInput.h"
+#include "yaSceneManager.h"
+#include "yaPlayer.h"
+
+extern ya::Player* gPlayer;
 
 namespace ya
 {
@@ -42,6 +47,30 @@ namespace ya
 	void Elevator::Release()
 	{
 		GameObject::Release();
+	}
+
+	void Elevator::OnCollisionEnter(Collider* other)
+	{
+
+	}
+
+	void Elevator::OnCollisionStay(Collider* other)
+	{
+		if (Input::GetKeyDown(eKeyCode::F))
+		{
+			gPlayer->GetComponent<Animator>()->Play(L"PlayerElevatorIn", false);
+		}
+		if (gPlayer->GetComponent<Animator>()->IsComplete())
+		{
+			SceneManager::LoadScene(eSceneType::Hung);
+			Transform* tr = gPlayer->GetComponent<Transform>();
+			tr->SetPos(Vector2(100.0f, 900.0f));
+			gPlayer->GetComponent<Animator>()->Play(L"PlayerIdleRight", true);
+		}
+	}
+
+	void Elevator::OnCollisionExit(Collider* other)
+	{
 	}
 
 }

@@ -12,7 +12,7 @@
 #include "yaScene.h"
 #include "yaObject.h"
 #include "yaRigidbody.h"
-#include "yaColliderObj.h"
+#include "yaCollider2.h"
 
 
 namespace ya
@@ -33,7 +33,7 @@ namespace ya
 	{
 		Transform* tr = GetComponent<Transform>();
 		mAnimator = AddComponent<Animator>();
-		//colliderObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+
 
 		// Idle
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Idle\\Right", Vector2::Zero, 0.1f);
@@ -71,10 +71,12 @@ namespace ya
 		mAnimator->Play(L"PlayerIdleRight", true);
 
 		collider = AddComponent<Collider>();
-
+		collider->SetCenter(Vector2(0.0f, 0.0f));
 		collider->SetCenter(Vector2(-50.0f, -130.0f));
 		collider->SetSize(Vector2(90.0f, 110.0f));
 
+		collider2 = AddComponent<Collider2>();
+		
 		mRigidbody = AddComponent<Rigidbody>();
 		mRigidbody->SetMass(1.0f);
 
@@ -112,6 +114,7 @@ namespace ya
 			break;
 		}
 
+
 	}
 
 	void Player::Render(HDC hdc)
@@ -129,22 +132,25 @@ namespace ya
 
 	void Player::OnCollisionStay(Collider* other)
 	{
-		if (Input::GetKeyDown(eKeyCode::F))
-		{
-			mAnimator->Play(L"PlayerElevatorIn", false);
-		}
-		if (mAnimator->IsComplete())
-		{
-			SceneManager::LoadScene(eSceneType::Hung);
-			Transform* tr = GetComponent<Transform>();
-			tr->SetPos(Vector2(100.0f, 700.0f));
-			mAnimator->Play(L"PlayerIdleRight", true);
-		}
+
 	}
 
 	void Player::OnCollisionExit(Collider* other)
 	{
 
+	}
+
+	void Player::OnCollisionEnter2(Collider2* other)
+	{
+		int a = 0;
+	}
+
+	void Player::OnCollisionStay2(Collider2* other)
+	{
+	}
+
+	void Player::OnCollisionExit2(Collider2* other)
+	{
 	}
 
 	void Player::move()
@@ -162,8 +168,6 @@ namespace ya
 				Vector2 velocity = mRigidbody->GetVelocity();
 				mAnimator->Play(L"PlayerDashLeft", false);
 				pos.x -= 300.0f;
-				mRigidbody->SetVelocity(velocity);
-				mRigidbody->SetGround(false);
 				mPrevState = ePlayerState::Move;
 				mState = ePlayerState::Dash;
 
@@ -222,8 +226,6 @@ namespace ya
 				Vector2 velocity = mRigidbody->GetVelocity();
 				mAnimator->Play(L"PlayerDashRight", false);
 				pos.x += 300.0f;
-				mRigidbody->SetVelocity(velocity);
-				mRigidbody->SetGround(false);
 
 
 				mPrevState = ePlayerState::Move;
@@ -323,14 +325,14 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack1Left", false);
-					collider->SetCenter(Vector2(-220.0f, -90.0f));
-					collider->SetSize(Vector2(200.0f, 90.0f));
+					collider2->SetCenter(Vector2(-220.0f, -90.0f));
+					collider2->SetSize(Vector2(200.0f, 90.0f));
 				}
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack1Right", false);
-					collider->SetCenter(Vector2(20.0f, -90.0f));
-					collider->SetSize(Vector2(200.0f, 90.0f));
+					collider2->SetCenter(Vector2(20.0f, -90.0f));
+					collider2->SetSize(Vector2(200.0f, 90.0f));
 				}
 			}
 			if (attackCount == 2)
@@ -338,14 +340,14 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack2Left", false);
-					collider->SetCenter(Vector2(-130.0f, -220.0f));
-					collider->SetSize(Vector2(100.0f, 220.0f));
+					collider2->SetCenter(Vector2(-130.0f, -220.0f));
+					collider2->SetSize(Vector2(100.0f, 220.0f));
 				}
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack2Right", false);
-					collider->SetCenter(Vector2(20.0f, -220.0f));
-					collider->SetSize(Vector2(100.0f, 220.0f));
+					collider2->SetCenter(Vector2(20.0f, -220.0f));
+					collider2->SetSize(Vector2(100.0f, 220.0f));
 				}
 			}
 			if (attackCount == 3)
@@ -353,14 +355,14 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack3Left", false);
-					collider->SetCenter(Vector2(-180.0f, -300.0f));
-					collider->SetSize(Vector2(180.0f, 300.0f));
+					collider2->SetCenter(Vector2(-180.0f, -300.0f));
+					collider2->SetSize(Vector2(180.0f, 300.0f));
 				}
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack3Right", false);
-					collider->SetCenter(Vector2(0.0f, -300.0f));
-					collider->SetSize(Vector2(180.0f, 300.0f));
+					collider2->SetCenter(Vector2(0.0f, -300.0f));
+					collider2->SetSize(Vector2(180.0f, 300.0f));
 				}
 			}
 			if (attackCount == 4)
@@ -368,14 +370,14 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack4Left", false);
-					collider->SetCenter(Vector2(-240.0f, -390.0f));
-					collider->SetSize(Vector2(240.0f, 390.0f));
+					collider2->SetCenter(Vector2(-240.0f, -390.0f));
+					collider2->SetSize(Vector2(240.0f, 390.0f));
 				}
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack4Right", false);
-					collider->SetCenter(Vector2(0.0f, -390.0f));
-					collider->SetSize(Vector2(240.0f, 390.0f));
+					collider2->SetCenter(Vector2(0.0f, -390.0f));
+					collider2->SetSize(Vector2(240.0f, 390.0f));
 				}
 			}
 			mState = ePlayerState::Attack;
@@ -388,7 +390,6 @@ namespace ya
 	}
 	void Player::idle()
 	{
-
 		collider->SetCenter(Vector2(-50.0f, -130.0f));
 		collider->SetSize(Vector2(90.0f, 110.0f));
 
@@ -463,8 +464,6 @@ namespace ya
 			{
 				mAnimator->Play(L"PlayerDashRight", false);
 				pos.x += 300.0f;
-				mRigidbody->SetVelocity(velocity);
-				mRigidbody->SetGround(false);
 
 				mPrevState = ePlayerState::Idle;
 				mState = ePlayerState::Dash;
@@ -473,8 +472,6 @@ namespace ya
 			{
 				mAnimator->Play(L"PlayerDashLeft", false);
 				pos.x -= 300.0f;
-				mRigidbody->SetVelocity(velocity);
-				mRigidbody->SetGround(false);
 
 				mPrevState = ePlayerState::Idle;
 				mState = ePlayerState::Dash;
@@ -494,14 +491,14 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack1Left", false);
-					collider->SetCenter(Vector2(-220.0f, -90.0f));
-					collider->SetSize(Vector2(200.0f, 90.0f));
+					collider2->SetCenter(Vector2(-220.0f, -90.0f));
+					collider2->SetSize(Vector2(200.0f, 90.0f));
 				}
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack1Right", false);
-					collider->SetCenter(Vector2(20.0f, -90.0f));
-					collider->SetSize(Vector2(200.0f, 90.0f));
+					collider2->SetCenter(Vector2(20.0f, -90.0f));
+					collider2->SetSize(Vector2(200.0f, 90.0f));
 				}
 			}
 			if (attackCount == 2)
@@ -509,14 +506,14 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack2Left", false);
-					collider->SetCenter(Vector2(-130.0f, -220.0f));
-					collider->SetSize(Vector2(100.0f, 220.0f));
+					collider2->SetCenter(Vector2(-130.0f, -220.0f));
+					collider2->SetSize(Vector2(100.0f, 220.0f));
 				}
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack2Right", false);
-					collider->SetCenter(Vector2(20.0f, -220.0f));
-					collider->SetSize(Vector2(100.0f, 220.0f));
+					collider2->SetCenter(Vector2(20.0f, -220.0f));
+					collider2->SetSize(Vector2(100.0f, 220.0f));
 				}
 			}
 			if (attackCount == 3)
@@ -524,14 +521,14 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack3Left", false);
-					collider->SetCenter(Vector2(-180.0f, -300.0f));
-					collider->SetSize(Vector2(180.0f, 300.0f));
+					collider2->SetCenter(Vector2(-180.0f, -300.0f));
+					collider2->SetSize(Vector2(180.0f, 300.0f));
 				}
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack3Right", false);
-					collider->SetCenter(Vector2(0.0f, -300.0f));
-					collider->SetSize(Vector2(180.0f, 300.0f));
+					collider2->SetCenter(Vector2(0.0f, -300.0f));
+					collider2->SetSize(Vector2(180.0f, 300.0f));
 				}
 			}
 			if (attackCount == 4)
@@ -539,14 +536,14 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack4Left", false);
-					collider->SetCenter(Vector2(-240.0f, -390.0f));
-					collider->SetSize(Vector2(240.0f, 390.0f));
+					collider2->SetCenter(Vector2(-240.0f, -390.0f));
+					collider2->SetSize(Vector2(240.0f, 390.0f));
 				}
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack4Right", false);
-					collider->SetCenter(Vector2(0.0f, -390.0f));
-					collider->SetSize(Vector2(240.0f, 390.0f));
+					collider2->SetCenter(Vector2(0.0f, -390.0f));
+					collider2->SetSize(Vector2(240.0f, 390.0f));
 				}
 			}
 			mState = ePlayerState::Attack;
@@ -641,25 +638,27 @@ namespace ya
 		if (attackCount > 4)
 			attackCount = 1;
 
-		if (Input::GetKey(eKeyCode::W)
-			|| Input::GetKey(eKeyCode::A)
-			|| Input::GetKey(eKeyCode::S)
-			|| Input::GetKey(eKeyCode::D))
-		{
-			mState = ePlayerState::Move;
-		}
-
 		if (mAnimator->IsComplete() && mbLeft)
 		{
+			collider2->SetSize((Vector2::Zero));
 			mAnimator->Play(L"PlayerIdleLeft", true);
 			mState = ePlayerState::Idle;
 		}
 		if (mAnimator->IsComplete() && mbRight)
 		{
+			collider2->SetSize((Vector2::Zero));
 			mAnimator->Play(L"PlayerIdleRight", true);
 			mState = ePlayerState::Idle;
 		}
 
+		if (Input::GetKey(eKeyCode::W)
+			|| Input::GetKey(eKeyCode::A)
+			|| Input::GetKey(eKeyCode::S)
+			|| Input::GetKey(eKeyCode::D))
+		{
+			collider2->SetSize((Vector2::Zero));
+			mState = ePlayerState::Move;
+		}
 	}
 
 	void Player::idleCompleteEvent(/*const Player* this*/)

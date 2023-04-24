@@ -7,8 +7,9 @@
 #include "yaResources.h"
 #include "yaImage.h"
 #include "yaMonster.h"
+#include "yaApplication.h"
 
-class ya::Player;
+extern ya::Application application;
 
 namespace ya
 {
@@ -23,6 +24,7 @@ namespace ya
 	void Ground::Initialize()
 	{
 		mCollider = AddComponent<Collider>();
+		mCollider->SetSize(Vector2(3000.0f, 100.0f));
 
 		mImage = Resources::Load<Image>(L"Ground", L"..\\Resources\\TitleGround.bmp");
 
@@ -33,23 +35,23 @@ namespace ya
 	{
 		GameObject::Update();
 
-		Transform* playerTr = mPlayer->GetComponent<Transform>();
+		//Transform* playerTr = gPlayer->GetComponent<Transform>();
 
-		COLORREF color = mImage->GetPixel(playerTr->GetPos().x, playerTr->GetPos().y);
+		//COLORREF color = mImage->GetPixel(playerTr->GetPos().x, playerTr->GetPos().y);
 
-		Rigidbody* rb = mPlayer->GetComponent<Rigidbody>();
-		if (color == RGB(255, 0, 255))
-		{
-			rb->SetGround(true);
+		//Rigidbody* rb = gPlayer->GetComponent<Rigidbody>();
+		//if (color == RGB(255, 0, 255))
+		//{
+		//	rb->SetGround(true);
 
-			Vector2 pos = playerTr->GetPos();
-			pos.y -= 1;
-			playerTr->SetPos(pos);
-		}
-		else
-		{
-			rb->SetGround(false);
-		}
+		//	Vector2 pos = playerTr->GetPos();
+		//	pos.y -= 1;
+		//	playerTr->SetPos(pos);
+		//}
+		//else
+		//{
+		//	rb->SetGround(false);
+		//}
 
 	}
 
@@ -60,7 +62,7 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 
 		TransparentBlt(hdc, tr->GetPos().x, tr->GetPos().y
-			, mImage->GetWidth(), mImage->GetHeight()
+			, application.GetWidth(), application.GetHeight()
 			, mImage->GetHdc()
 			, 0, 0
 			, mImage->GetWidth(), mImage->GetHeight()
@@ -115,7 +117,12 @@ namespace ya
 		std::wstring path = L"..\\Resources\\";
 		path += fileName;
 
-		mImage = Resources::Load<Image>(L"BossGround", path);
+		mImage = Resources::Load<Image>(key, path);
+	}
+
+	void Ground::SetSize(Vector2 size)
+	{
+		mCollider->SetSize(size);
 	}
 
 }

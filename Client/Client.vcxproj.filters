@@ -253,7 +253,7 @@
     <ClInclude Include="yaHungAS.h">
       <Filter>Contents\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="yaColliderObj.h">
+    <ClInclude Include="yaCollider2.h">
       <Filter>Contents\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
@@ -409,7 +409,7 @@
     <ClCompile Include="yaHungAS.cpp">
       <Filter>Contents\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="yaColliderObj.cpp">
+    <ClCompile Include="yaCollider2.cpp">
       <Filter>Contents\Bullet</Filter>
     </ClCompile>
   </ItemGroup>

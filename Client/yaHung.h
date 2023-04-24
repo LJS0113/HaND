@@ -11,6 +11,7 @@ namespace ya
 	public:
 		enum class eHungState
 		{
+			None,
 			Move,
 			Death,
 			Idle,

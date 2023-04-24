@@ -39,10 +39,10 @@ namespace ya
 		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		bgImage->SetImage(L"LobbyBG", L"LobbyBG.bmp");
 
-		Elevator* elevator = object::Instantiate<Elevator>(Vector2(1300.0f, 700.0f), eLayerType::Elevator);
-		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 700.0f), eLayerType::Player);
+		Elevator* elevator = object::Instantiate<Elevator>(Vector2(1300.0f, 800.0f), eLayerType::Elevator);
+		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 100.0f), eLayerType::Player);
 
-		Ground* ground = object::Instantiate<Ground>(Vector2(0.0f, 0.0f), eLayerType::Ground);
+		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 700.0f), eLayerType::Ground);
 		ground->SetPlayer(gPlayer);
 
 	}
@@ -50,6 +50,10 @@ namespace ya
 	void PlayeScene::Update()
 	{
 		Scene::Update();
+		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+		{
+			SceneManager::LoadScene(eSceneType::Hung);
+		}
 	}
 
 	void PlayeScene::Render(HDC hdc)
@@ -65,7 +69,6 @@ namespace ya
 	{
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Elevator, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
-
 
 	}
 	void PlayeScene::OnExit()

@@ -21,6 +21,7 @@ namespace ya
 
 		void SetPlayer(class Player* player) { mPlayer = player; }
 		void SetImage(const std::wstring& key, const std::wstring& fileName);
+		void SetSize(Vector2 size);
 
 	private:
 		class Collider* mCollider;

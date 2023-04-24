@@ -1,5 +1,7 @@
 #include "yaGameObject.h"
 #include "yaTransform.h"
+#include "yaCollider.h"
+#include "yaCollider2.h"
 
 namespace ya
 {
@@ -64,5 +66,17 @@ namespace ya
 	}
 	void GameObject::OnCollisionExit(Collider* other)
 	{
+	}
+	void GameObject::OnCollisionEnter2(Collider2* other)
+	{
+		OnCollisionEnter(dynamic_cast<Collider*>(other));
+	}
+	void GameObject::OnCollisionStay2(Collider2* other)
+	{
+		OnCollisionStay(dynamic_cast<Collider*>(other));
+	}
+	void GameObject::OnCollisionExit2(Collider2* other)
+	{
+		OnCollisionExit(dynamic_cast<Collider*>(other));
 	}
 }

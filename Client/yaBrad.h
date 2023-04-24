@@ -10,7 +10,6 @@ namespace ya
 	public:
 		enum class eBradState
 		{
-			Move,
 			Death,
 			Idle,
 			Attack,
@@ -24,7 +23,6 @@ namespace ya
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
 
-		void move();
 		void death();
 		void idle();
 		void attack();
@@ -33,6 +31,7 @@ namespace ya
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
 		eBradState mState;
+		Collider* collider;
 
 		UINT rand;
 		float mTime;

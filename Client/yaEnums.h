@@ -24,7 +24,7 @@ enum class eLayerType
 	Elevator,
 	Monster,
 	Player,
-	ColliderObj,
+	Collider2,
 	HungAS,
 	Effect,
 
@@ -38,6 +38,7 @@ enum class eComponentType
 	SpriteRenderer,
 	Animator,
 	Collider,
+	Collider2,
 	Rigidbody,
 	Audio,
 	End,

@@ -22,8 +22,8 @@ namespace ya
 		mAnimator->Play(L"HungAttackSpecialFX", false);
 
 		collider = AddComponent<Collider>();
-		collider->SetCenter(Vector2(-15.0f, -1000.0f));
-		collider->SetSize(Vector2(35.0f, 1000.0f));
+		collider->SetCenter(Vector2(-15.0f, -1400.0f));
+		collider->SetSize(Vector2(35.0f, 1200.0f));
 
 		GameObject::Initialize();
 	}
