@@ -40,7 +40,7 @@ namespace ya
 		bgImage->SetImage(L"LobbyBG", L"LobbyBG.bmp");
 
 		Elevator* elevator = object::Instantiate<Elevator>(Vector2(1300.0f, 800.0f), eLayerType::Elevator);
-		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 100.0f), eLayerType::Player);
+		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 800.0f), eLayerType::Player);
 
 		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 700.0f), eLayerType::Ground);
 		ground->SetPlayer(gPlayer);

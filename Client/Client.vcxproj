@@ -147,7 +147,9 @@
     <ClInclude Include="yaCamera.h" />
     <ClInclude Include="yaCollider.h" />
     <ClInclude Include="yaCollider2.h" />
+    <ClInclude Include="yaColliderObj.h" />
     <ClInclude Include="yaCollisionManager.h" />
+    <ClInclude Include="yaDesk.h" />
     <ClInclude Include="yaElevator.h" />
     <ClInclude Include="yaGround.h" />
     <ClInclude Include="yaHung.h" />
@@ -178,6 +180,7 @@
     <ClInclude Include="yaSceneManager.h" />
     <ClInclude Include="yaSound.h" />
     <ClInclude Include="yaSoundManager.h" />
+    <ClInclude Include="yaStone.h" />
     <ClInclude Include="yaTile.h" />
     <ClInclude Include="yaTilePalatte.h" />
     <ClInclude Include="yaTime.h" />
@@ -200,7 +203,9 @@
     <ClCompile Include="yaCamera.cpp" />
     <ClCompile Include="yaCollider.cpp" />
     <ClCompile Include="yaCollider2.cpp" />
+    <ClCompile Include="yaColliderObj.cpp" />
     <ClCompile Include="yaCollisionManager.cpp" />
+    <ClCompile Include="yaDesk.cpp" />
     <ClCompile Include="yaElevator.cpp" />
     <ClCompile Include="yaGround.cpp" />
     <ClCompile Include="yaHung.cpp" />
@@ -227,6 +232,7 @@
     <ClCompile Include="yaSceneManager.cpp" />
     <ClCompile Include="yaSound.cpp" />
     <ClCompile Include="yaSoundManager.cpp" />
+    <ClCompile Include="yaStone.cpp" />
     <ClCompile Include="yaTile.cpp" />
     <ClCompile Include="yaTilePalatte.cpp" />
     <ClCompile Include="yaTime.cpp" />

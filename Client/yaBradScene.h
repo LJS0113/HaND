@@ -22,5 +22,6 @@ namespace ya
 
 	private:
 		Image* mBgImage;
+		float mTime;
 	};
 }

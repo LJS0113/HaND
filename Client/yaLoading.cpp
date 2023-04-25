@@ -19,7 +19,7 @@ namespace ya
 		tr->SetScale(Vector2(2.0f, 2.0f));
 
 		mAnimator = AddComponent<Animator>();
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Loading", Vector2(-100.0f, -100.0f), 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Loading", Vector2(-100.0f, -100.0f), 0.05f);
 		
 		mAnimator->Play(L"ResourcesHaND_ResourceLoading", false);
 

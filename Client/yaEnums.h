@@ -24,8 +24,9 @@ enum class eLayerType
 	Elevator,
 	Monster,
 	Player,
-	Collider2,
+	Collider,
 	HungAS,
+	Stone,
 	Effect,
 
 	UI,

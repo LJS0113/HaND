@@ -13,7 +13,7 @@
 #include "yaObject.h"
 #include "yaRigidbody.h"
 #include "yaCollider2.h"
-
+#include "yaColliderObj.h"
 
 namespace ya
 {
@@ -71,7 +71,6 @@ namespace ya
 		mAnimator->Play(L"PlayerIdleRight", true);
 
 		collider = AddComponent<Collider>();
-		collider->SetCenter(Vector2(0.0f, 0.0f));
 		collider->SetCenter(Vector2(-50.0f, -130.0f));
 		collider->SetSize(Vector2(90.0f, 110.0f));
 
@@ -113,8 +112,6 @@ namespace ya
 		default:
 			break;
 		}
-
-
 	}
 
 	void Player::Render(HDC hdc)
@@ -138,19 +135,6 @@ namespace ya
 	void Player::OnCollisionExit(Collider* other)
 	{
 
-	}
-
-	void Player::OnCollisionEnter2(Collider2* other)
-	{
-		int a = 0;
-	}
-
-	void Player::OnCollisionStay2(Collider2* other)
-	{
-	}
-
-	void Player::OnCollisionExit2(Collider2* other)
-	{
 	}
 
 	void Player::move()
@@ -491,14 +475,16 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack1Left", false);
-					collider2->SetCenter(Vector2(-220.0f, -90.0f));
-					collider2->SetSize(Vector2(200.0f, 90.0f));
+					collider3 = object::Instantiate<ColliderObj>(Vector2(0.0f, 0.0f), eLayerType::Collider)->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-220.0f, -90.0f));
+					collider3->SetSize(Vector2(200.0f, 90.0f));
 				}
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack1Right", false);
-					collider2->SetCenter(Vector2(20.0f, -90.0f));
-					collider2->SetSize(Vector2(200.0f, 90.0f));
+					collider3 = object::Instantiate<ColliderObj>(Vector2(0.0f, 0.0f), eLayerType::Collider)->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(20.0f, -90.0f));
+					collider3->SetSize(Vector2(200.0f, 90.0f));
 				}
 			}
 			if (attackCount == 2)

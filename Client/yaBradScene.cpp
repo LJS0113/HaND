@@ -10,11 +10,15 @@
 #include "yaBGImageObject.h"
 #include "yaPlayer.h"
 #include "yaCollisionManager.h"
+#include "yaDesk.h"
+#include "yaTime.h"
 
 namespace ya
 {
 	BradScene::BradScene()
+		: mTime(0.0f)
 	{
+
 	}
 
 	BradScene::~BradScene()
@@ -29,7 +33,8 @@ namespace ya
 		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		bgImage->SetImage(L"BradBG", L"BradBG.bmp");
 		Brad* brad = object::Instantiate<Brad>(Vector2(1300.0f, 850.0f), eLayerType::Monster);
-		this->AddGameObeject(gPlayer, eLayerType::Player);
+		Desk* desk = object::Instantiate<Desk>(Vector2(1300.0f, 850.0f), eLayerType::BG);
+		gPlayer = object::Instantiate<Player>(Vector2(1300.0f, 850.0f), eLayerType::Player);
 
 		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
 		ground->SetPlayer(gPlayer);
@@ -44,12 +49,11 @@ namespace ya
 			SceneManager::LoadScene(eSceneType::BradV2);
 		}	
 		Scene::Update();
+
 	}
 
 	void BradScene::Render(HDC hdc)
 	{
-
-
 		Scene::Render(hdc);
 	}
 

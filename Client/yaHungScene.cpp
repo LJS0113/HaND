@@ -32,7 +32,7 @@ namespace ya
 		bgImage->SetImage(L"HungBG", L"HungBG.bmp");
 
 		hung = object::Instantiate<Hung>(Vector2(1300.0f, 850.0f), eLayerType::Monster);
-		this->AddGameObeject(gPlayer, eLayerType::Player);
+		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 850.0f), eLayerType::Player);
 	
 		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
 		//ground->SetImage(L"BossGround", L"HungBG_Ground.bmp");

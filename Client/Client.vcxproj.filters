@@ -256,6 +256,15 @@
     <ClInclude Include="yaCollider2.h">
       <Filter>Contents\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="yaStone.h">
+      <Filter>Contents\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="yaDesk.h">
+      <Filter>Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="yaColliderObj.h">
+      <Filter>Engine\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -411,6 +420,15 @@
     </ClCompile>
     <ClCompile Include="yaCollider2.cpp">
       <Filter>Contents\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="yaStone.cpp">
+      <Filter>Contents\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="yaDesk.cpp">
+      <Filter>Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="yaColliderObj.cpp">
+      <Filter>Engine\Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

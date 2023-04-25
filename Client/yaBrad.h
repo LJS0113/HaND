@@ -10,9 +10,15 @@ namespace ya
 	public:
 		enum class eBradState
 		{
+			Move,
 			Death,
 			Idle,
 			Attack,
+			DiveAttack,
+			Attack1,
+			Fly,
+			SpinAir,
+			FlyToIdle,
 		};
 
 		Brad();
@@ -26,6 +32,13 @@ namespace ya
 		void death();
 		void idle();
 		void attack();
+		void move();
+		void diveAttack();
+		void attack1();
+		void fly();
+
+		void spinAir();
+		void flyToIdle();
 
 	private:
 		Animator* mAnimator;
@@ -36,7 +49,12 @@ namespace ya
 		UINT rand;
 		float mTime;
 		float mAttackDelay;
+		float mflyTime;
+		float mfallingTime;
 		bool mbLeft;
 		bool mbRight;
+		bool mbStoneLeft;
+		bool mbStoneRight;
+
 	};
 }

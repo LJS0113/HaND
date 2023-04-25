@@ -20,10 +20,10 @@ namespace ya
 		tr->SetScale(Vector2(1.0f, 1.0f));
 
 		mAnimator = AddComponent<Animator>();
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Logo\\TitlePlayer\\HomeScreenHead", Vector2(0.0f, 0.0f), 0.05f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Logo\\TitlePlayer\\HomeScreenBody", Vector2(0.0f, 0.0f), 0.05f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Logo\\TitlePlayer\\HomeScreenArm", Vector2(0.0f, 0.0f), 0.05f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Logo\\TitlePlayer\\HomeScreenWeapon", Vector2(0.0f, 0.0f), 0.05f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Logo\\TitlePlayer\\HomeScreenHead", Vector2(0.0f, 0.0f), 0.03f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Logo\\TitlePlayer\\HomeScreenBody", Vector2(0.0f, 0.0f), 0.03f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Logo\\TitlePlayer\\HomeScreenArm", Vector2(0.0f, 0.0f), 0.03f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Logo\\TitlePlayer\\HomeScreenWeapon", Vector2(0.0f, 0.0f), 0.03f);
 		mAnimator->Play(L"LogoTitlePlayerHomeScreenHead", true);
 
 		GameObject::Initialize();

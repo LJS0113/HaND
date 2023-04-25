@@ -26,10 +26,6 @@ namespace ya
 		virtual void OnCollisionStay(class Collider* other);
 		virtual void OnCollisionExit(class Collider* other);
 
-		virtual void OnCollisionEnter2(class Collider2* other);
-		virtual void OnCollisionStay2(class Collider2* other);
-		virtual void OnCollisionExit2(class Collider2* other);
-
 		template <typename T>
 		T* AddComponent()
 		{
