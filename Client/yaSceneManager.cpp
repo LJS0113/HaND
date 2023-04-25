@@ -31,13 +31,14 @@ namespace ya
 		mScenes[(UINT)eSceneType::Waldo] = new WaldoScene();
 		mScenes[(UINT)eSceneType::Tool] = new ToolScene();
 		
-		for ( Scene* scene : mScenes )
-		{
-			if (scene == nullptr)
-				continue;
+		//for ( Scene* scene : mScenes )
+		//{
+		//	if (scene == nullptr)
+		//		continue;
 
-			scene->Initialize();
-		}
+		//	scene->Initialize();
+		//}
+		mScenes[(UINT)eSceneType::Title]->Initialize();
 
 		mActiveScene = mScenes[(UINT)eSceneType::Title];
 	}
@@ -79,8 +80,7 @@ namespace ya
 		CollisionManager::Clear();
 		//´ÙÀ½¾À
 		mActiveScene = mScenes[(UINT)type];
+		mActiveScene->Initialize();
 		mActiveScene->OnEnter();
-
-		
 	}
 }

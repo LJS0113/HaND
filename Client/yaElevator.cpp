@@ -51,14 +51,14 @@ namespace ya
 
 	void Elevator::OnCollisionEnter(Collider* other)
 	{
-
 	}
 
 	void Elevator::OnCollisionStay(Collider* other)
 	{
 		if (Input::GetKeyDown(eKeyCode::F))
 		{
-			gPlayer->GetComponent<Animator>()->Play(L"PlayerElevatorIn", false);
+			//Vector2 pos = gPlayer->GetComponent<Transform>()->GetPos();
+ 			gPlayer->GetComponent<Animator>()->Play(L"PlayerElevatorIn", false);
 		}
 		if (gPlayer->GetComponent<Animator>()->IsComplete())
 		{

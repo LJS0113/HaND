@@ -17,6 +17,7 @@
 #include "yaElevator.h"
 
 extern ya::Application application;
+extern ya::Player* gPlayer;
 
 namespace ya
 {
@@ -53,6 +54,7 @@ namespace ya
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			SceneManager::LoadScene(eSceneType::Hung);
+			//SceneManager::GetActiveScene()->Initialize();
 		}
 	}
 
@@ -73,6 +75,5 @@ namespace ya
 	}
 	void PlayeScene::OnExit()
 	{
-		//mPlayer->SetPos(Vector2{ 0.0f, 0.0f });
 	}
 }

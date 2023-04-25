@@ -7,6 +7,9 @@
 #include "yaImage.h"
 #include "yaBGImageObject.h"
 #include "yaPlayer.h"
+#include "yaCollisionManager.h"
+
+extern ya::Player* gPlayer;
 
 namespace ya
 {
@@ -21,14 +24,16 @@ namespace ya
 	void BradV2Scene::Initialize()
 	{
 		Scene::Initialize();
+
 		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
-		//BGImageObject* bgImage = new BGImageObject();
 		bgImage->SetImage(L"BradBG", L"BradBG.bmp");
-		//mBgImage = Resources::Load<Image>(L"BradBG", L"..\\Resources\\HaND_Resource\\Map\\BradBG.bmp");
-		gPlayer = object::Instantiate<Player>(Vector2(800.0f, 650.0f), eLayerType::Player);
+		
+		//AddGameObeject(gPlayer, eLayerType::Player);
+		gPlayer = object::Instantiate<Player>(Vector2(400.0f, 850.0f), eLayerType::Player);
+		
 		BradV2* bradV2 = object::Instantiate<BradV2>(Vector2(800.0f, 650.0f), eLayerType::Monster);
 
-		Ground* ground = object::Instantiate<Ground>(Vector2(0.0f, 0.0f), eLayerType::Ground);
+		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
 		ground->SetPlayer(gPlayer);
 	}
 
@@ -37,6 +42,7 @@ namespace ya
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			SceneManager::LoadScene(eSceneType::Waldo);
+			//SceneManager::GetActiveScene()->Initialize();
 		}
 
 		Scene::Update();
@@ -54,6 +60,8 @@ namespace ya
 
 	void BradV2Scene::OnEnter()
 	{
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 	}
 
 	void BradV2Scene::OnExit()

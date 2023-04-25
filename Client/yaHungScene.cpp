@@ -16,6 +16,8 @@
 #include "yaAnimator.h"
 #include "yaTime.h"
 
+extern ya::Player* gPlayer;
+
 namespace ya
 {
 	HungScene::HungScene()
@@ -32,7 +34,8 @@ namespace ya
 		bgImage->SetImage(L"HungBG", L"HungBG.bmp");
 
 		hung = object::Instantiate<Hung>(Vector2(1300.0f, 850.0f), eLayerType::Monster);
-		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 850.0f), eLayerType::Player);
+		//AddGameObeject(gPlayer, eLayerType::Player);
+		gPlayer = object::Instantiate<Player>(Vector2(200.0f, 850.0f), eLayerType::Player);
 	
 		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
 		//ground->SetImage(L"BossGround", L"HungBG_Ground.bmp");
@@ -52,6 +55,7 @@ namespace ya
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			SceneManager::LoadScene(eSceneType::Brad);
+			//SceneManager::GetActiveScene()->Initialize();
 		}
 		Scene::Update();
 	}
