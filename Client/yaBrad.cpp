@@ -8,6 +8,7 @@
 #include "yaPlayer.h"
 #include "yaObject.h"
 #include "yaStone.h"
+#include "yaColliderObj.h"
 
 namespace ya
 {
@@ -34,46 +35,41 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Idle\\Left", Vector2::Zero, 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Idle\\Right", Vector2::Zero, 0.1f);
 
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Intro\\Intro", Vector2::Zero, 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Intro\\Desk", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Intro\\Intro", Vector2::Zero, 0.01f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Intro\\Desk", Vector2::Zero, 0.01f);
 
 		// Attack
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Attack1\\Right", Vector2::Zero, 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Attack1\\Left", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Attack1\\Right", Vector2::Zero, 0.01f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Attack1\\Left", Vector2::Zero, 0.01f);
 
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Dive\\Right", Vector2::Zero, 0.07f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Dive\\Left", Vector2::Zero, 0.07f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Dive\\Right", Vector2::Zero, 0.007f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Dive\\Left", Vector2::Zero, 0.007f);
 
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Fly_Stomp\\Right", Vector2::Zero, 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Fly_Stomp\\Left", Vector2::Zero, 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Fly_Stomp_To_Idle\\Right", Vector2::Zero, 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Fly_Stomp_To_Idle\\Left", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Fly_Stomp\\Right", Vector2::Zero, 0.01f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Fly_Stomp\\Left", Vector2::Zero, 0.01f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Fly_Stomp_To_Idle\\Right", Vector2::Zero, 0.01f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Fly_Stomp_To_Idle\\Left", Vector2::Zero, 0.01f);
 
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\SpinAir", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\SpinAir", Vector2::Zero, 0.01f);
 
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\End", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\End", Vector2::Zero, 0.01f);
 
 		mAnimator->Play(L"BradIntroIntro", false);
-
+		mState = eBradState::Intro;
 		collider = AddComponent<Collider>();
-		collider->SetCenter(Vector2(-80.0f, -200.0f));
-		collider->SetSize(Vector2(170.0f, 200.0f));
-
+		collider->SetSize(Vector2::Zero);
 		GameObject::Initialize();
 	}
 
 	void Brad::Update()
 	{
 		GameObject::Update();
-		if (mAnimator->IsComplete())
-		{
-			mAnimator->Play(L"BradIdleLeft", true);
-			mState = eBradState::Idle;
-		}
-		GameObject::Update();
 
 		switch (mState)
 		{
+		case ya::Brad::eBradState::Intro:
+			intro();
+			break;
 		case ya::Brad::eBradState::Move:
 			move();
 			break;
@@ -116,6 +112,14 @@ namespace ya
 		GameObject::Release();
 	}
 
+	void Brad::intro()
+	{
+		if (mAnimator->IsComplete())
+		{
+			mAnimator->Play(L"BradIdleLeft", true);
+			mState = eBradState::Idle;
+		}
+	}
 
 	void Brad::death()
 	{
@@ -123,6 +127,9 @@ namespace ya
 
 	void Brad::idle()
 	{
+		collider->SetCenter(Vector2(-80.0f, -200.0f));
+		collider->SetSize(Vector2(170.0f, 200.0f));
+
 		Transform* tr = GetComponent<Transform>();
 		Vector2 monsterPos = tr->GetPos();
 
@@ -136,8 +143,10 @@ namespace ya
 		//// 테스트용
 		//if (Input::GetKeyDown(eKeyCode::K))
 		//{
-		//	mAnimator->Play(L"BradFly_StompLeft", false);
-		//	mState = eBradState::Fly;
+		//	mAnimator->Play(L"BradAttack1Left", false);
+		//	colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+		//	collider3 = colObj->GetComponent<Collider>();
+		//	mState = eBradState::Attack1;
 		//}
 
 		// 몬스터가 플레이어보다 오른쪽에 있을때, 왼쪽을 바라보고 왼쪽으로 이동.
@@ -152,6 +161,10 @@ namespace ya
 				{
 				case 1:
 					mAnimator->Play(L"BradAttack1Left", false);
+					//colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					//collider3 = colObj->GetComponent<Collider>();
+					//collider3->SetCenter(Vector2(-330.0f, -230.0f));
+					//collider3->SetSize(Vector2(430.0f, 230.0f));
 					mState = eBradState::Attack1;
 					break;
 				case 2:
@@ -161,8 +174,6 @@ namespace ya
 					break;
 				case 3:
 					mAnimator->Play(L"BradFly_StompLeft", false);
-					collider->SetCenter(Vector2(-330.0f, -230.0f));
-					collider->SetSize(Vector2(430.0f, 230.0f));
 					mState = eBradState::Fly;
 					break;
 				default:
@@ -184,6 +195,8 @@ namespace ya
 				{
 				case 1:
 					mAnimator->Play(L"BradAttack1Right", false);
+					//colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					//collider3 = colObj->GetComponent<Collider>();
 					mState = eBradState::Attack1;
 					break;
 				case 2:
@@ -192,8 +205,6 @@ namespace ya
 					break;
 				case 3:
 					mAnimator->Play(L"BradFly_StompRight", false);
-					collider->SetCenter(Vector2(-100.0f, -230.0f));
-					collider->SetSize(Vector2(430.0f, 230.0f));
 					mState = eBradState::Fly;
 					break;
 				default:
@@ -270,30 +281,38 @@ namespace ya
 	void Brad::attack1()
 	{
 		Transform* tr = GetComponent<Transform>();
+
 		Vector2 monsterPos = tr->GetPos();
 
 		Transform* playTr = gPlayer->GetComponent<Transform>();
 		Vector2 playerPos = playTr->GetPos();
+
 		if (mbLeft)
 		{
 			if (monsterPos.x > 200)
 				monsterPos.x -= 200.0f * Time::DeltaTime();
+			//collider3->SetCenter(Vector2(monsterPos.x-1600, -230.0f));
+			//collider3->SetSize(Vector2(180.0f, 300.0f));
 		}
 		if (mbRight)
 		{
 			if (monsterPos.x < 1400)
 				monsterPos.x += 200.0f * Time::DeltaTime();
+			//collider3->SetCenter(Vector2(-330.0f, -230.0f));
+			//collider3->SetSize(Vector2(180.0f, 300.0f));
 		}
 		if (mAnimator->IsComplete())
 		{
 			if (mbLeft)
 			{
 				mAnimator->Play(L"BradIdleLeft", true);
+				//object::Destory(colObj);
 				mState = eBradState::Idle;
 			}
 			if (mbRight)
 			{
 				mAnimator->Play(L"BradIdleRight", true);
+				//object::Destory(colObj);
 				mState = eBradState::Idle;
 			}
 		}
@@ -386,7 +405,7 @@ namespace ya
 		Transform* playTr = gPlayer->GetComponent<Transform>();
 		Vector2 playerPos = playTr->GetPos();
 
-		monsterPos.y += 500 * Time::DeltaTime();
+		monsterPos.y += 500.0f * Time::DeltaTime();
 		if (mAnimator->IsComplete() && monsterPos.y > 800.0f)
 		{
 			if (mbLeft)

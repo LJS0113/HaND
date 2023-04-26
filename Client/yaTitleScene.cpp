@@ -57,7 +57,6 @@ namespace ya
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			SceneManager::LoadScene(eSceneType::Loading);
-			//SceneManager::GetActiveScene()->Initialize();
 		}
 
 	}
@@ -71,7 +70,6 @@ namespace ya
 	}
 	void TitleScene::OnEnter()
 	{
-		//CollisionManager::SetLayer(eLayerType::Player, eLayerType::Monster, true);
 	}
 	void TitleScene::OnExit()
 	{

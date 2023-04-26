@@ -1,6 +1,6 @@
 #include "yaColliderObj.h"
 #include "yaCollider.h"
-
+#include "yaTime.h"
 
 namespace ya
 {
@@ -21,7 +21,6 @@ namespace ya
 	}
 	void ColliderObj::Update()
 	{
-
 		GameObject::Update();
 	}
 	void ColliderObj::Render(HDC hdc)

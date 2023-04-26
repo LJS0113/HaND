@@ -11,7 +11,7 @@ namespace ya
 	public:
 		enum class eHungState
 		{
-			None,
+			Intro,
 			Move,
 			Death,
 			Idle,
@@ -29,6 +29,7 @@ namespace ya
 		void death();
 		void idle();
 		void attack();
+		void intro();
 
 		virtual void OnCollisionEnter(class Collider* other) override;
 		virtual void OnCollisionStay(class Collider* other) override;
@@ -39,6 +40,8 @@ namespace ya
 		Rigidbody* mRigidbody;
 		eHungState mState;
 		Collider* collider;
+		Collider* collider3;
+		class ColliderObj* colObj;
 		UINT rand;
 		float mTime;
 		bool mbLeft;

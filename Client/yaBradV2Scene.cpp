@@ -29,9 +29,9 @@ namespace ya
 		bgImage->SetImage(L"BradBG", L"BradBG.bmp");
 		
 		//AddGameObeject(gPlayer, eLayerType::Player);
-		gPlayer = object::Instantiate<Player>(Vector2(400.0f, 850.0f), eLayerType::Player);
+		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 850.0f), eLayerType::Player);
 		
-		BradV2* bradV2 = object::Instantiate<BradV2>(Vector2(800.0f, 650.0f), eLayerType::Monster);
+		BradV2* bradV2 = object::Instantiate<BradV2>(Vector2(1300.0f, 850.0f), eLayerType::Monster);
 
 		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
 		ground->SetPlayer(gPlayer);
@@ -42,7 +42,6 @@ namespace ya
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			SceneManager::LoadScene(eSceneType::Waldo);
-			//SceneManager::GetActiveScene()->Initialize();
 		}
 
 		Scene::Update();

@@ -7,21 +7,19 @@
 #include "yaInput.h"
 #include "yaComponent.h"
 #include "yaGameObject.h"
-#include "yaPlayer.h"
 #include "yaLayer.h"
 #include "yaScene.h"
 #include "yaTime.h"
 #include "yaObject.h"
 #include "yaHungAS.h"
 #include "yaPlayer.h"
-
+#include "yaColliderObj.h"
 
 namespace ya
 {
 	Hung::Hung()
 		: mbLeft(true)
 		, mbRight(false)
-		, mState(eHungState::None)
 	{
 	}
 	Hung::~Hung()
@@ -61,11 +59,9 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Run\\Left", Vector2::Zero, 0.05f);
 
 		mAnimator->Play(L"HungIntroStart", false);
+		mState = eHungState::Intro;
 
 		collider = AddComponent<Collider>();
-
-		//mRigidbody = AddComponent<Rigidbody>();
-		//mRigidbody->SetMass(1.0f);
 
 		collider->SetCenter(Vector2(30.0f, -140.0f));
 		collider->SetSize(Vector2(60.0f, 140.0f));
@@ -75,16 +71,14 @@ namespace ya
 	void Hung::Update()
 	{
 		GameObject::Update();
-		if (mAnimator->IsComplete())
-		{
-			mAnimator->Play(L"HungIdleLeft", true);
-			mState = eHungState::Idle;
-		}
-
+		
 		switch (mState)
 		{
 		case ya::Hung::eHungState::Move:
 			move();
+			break;
+		case ya::Hung::eHungState::Intro:
+			intro();
 			break;
 		case ya::Hung::eHungState::Attack:
 			attack();
@@ -126,6 +120,8 @@ namespace ya
 			mbRight = true;
 
 			mAnimator->Play(L"HungRunRight", true);
+			collider->SetCenter(Vector2(-90.0f, -140.0f));
+			collider->SetSize(Vector2(60.0f, 140.0f));
 			mState = eHungState::Move;
 		}
 		if (mbRight && (monsterPos.x > playerPos.x))
@@ -134,6 +130,8 @@ namespace ya
 			mbRight = false;
 
 			mAnimator->Play(L"HungRunLeft", true);
+			collider->SetCenter(Vector2(30.0f, -140.0f));
+			collider->SetSize(Vector2(60.0f, 140.0f));
 			mState = eHungState::Move;
 		}
 
@@ -143,7 +141,6 @@ namespace ya
 			mbLeft = true;
 			mbRight = false;
 			monsterPos.x -= 200 * Time::DeltaTime();
-			//mAnimator->Play(L"HungRunLeft", true);
 
 			if (mTime > 2.0f)
 			{
@@ -155,20 +152,25 @@ namespace ya
 					{
 						rand = std::rand() % 1023;
 						object::Instantiate<HungAS>(Vector2(float(rand), 1200.0f), eLayerType::HungAS);
-						collider->SetCenter(Vector2(-180.0f, -240.0f));
-						collider->SetSize(Vector2(230.0f, 250.0f));
 					}
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-180.0f, -240.0f));
+					collider3->SetSize(Vector2(230.0f, 250.0f));
 					break;
 				case 2:
 					mAnimator->Play(L"AttackLassoLeftThrow", false);
-					OnCollisionEnter(gPlayer->GetComponent<Collider>());
-					collider->SetCenter(Vector2(-420.0f, -140.0f));
-					collider->SetSize(Vector2(320.0f, 140.0f));
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-420.0f, -140.0f));
+					collider3->SetSize(Vector2(320.0f, 140.0f));
 					break;
 				case 3:
 					mAnimator->Play(L"HungAttackMeleeLeft", false);
-					collider->SetCenter(Vector2(-330.0f, -230.0f));
-					collider->SetSize(Vector2(430.0f, 230.0f));
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-330.0f, -230.0f));
+					collider3->SetSize(Vector2(430.0f, 230.0f));
 					break;
 				default:
 					break;
@@ -176,16 +178,12 @@ namespace ya
 				mState = eHungState::Attack;
 				mTime = 0;
 			}
-			// 몬스터가 왼쪽으로 이동하다가 플레이어보다 더 왼쪽으로 갈 경우
-			if (monsterPos.x < playerPos.x)
-			{
-				mAnimator->Play(L"HungRunRight", true);
-				mState = eHungState::Move;
-			}
 		}
 		// 몬스터가 플레이어보다 왼쪽에 있을 때, 오른쪽을 바라보고 오른쪽으로 이동.
 		if (monsterPos.x < playerPos.x)
 		{
+			mbLeft = false;
+			mbRight = true;
 			monsterPos.x += 200 * Time::DeltaTime();
 			//mAnimator->Play(L"HungRunRight", true);
 			if (monsterPos.x > playerPos.x)
@@ -200,20 +198,26 @@ namespace ya
 					for (size_t i = 0; i < 4; i++)
 					{
 						rand = std::rand() % 1023;
-						object::Instantiate<HungAS>(Vector2(float(rand), 700.0f), eLayerType::HungAS);
-						collider->SetCenter(Vector2(-50.0f, -240.0f));
-						collider->SetSize(Vector2(230.0f, 250.0f));
+						object::Instantiate<HungAS>(Vector2(float(rand), 1200.0f), eLayerType::HungAS);
 					}
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-50.0f, -240.0f));
+					collider3->SetSize(Vector2(230.0f, 250.0f));
 					break;
 				case 2:
 					mAnimator->Play(L"AttackLassoRightThrow", false);
-					collider->SetCenter(Vector2(100.0f, -140.0f));
-					collider->SetSize(Vector2(320.0f, 140.0f));
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(100.0f, -140.0f));
+					collider3->SetSize(Vector2(320.0f, 140.0f));
 					break;
 				case 3:
 					mAnimator->Play(L"HungAttackMeleeRight", false);
-					collider->SetCenter(Vector2(-100.0f, -230.0f));
-					collider->SetSize(Vector2(430.0f, 230.0f));
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-100.0f, -230.0f));
+					collider3->SetSize(Vector2(430.0f, 230.0f));
 					break;
 				default:
 					break;
@@ -221,14 +225,7 @@ namespace ya
 				mState = eHungState::Attack;
 				mTime = 0;
 			}
-			// 몬스터가 오른쪽으로 이동하다가 플레이어보다 더 오른쪽으로 갈 경우
-			if (monsterPos.x > playerPos.x)
-			{
-				mAnimator->Play(L"HungRunLeft", true);
-				mState = eHungState::Move;
-			}
 		}
-
 		tr->SetPos(monsterPos);
 	}
 	void Hung::death()
@@ -243,24 +240,27 @@ namespace ya
 		Vector2 playerPos = playTr->GetPos();
 
 		mTime += Time::DeltaTime();
-
-		if (monsterPos.x > playerPos.x)
+		if (mTime > 1.0f)
 		{
-			mbLeft = true;
-			mbRight = false;
-			collider->SetCenter(Vector2(30.0f, -140.0f));
-			collider->SetSize(Vector2(60.0f, 140.0f));
-			mAnimator->Play(L"HungRunLeft", true);
-			mState = eHungState::Move;
-		}
-		if (monsterPos.x < playerPos.x)
-		{
-			mbLeft = false;
-			mbRight = true;
-			collider->SetCenter(Vector2(-90.0f, -140.0f));
-			collider->SetSize(Vector2(60.0f, 140.0f));
-			mAnimator->Play(L"HungRunRight", true);
-			mState = eHungState::Move;
+			if (monsterPos.x > playerPos.x)
+			{
+				mbLeft = true;
+				mbRight = false;
+				collider->SetCenter(Vector2(30.0f, -140.0f));
+				collider->SetSize(Vector2(60.0f, 140.0f));
+				mAnimator->Play(L"HungRunLeft", true);
+				mState = eHungState::Move;
+			}
+			if (monsterPos.x < playerPos.x)
+			{
+				mbLeft = false;
+				mbRight = true;
+				collider->SetCenter(Vector2(-90.0f, -140.0f));
+				collider->SetSize(Vector2(60.0f, 140.0f));
+				mAnimator->Play(L"HungRunRight", true);
+				mState = eHungState::Move;
+			}
+			mTime = 0.0f;
 		}
 		tr->SetPos(monsterPos);
 	}
@@ -268,6 +268,7 @@ namespace ya
 	{
 		if (mAnimator->IsComplete() && mbRight)
 		{
+			object::Destory(colObj);
 			mAnimator->Play(L"HungIdleRight", true);
 			collider->SetCenter(Vector2(-90.0f, -140.0f));
 			collider->SetSize(Vector2(60.0f, 140.0f));
@@ -275,10 +276,31 @@ namespace ya
 		}
 		if (mAnimator->IsComplete() && mbLeft)
 		{
-			mAnimator->Play(L"HungIdleLeft", true);
+			object::Destory(colObj);
+			mAnimator->Play(L"HungIdleLeft", true); 
 			collider->SetCenter(Vector2(30.0f, -140.0f));
 			collider->SetSize(Vector2(60.0f, 140.0f));
 			mState = eHungState::Idle;
+		}
+	}
+	void Hung::intro()
+	{
+		if (mAnimator->IsComplete())
+		{
+			if (mbLeft)
+			{
+				mAnimator->Play(L"HungIdleLeft", true);
+				collider->SetCenter(Vector2(30.0f, -140.0f));
+				collider->SetSize(Vector2(60.0f, 140.0f));
+				mState = eHungState::Idle;
+			}
+			if (mbRight)
+			{
+				mAnimator->Play(L"HungIdleRight", true);
+				collider->SetCenter(Vector2(-90.0f, -140.0f));
+				collider->SetSize(Vector2(60.0f, 140.0f));
+				mState = eHungState::Idle;
+			}
 		}
 	}
 	void Hung::OnCollisionEnter(Collider* other)

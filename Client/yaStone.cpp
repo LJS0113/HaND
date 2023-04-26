@@ -25,7 +25,7 @@ namespace ya
 		mAnimator->Play(L"FXFalling_RockIdle", false);
 
 		collider = AddComponent<Collider>();
-		collider->SetCenter(Vector2(-70.0f, -130.0f));
+		collider->SetCenter(Vector2(-70.0f, -100.0f));
 		collider->SetSize(Vector2(150.0f, 150.0f));
 
 		GameObject::Initialize();
