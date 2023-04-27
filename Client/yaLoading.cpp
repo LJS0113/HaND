@@ -29,10 +29,7 @@ namespace ya
 	void Loading::Update()
 	{
 		GameObject::Update();
-		if (mAnimator->IsComplete())
-		{
-			SceneManager::LoadScene(eSceneType::Play);
-		}
+
 	}
 
 	void Loading::Render(HDC hdc)

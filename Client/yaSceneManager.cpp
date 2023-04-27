@@ -12,9 +12,7 @@
 
 
 namespace ya
-{	
-	//SceneManager scsene;
-	//SceneManager* scsene = new SceneManager();
+{
 	std::vector<Scene*> SceneManager::mScenes = {};
 	Scene* SceneManager::mActiveScene = nullptr;
 
@@ -30,7 +28,7 @@ namespace ya
 		mScenes[(UINT)eSceneType::BradV2] = new BradV2Scene();
 		mScenes[(UINT)eSceneType::Waldo] = new WaldoScene();
 		mScenes[(UINT)eSceneType::Tool] = new ToolScene();
-		
+
 		//for ( Scene* scene : mScenes )
 		//{
 		//	if (scene == nullptr)
@@ -76,11 +74,11 @@ namespace ya
 
 		// ÇöÀç¾À
 		mActiveScene->OnExit();
-		
 		CollisionManager::Clear();
 		//´ÙÀ½¾À
 		mActiveScene = mScenes[(UINT)type];
 		mActiveScene->Initialize();
 		mActiveScene->OnEnter();
 	}
+	
 }

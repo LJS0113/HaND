@@ -17,8 +17,6 @@ namespace ya
 		, mbRight(false)
 		, mAttackDelay(0.0f)
 		, mflyTime(0.0f)
-		, mbStoneLeft(true)
-		, mbStoneRight(false)
 		, mfallingTime(0.0f)
 	{
 	}
@@ -140,14 +138,14 @@ namespace ya
 		rand = (std::rand() % 3) + 1;
 		mTime += Time::DeltaTime();
 
-		//// 테스트용
-		//if (Input::GetKeyDown(eKeyCode::K))
-		//{
-		//	mAnimator->Play(L"BradAttack1Left", false);
-		//	colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
-		//	collider3 = colObj->GetComponent<Collider>();
-		//	mState = eBradState::Attack1;
-		//}
+		// 테스트용
+		if (Input::GetKeyDown(eKeyCode::K))
+		{
+			mAnimator->Play(L"BradAttack1Left", false);
+			colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+			collider3 = colObj->GetComponent<Collider>();
+			mState = eBradState::Attack1;
+		}
 
 		// 몬스터가 플레이어보다 오른쪽에 있을때, 왼쪽을 바라보고 왼쪽으로 이동.
 		if (monsterPos.x > playerPos.x)
@@ -161,10 +159,10 @@ namespace ya
 				{
 				case 1:
 					mAnimator->Play(L"BradAttack1Left", false);
-					//colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
-					//collider3 = colObj->GetComponent<Collider>();
-					//collider3->SetCenter(Vector2(-330.0f, -230.0f));
-					//collider3->SetSize(Vector2(430.0f, 230.0f));
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-330.0f, -230.0f));
+					collider3->SetSize(Vector2(430.0f, 230.0f));
 					mState = eBradState::Attack1;
 					break;
 				case 2:
@@ -195,8 +193,8 @@ namespace ya
 				{
 				case 1:
 					mAnimator->Play(L"BradAttack1Right", false);
-					//colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
-					//collider3 = colObj->GetComponent<Collider>();
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					collider3 = colObj->GetComponent<Collider>();
 					mState = eBradState::Attack1;
 					break;
 				case 2:
@@ -291,28 +289,28 @@ namespace ya
 		{
 			if (monsterPos.x > 200)
 				monsterPos.x -= 200.0f * Time::DeltaTime();
-			//collider3->SetCenter(Vector2(monsterPos.x-1600, -230.0f));
-			//collider3->SetSize(Vector2(180.0f, 300.0f));
+			collider3->SetCenter(Vector2(-330.0f, -230.0f));
+			collider3->SetSize(Vector2(180.0f, 300.0f));
 		}
 		if (mbRight)
 		{
 			if (monsterPos.x < 1400)
 				monsterPos.x += 200.0f * Time::DeltaTime();
-			//collider3->SetCenter(Vector2(-330.0f, -230.0f));
-			//collider3->SetSize(Vector2(180.0f, 300.0f));
+			collider3->SetCenter(Vector2(-330.0f, -230.0f));
+			collider3->SetSize(Vector2(180.0f, 300.0f));
 		}
 		if (mAnimator->IsComplete())
 		{
 			if (mbLeft)
 			{
 				mAnimator->Play(L"BradIdleLeft", true);
-				//object::Destory(colObj);
+				object::Destory(colObj);
 				mState = eBradState::Idle;
 			}
 			if (mbRight)
 			{
 				mAnimator->Play(L"BradIdleRight", true);
-				//object::Destory(colObj);
+				object::Destory(colObj);
 				mState = eBradState::Idle;
 			}
 		}
@@ -360,7 +358,7 @@ namespace ya
 			}
 		}
 
-		if (mbStoneLeft)
+		if (mbLeft)
 		{
 			monsterPos.x -= 300.0f * Time::DeltaTime();
 
@@ -370,7 +368,7 @@ namespace ya
 				mAttackDelay = 0.0f;
 			}
 		}
-		if (mbStoneRight)
+		if (mbRight)
 		{
 			monsterPos.x += 300.0f * Time::DeltaTime();
 			if (mAttackDelay > 0.5f)
@@ -384,15 +382,15 @@ namespace ya
 		// 오른쪽으로 이동
 		if (monsterPos.x < 300.0f)
 		{
-			mbStoneLeft = false;
-			mbStoneRight = true;
+			mbLeft = false;
+			mbRight = true;
 		}
 
 		// 왼쪽으로 이동
 		if (monsterPos.x > 1300.0f)
 		{
-			mbStoneLeft = true;
-			mbStoneRight = false;
+			mbLeft = true;
+			mbRight = false;
 		}
 
 		tr->SetPos(monsterPos);

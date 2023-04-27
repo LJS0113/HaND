@@ -28,19 +28,14 @@ namespace ya
 	}
 	void HungScene::Initialize()
 	{
-		Scene::Initialize();
-		
+		//Scene::Initialize();
+		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
+		ground->SetPlayer(gPlayer);
 		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		bgImage->SetImage(L"HungBG", L"HungBG.bmp");
 
 		hung = object::Instantiate<Hung>(Vector2(1300.0f, 850.0f), eLayerType::Monster);
-		//AddGameObeject(gPlayer, eLayerType::Player);
-		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 850.0f), eLayerType::Player);
-	
-		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
-		//ground->SetImage(L"BossGround", L"HungBG_Ground.bmp");
-		ground->SetPlayer(gPlayer);
-
+		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 600.0f), eLayerType::Player);
 	}
 	void HungScene::Update()
 	{

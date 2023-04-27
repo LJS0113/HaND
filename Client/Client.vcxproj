@@ -155,6 +155,7 @@
     <ClInclude Include="yaHung.h" />
     <ClInclude Include="yaHungAS.h" />
     <ClInclude Include="yaHungScene.h" />
+    <ClInclude Include="yaLazer.h" />
     <ClInclude Include="yaLoading.h" />
     <ClInclude Include="yaLoadingScene.h" />
     <ClInclude Include="yaLogoPlayer.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="yaHung.cpp" />
     <ClCompile Include="yaHungAS.cpp" />
     <ClCompile Include="yaHungScene.cpp" />
+    <ClCompile Include="yaLazer.cpp" />
     <ClCompile Include="yaLoading.cpp" />
     <ClCompile Include="yaLoadingScene.cpp" />
     <ClCompile Include="yaLogoPlayer.cpp" />

@@ -20,6 +20,5 @@ namespace ya
 		virtual void OnExit() override;
 
 	private:
-		Image* mBgImage;
 	};
 }

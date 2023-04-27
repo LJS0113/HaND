@@ -13,7 +13,6 @@
 #include "yaDesk.h"
 #include "yaTime.h"
 
-extern ya::Player* gPlayer;
 
 namespace ya
 {
@@ -29,17 +28,17 @@ namespace ya
 
 	void BradScene::Initialize()
 	{
-		Scene::Initialize();
-
-		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
-		bgImage->SetImage(L"BradBG", L"BradBG.bmp");
-		Brad* brad = object::Instantiate<Brad>(Vector2(1300.0f, 850.0f), eLayerType::Monster);
-		Desk* desk = object::Instantiate<Desk>(Vector2(1300.0f, 850.0f), eLayerType::BG);
-		//AddGameObeject(gPlayer, eLayerType::Player);
-		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 850.0f), eLayerType::Player);
+		//Scene::Initialize();
 
 		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
 		ground->SetPlayer(gPlayer);
+
+		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
+		bgImage->SetImage(L"BradBG", L"BradBG.bmp");
+
+		Brad* brad = object::Instantiate<Brad>(Vector2(1300.0f, 850.0f), eLayerType::Monster);
+		Desk* desk = object::Instantiate<Desk>(Vector2(1300.0f, 850.0f), eLayerType::BG);
+		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 600.0f), eLayerType::Player);
 
 		Scene::Initialize();
 	}

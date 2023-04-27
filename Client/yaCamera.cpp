@@ -40,10 +40,10 @@ namespace ya
 			mLookPosition.x += 400.0f * Time::DeltaTime();
 
 		if (Input::GetKey(eKeyCode::UP))
-			mLookPosition.y -= 100.0f * Time::DeltaTime();
+			mLookPosition.y -= 400.0f * Time::DeltaTime();
 
 		if (Input::GetKey(eKeyCode::DOWN))
-			mLookPosition.y += 100.0f * Time::DeltaTime();
+			mLookPosition.y += 400.0f * Time::DeltaTime();
 
 
 		if (mTarget != nullptr)

@@ -21,6 +21,7 @@ namespace ya
 	void BGImageObject::Initialize()
 	{
 		GameObject::Initialize();
+
 	}
 
 	void BGImageObject::Update()
@@ -41,6 +42,7 @@ namespace ya
 		TransparentBlt(hdc, finalPos.x, finalPos.y, rect.x * mScale.x, rect.y * mScale.y
 			, mImage->GetHdc(), 0, 0, mImage->GetWidth(), mImage->GetHeight()
 			, RGB(255, 0, 255));
+
 		GameObject::Render(hdc);
 	}
 

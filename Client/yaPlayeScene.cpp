@@ -16,8 +16,6 @@
 #include "yaBGImageObject.h"
 #include "yaElevator.h"
 
-extern ya::Application application;
-extern ya::Player* gPlayer;
 
 namespace ya
 {
@@ -31,7 +29,7 @@ namespace ya
 
 	void PlayeScene::Initialize()
 	{
-		Scene::Initialize();
+		//Scene::Initialize();
 
 		//Sound* mainTheme 
 		//	= Resources::Load<Sound>(L"MainTheme", L"..\\Resources\\Sound\\BGTheme.wav");
@@ -41,7 +39,7 @@ namespace ya
 		bgImage->SetImage(L"LobbyBG", L"LobbyBG.bmp");
 
 		Elevator* elevator = object::Instantiate<Elevator>(Vector2(1300.0f, 850.0f), eLayerType::Elevator);
-		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 800.0f), eLayerType::Player);
+		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 600.0f), eLayerType::Player);
 
 		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
 		ground->SetPlayer(gPlayer);

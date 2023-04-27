@@ -27,6 +27,7 @@ enum class eLayerType
 	Collider,
 	HungAS,
 	Stone,
+	Lazer,
 	Effect,
 
 	UI,

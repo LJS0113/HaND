@@ -57,8 +57,6 @@ namespace ya
 		float mfallingTime;
 		bool mbLeft;
 		bool mbRight;
-		bool mbStoneLeft;
-		bool mbStoneRight;
 
 	};
 }

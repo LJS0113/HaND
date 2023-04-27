@@ -4,7 +4,7 @@
 namespace ya
 {
 	class Animator;
-	class BradV2 : public Monster
+	class BradV2 : public GameObject
 	{
 	public:
 		enum class eBradV2State
@@ -14,6 +14,14 @@ namespace ya
 			Death,
 			Idle,
 			Attack,
+			Attack1,
+			Attack2,
+			Attack3_Slice,
+			Attack3_Punch,
+			Attack5_Ready,
+			Attack5_Fire,
+			Attack6,
+			Lazer,
 		};
 		BradV2();
 		~BradV2();
@@ -29,14 +37,26 @@ namespace ya
 		void attack();
 		void move();
 
+		void attack1();
+		void attack2();
+		void attack3_slice();
+		void attack3_punch();
+		void attack5_ready();
+		void attack5_fire();
+		void attack6();
+		void lazer();
+
+
 	private:
 		Animator* mAnimator;
 		eBradV2State mState;
 		class Collider* collider;
 		class Collider* collider3;
 		class ColliderObj* colObj;
-
+		UINT rand;
 		bool mbLeft;
 		bool mbRight;
+		float mTime;
+		class Lazer* mLazer;
 	};
 }
