@@ -153,21 +153,21 @@ namespace ya
 						rand = std::rand() % 1023;
 						object::Instantiate<HungAS>(Vector2(float(rand), 1200.0f), eLayerType::HungAS);
 					}
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-180.0f, -240.0f));
 					collider3->SetSize(Vector2(230.0f, 250.0f));
 					break;
 				case 2:
 					mAnimator->Play(L"AttackLassoLeftThrow", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-420.0f, -140.0f));
 					collider3->SetSize(Vector2(320.0f, 140.0f));
 					break;
 				case 3:
 					mAnimator->Play(L"HungAttackMeleeLeft", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-330.0f, -230.0f));
 					collider3->SetSize(Vector2(430.0f, 230.0f));
@@ -185,9 +185,6 @@ namespace ya
 			mbLeft = false;
 			mbRight = true;
 			monsterPos.x += 200 * Time::DeltaTime();
-			//mAnimator->Play(L"HungRunRight", true);
-			if (monsterPos.x > playerPos.x)
-				return;
 
 			if (mTime > 3.0f)
 			{
@@ -200,21 +197,21 @@ namespace ya
 						rand = std::rand() % 1023;
 						object::Instantiate<HungAS>(Vector2(float(rand), 1200.0f), eLayerType::HungAS);
 					}
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-50.0f, -240.0f));
 					collider3->SetSize(Vector2(230.0f, 250.0f));
 					break;
 				case 2:
 					mAnimator->Play(L"AttackLassoRightThrow", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(100.0f, -140.0f));
 					collider3->SetSize(Vector2(320.0f, 140.0f));
 					break;
 				case 3:
 					mAnimator->Play(L"HungAttackMeleeRight", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-100.0f, -230.0f));
 					collider3->SetSize(Vector2(430.0f, 230.0f));

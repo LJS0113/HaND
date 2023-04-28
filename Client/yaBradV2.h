@@ -20,8 +20,8 @@ namespace ya
 			Attack3_Punch,
 			Attack5_Ready,
 			Attack5_Fire,
-			Attack6,
-			Lazer,
+			Attack6_Ready,
+			Attack6_Fire,
 		};
 		BradV2();
 		~BradV2();
@@ -43,8 +43,8 @@ namespace ya
 		void attack3_punch();
 		void attack5_ready();
 		void attack5_fire();
-		void attack6();
-		void lazer();
+		void attack6_ready();
+		void attack6_fire();
 
 
 	private:
@@ -57,6 +57,7 @@ namespace ya
 		bool mbLeft;
 		bool mbRight;
 		float mTime;
+		float mMovementTime;
 		class Lazer* mLazer;
 	};
 }

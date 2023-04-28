@@ -26,6 +26,8 @@ namespace ya
 		virtual void OnCollisionStay(class Collider* other);
 		virtual void OnCollisionExit(class Collider* other);
 
+		virtual eLayerType GetLayerType() { return mLayerType; }
+
 		template <typename T>
 		T* AddComponent()
 		{
@@ -55,6 +57,7 @@ namespace ya
 
 	private:
 		std::vector<Component*> mComponents;
+		eLayerType mLayerType;
 		eState mState;
 	};
 }

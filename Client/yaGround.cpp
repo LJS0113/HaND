@@ -14,6 +14,7 @@ extern ya::Application application;
 namespace ya
 {
 	Ground::Ground()
+		: mLayerType(eLayerType::Ground)
 	{
 	}
 
@@ -123,6 +124,11 @@ namespace ya
 	void Ground::SetSize(Vector2 size)
 	{
 		mCollider->SetSize(size);
+	}
+
+	eLayerType Ground::GetLayerType()
+	{
+		return mLayerType;
 	}
 
 }

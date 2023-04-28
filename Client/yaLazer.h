@@ -23,7 +23,7 @@ namespace ya
 	private:
 		Animator* mAnimator;
 		Collider* collider;
-
+		class Image* mImage;
 	};
 
 }

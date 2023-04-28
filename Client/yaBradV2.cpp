@@ -13,9 +13,10 @@
 namespace ya
 {
 	BradV2::BradV2()
-		: mbLeft(true)
+		: mTime(0.0f)
+		, mbLeft(true)
 		, mbRight(false)
-		, mTime(0.0f)
+		, mMovementTime(0.0f)
 	{
 	}
 
@@ -46,16 +47,18 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack1\\Right", Vector2::Zero, 0.01f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack2\\Left", Vector2::Zero, 0.01f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack2\\Right", Vector2::Zero, 0.01f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack3\\Slice\\Left", Vector2::Zero, 0.01f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack3\\Slice\\Right", Vector2::Zero, 0.01f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack3\\Punch\\Left", Vector2::Zero, 0.01f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack3\\Punch\\Right", Vector2::Zero, 0.01f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack3\\Slice\\Left", Vector2::Zero, 0.001f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack3\\Slice\\Right", Vector2::Zero, 0.001f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack3\\Punch\\Left", Vector2::Zero, 0.001f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack3\\Punch\\Right", Vector2::Zero, 0.001f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack5\\Ready\\Left", Vector2::Zero, 0.01f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack5\\Ready\\Right", Vector2::Zero, 0.01f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack5\\Fire\\Left", Vector2::Zero, 0.01f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack5\\Fire\\Right", Vector2::Zero, 0.01f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack6\\Left", Vector2::Zero, 0.01f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack6\\Right", Vector2::Zero, 0.01f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack6\\Ready\\Left", Vector2::Zero, 0.01f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack6\\Ready\\Right", Vector2::Zero, 0.01f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack6\\Fire\\Left", Vector2::Zero, 0.01f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack6\\Fire\\Right", Vector2::Zero, 0.01f);
 
 		mAnimator->Play(L"MonsterBradV2Intro", false);
 
@@ -103,11 +106,11 @@ namespace ya
 		case ya::BradV2::eBradV2State::Attack5_Fire:
 			attack5_fire();
 			break;
-		case ya::BradV2::eBradV2State::Attack6:
-			attack6();
+		case ya::BradV2::eBradV2State::Attack6_Ready:
+			attack6_ready();
 			break;
-		case ya::BradV2::eBradV2State::Lazer:
-			lazer();
+		case ya::BradV2::eBradV2State::Attack6_Fire:
+			attack6_fire();
 			break;
 		default:
 			break;
@@ -169,12 +172,49 @@ namespace ya
 		// 테스트용
 		if (Input::GetKeyDown(eKeyCode::K))
 		{
-			mAnimator->Play(L"Attack5ReadyLeft", false);
-			colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+			mbLeft = true;
+			mbRight = false;
+			mAnimator->Play(L"BradV2Attack1Left", false);
+			colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 			collider3 = colObj->GetComponent<Collider>();
-			mState = eBradV2State::Attack5_Ready;
+			mState = eBradV2State::Attack1;
+		}
+		// 테스트용
+		if (Input::GetKeyDown(eKeyCode::L))
+		{
+			mbLeft = false;
+			mbRight = true;
+			mAnimator->Play(L"BradV2Attack1Right", false);
+			colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+			collider3 = colObj->GetComponent<Collider>();
+			mState = eBradV2State::Attack1;
 		}
 
+
+		//if (mTime > 1.0f)
+		//{
+		//	if (monsterPos.x > playerPos.x)
+		//	{
+		//		mbLeft = true;
+		//		mbRight = false;
+		//		collider->SetCenter(Vector2(-90.0f, -240.0f));
+		//		collider->SetSize(Vector2(180.0f, 250.0f));
+		//		mAnimator->Play(L"BradV2MoveLeft", true);
+		//		mState = eBradV2State::Move;
+		//	}
+		//	if (monsterPos.x < playerPos.x)
+		//	{
+		//		mbLeft = false;
+		//		mbRight = true;
+		//		collider->SetCenter(Vector2(-90.0f, -240.0f));
+		//		collider->SetSize(Vector2(180.0f, 250.0f));
+		//		mAnimator->Play(L"BradV2MoveRight", true);
+		//		mState = eBradV2State::Move;
+		//	}
+		//	mTime = 0.0f;
+		//}
+
+#pragma region idle_attack
 		//// 몬스터가 플레이어보다 오른쪽에 있을때, 왼쪽을 바라보고 왼쪽으로 이동.
 		//if (monsterPos.x > playerPos.x)
 		//{
@@ -195,19 +235,31 @@ namespace ya
 		//			break;
 		//		case 2:
 		//			mAnimator->Play(L"BradV2Attack2Left", false);
+		//			colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+		//			collider3 = colObj->GetComponent<Collider>();
+		//			collider3->SetCenter(Vector2(-330.0f, -230.0f));
+		//			collider3->SetSize(Vector2(430.0f, 230.0f));
 		//			mState = eBradV2State::Attack2;
 		//			break;
 		//		case 3:
-		//			mAnimator->Play(L"BradV2Attack3Left", false);
-		//			mState = eBradV2State::Attack3;
+		//			mAnimator->Play(L"Attack3SliceLeft", false);
+		//			colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+		//			collider3 = colObj->GetComponent<Collider>();
+		//			collider3->SetCenter(Vector2(-330.0f, -230.0f));
+		//			collider3->SetSize(Vector2(430.0f, 230.0f));
+		//			mState = eBradV2State::Attack3_Slice;
 		//			break;
 		//		case 4:
-		//			mAnimator->Play(L"BradV2Attack5Left", false);
-		//			mState = eBradV2State::Attack5;
+		//			mAnimator->Play(L"Attack5ReadyLeft", false);
+		//			mState = eBradV2State::Attack5_Ready;
 		//			break;
 		//		case 5:
-		//			mAnimator->Play(L"BradV2Attack6Left", false);
-		//			mState = eBradV2State::Attack6;
+		//			mAnimator->Play(L"Attack6ReadyLeft", false);
+		//			colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+		//			collider3 = colObj->GetComponent<Collider>();
+		//			collider3->SetCenter(Vector2(-330.0f, -230.0f));
+		//			collider3->SetSize(Vector2(430.0f, 230.0f));
+		//			mState = eBradV2State::Attack6_Ready;
 		//			break;
 		//		default:
 		//			break;
@@ -236,19 +288,31 @@ namespace ya
 		//			break;
 		//		case 2:
 		//			mAnimator->Play(L"BradV2Attack2Right", false);
+		//			colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+		//			collider3 = colObj->GetComponent<Collider>();
+		//			collider3->SetCenter(Vector2(-330.0f, -230.0f));
+		//			collider3->SetSize(Vector2(430.0f, 230.0f));
 		//			mState = eBradV2State::Attack2;
 		//			break;
 		//		case 3:
-		//			mAnimator->Play(L"BradV2Attack3Right", false);
-		//			mState = eBradV2State::Attack3;
+		//			mAnimator->Play(L"Attack3SliceRight", false);
+		//			colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+		//			collider3 = colObj->GetComponent<Collider>();
+		//			collider3->SetCenter(Vector2(-330.0f, -230.0f));
+		//			collider3->SetSize(Vector2(430.0f, 230.0f));
+		//			mState = eBradV2State::Attack3_Slice;
 		//			break;
 		//		case 4:
-		//			mAnimator->Play(L"BradV2Attack5Right", false);
-		//			mState = eBradV2State::Attack5;
+		//			mAnimator->Play(L"Attack5ReadyRight", false);
+		//			mState = eBradV2State::Attack5_Ready;
 		//			break;
 		//		case 5:
-		//			mAnimator->Play(L"BradV2Attack6Right", false);
-		//			mState = eBradV2State::Attack6;
+		//			mAnimator->Play(L"Attack6ReadyRight", false);
+		//			colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+		//			collider3 = colObj->GetComponent<Collider>();
+		//			collider3->SetCenter(Vector2(-330.0f, -230.0f));
+		//			collider3->SetSize(Vector2(430.0f, 230.0f));
+		//			mState = eBradV2State::Attack6_Ready;
 		//			break;
 		//		default:
 		//			break;
@@ -256,6 +320,8 @@ namespace ya
 		//		mTime = 0;
 		//	}
 		//}
+#pragma endregion idle_attack
+
 		tr->SetPos(monsterPos);
 	}
 
@@ -299,8 +365,8 @@ namespace ya
 			mbRight = true;
 
 			mAnimator->Play(L"BradV2MoveRight", true);
-			collider->SetCenter(Vector2(-90.0f, -140.0f));
-			collider->SetSize(Vector2(60.0f, 140.0f));
+			collider->SetCenter(Vector2(-90.0f, -240.0f));
+			collider->SetSize(Vector2(180.0f, 250.0f));
 			mState = eBradV2State::Move;
 		}
 		if (mbRight && (monsterPos.x > playerPos.x))
@@ -309,8 +375,8 @@ namespace ya
 			mbRight = false;
 
 			mAnimator->Play(L"BradV2MoveLeft", true);
-			collider->SetCenter(Vector2(30.0f, -140.0f));
-			collider->SetSize(Vector2(60.0f, 140.0f));
+			collider->SetCenter(Vector2(-90.0f, -240.0f));
+			collider->SetSize(Vector2(180.0f, 250.0f));
 			mState = eBradV2State::Move;
 		}
 
@@ -327,7 +393,7 @@ namespace ya
 				{
 				case 1:
 					mAnimator->Play(L"BradV2Attack1Left", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-330.0f, -230.0f));
 					collider3->SetSize(Vector2(430.0f, 230.0f));
@@ -335,10 +401,18 @@ namespace ya
 					break;
 				case 2:
 					mAnimator->Play(L"BradV2Attack2Left", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-330.0f, -230.0f));
+					collider3->SetSize(Vector2(430.0f, 230.0f));
 					mState = eBradV2State::Attack2;
 					break;
 				case 3:
-					mAnimator->Play(L"BradV2Attack3Left", false);
+					mAnimator->Play(L"Attack3SliceLeft", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-330.0f, -230.0f));
+					collider3->SetSize(Vector2(430.0f, 230.0f));
 					mState = eBradV2State::Attack3_Slice;
 					break;
 				case 4:
@@ -346,13 +420,16 @@ namespace ya
 					mState = eBradV2State::Attack5_Ready;
 					break;
 				case 5:
-					mAnimator->Play(L"BradV2Attack6Left", false);
-					mState = eBradV2State::Attack6;
+					mAnimator->Play(L"Attack6ReadyLeft", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-330.0f, -230.0f));
+					collider3->SetSize(Vector2(430.0f, 230.0f));
+					mState = eBradV2State::Attack6_Ready;
 					break;
 				default:
 					break;
 				}
-				mState = eBradV2State::Attack;
 				mTime = 0;
 			}
 		}
@@ -371,7 +448,7 @@ namespace ya
 				{
 				case 1:
 					mAnimator->Play(L"BradV2Attack1Right", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-330.0f, -230.0f));
 					collider3->SetSize(Vector2(430.0f, 230.0f));
@@ -379,10 +456,18 @@ namespace ya
 					break;
 				case 2:
 					mAnimator->Play(L"BradV2Attack2Right", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-330.0f, -230.0f));
+					collider3->SetSize(Vector2(430.0f, 230.0f));
 					mState = eBradV2State::Attack2;
 					break;
 				case 3:
-					mAnimator->Play(L"BradV2Attack3Right", false);
+					mAnimator->Play(L"Attack3SliceRight", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-330.0f, -230.0f));
+					collider3->SetSize(Vector2(430.0f, 230.0f));
 					mState = eBradV2State::Attack3_Slice;
 					break;
 				case 4:
@@ -390,13 +475,16 @@ namespace ya
 					mState = eBradV2State::Attack5_Ready;
 					break;
 				case 5:
-					mAnimator->Play(L"BradV2Attack6Right", false);
-					mState = eBradV2State::Attack6;
+					mAnimator->Play(L"Attack6ReadyRight", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-330.0f, -230.0f));
+					collider3->SetSize(Vector2(430.0f, 230.0f));
+					mState = eBradV2State::Attack6_Ready;
 					break;
 				default:
 					break;
 				}
-				mState = eBradV2State::Attack;
 				mTime = 0;
 			}
 		}
@@ -411,28 +499,34 @@ namespace ya
 		Transform* playTr = gPlayer->GetComponent<Transform>();
 		Vector2 playerPos = playTr->GetPos();
 
+		mMovementTime += Time::DeltaTime();
+
 		if (mbLeft)
 		{
 			monsterPos.x -= 200 * Time::DeltaTime();
+			collider3->SetCenter(Vector2((-200.0f * mMovementTime) - 130.0f, -120.0f));
+			collider3->SetSize(Vector2(270.0f, 120.0f));
 		}
 		if (mbRight)
 		{
 			monsterPos.x += 200 * Time::DeltaTime();
+			collider3->SetCenter(Vector2((200.0f * mMovementTime) - 130.0f, -120.0f));
+			collider3->SetSize(Vector2(270.0f, 120.0f));
 		}
 
 		if (mAnimator->IsComplete() && mbRight)
 		{
+			object::Destory(colObj);
 			mAnimator->Play(L"BradV2IdleRight", true);
-			collider->SetCenter(Vector2(-90.0f, -240.0f));
-			collider->SetSize(Vector2(180.0f, 250.0f));
 			mState = eBradV2State::Idle;
+			mMovementTime = 0.0f;
 		}
 		if (mAnimator->IsComplete() && mbLeft)
 		{
+			object::Destory(colObj);
 			mAnimator->Play(L"BradV2IdleLeft", true);
-			collider->SetCenter(Vector2(-90.0f, -240.0f));
-			collider->SetSize(Vector2(180.0f, 250.0f));
 			mState = eBradV2State::Idle;
+			mMovementTime = 0.0f;
 		}
 		tr->SetPos(monsterPos);
 	}
@@ -441,6 +535,7 @@ namespace ya
 	{
 		if (mAnimator->IsComplete() && mbRight)
 		{
+			object::Destory(colObj);
 			mAnimator->Play(L"BradV2IdleRight", true);
 			collider->SetCenter(Vector2(-90.0f, -240.0f));
 			collider->SetSize(Vector2(180.0f, 250.0f));
@@ -448,6 +543,7 @@ namespace ya
 		}
 		if (mAnimator->IsComplete() && mbLeft)
 		{
+			object::Destory(colObj);
 			mAnimator->Play(L"BradV2IdleLeft", true);
 			collider->SetCenter(Vector2(-90.0f, -240.0f));
 			collider->SetSize(Vector2(180.0f, 250.0f));
@@ -493,6 +589,7 @@ namespace ya
 	{
 		if (mAnimator->IsComplete() && mbRight)
 		{
+			object::Destory(colObj);
 			mAnimator->Play(L"BradV2IdleRight", true);
 			collider->SetCenter(Vector2(-90.0f, -240.0f));
 			collider->SetSize(Vector2(180.0f, 250.0f));
@@ -500,6 +597,7 @@ namespace ya
 		}
 		if (mAnimator->IsComplete() && mbLeft)
 		{
+			object::Destory(colObj);
 			mAnimator->Play(L"BradV2IdleLeft", true);
 			collider->SetCenter(Vector2(-90.0f, -240.0f));
 			collider->SetSize(Vector2(180.0f, 250.0f));
@@ -520,13 +618,13 @@ namespace ya
 			if (mbLeft)
 			{
 				mAnimator->Play(L"Attack5FireLeft", false);
-				mLazer = object::Instantiate<Lazer>(Vector2(monsterPos.x, monsterPos.y), eLayerType::Lazer);
+				mLazer = object::Instantiate<Lazer>(Vector2(monsterPos.x - 1070.0f, monsterPos.y-130.0f), eLayerType::Lazer);
 				mState = eBradV2State::Attack5_Fire;
 			}
 			if (mbRight)
 			{
 				mAnimator->Play(L"Attack5FireRight", false);
-				mLazer = object::Instantiate<Lazer>(Vector2(monsterPos.x, monsterPos.y), eLayerType::Lazer);
+				mLazer = object::Instantiate<Lazer>(Vector2(monsterPos.x + 100.0f, monsterPos.y - 130.0f), eLayerType::Lazer);
 				
 				mState = eBradV2State::Attack5_Fire;
 			}
@@ -545,19 +643,57 @@ namespace ya
 			}
 			if (mbRight)
 			{
-				mAnimator->Play(L"BradV2IdleLeft", true);
+				mAnimator->Play(L"BradV2IdleRight", true);
 				object::Destory(mLazer);
 				mState = eBradV2State::Idle;
 			}
 		}
 	}
 
-	void BradV2::attack6()
+	void BradV2::attack6_ready()
 	{
-	}
-	
-	void BradV2::lazer()
-	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 monsterPos = tr->GetPos();
+
+		Transform* playTr = gPlayer->GetComponent<Transform>();
+		Vector2 playerPos = playTr->GetPos();
+
+		if (mAnimator->IsComplete())
+		{
+			if (mbLeft)
+			{
+				object::Destory(colObj);
+				mAnimator->Play(L"Attack6FireLeft", false);
+				mLazer = object::Instantiate<Lazer>(Vector2(monsterPos.x - 1070.0f, monsterPos.y - 100.0f), eLayerType::Lazer);
+				mState = eBradV2State::Attack6_Fire;
+			}
+			if (mbRight)
+			{
+				object::Destory(colObj);
+				mAnimator->Play(L"Attack6FireRight", false);
+				mLazer = object::Instantiate<Lazer>(Vector2(monsterPos.x + 100.0f, monsterPos.y - 100.0f), eLayerType::Lazer);
+
+				mState = eBradV2State::Attack6_Fire;
+			}
+		}
 	}
 
+	void BradV2::attack6_fire()
+	{
+		if (mAnimator->IsComplete())
+		{
+			if (mbLeft)
+			{
+				mAnimator->Play(L"BradV2IdleLeft", true);
+				object::Destory(mLazer);
+				mState = eBradV2State::Idle;
+			}
+			if (mbRight)
+			{
+				mAnimator->Play(L"BradV2IdleRight", true);
+				object::Destory(mLazer);
+				mState = eBradV2State::Idle;
+			}
+		}
+	}
 }

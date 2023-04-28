@@ -14,8 +14,8 @@ namespace ya
 	void ColliderObj::Initialize()
 	{
 		collider = AddComponent<Collider>();
-		collider->SetCenter(Vector2(0.0f, 0.0f));
-		collider->SetSize(Vector2(50.0f, 50.0f));
+		collider->SetCenter(Vector2::Zero);
+		collider->SetSize(Vector2::Zero);
 
 		GameObject::Initialize();
 	}
@@ -32,7 +32,8 @@ namespace ya
 		GameObject::Release();
 	}
 	void ColliderObj::OnCollisionEnter(Collider* other)
-	{
+	{ 
+		int a = 0;
 	}
 	void ColliderObj::OnCollisionStay(Collider* other)
 	{

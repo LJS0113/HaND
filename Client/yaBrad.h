@@ -15,7 +15,9 @@ namespace ya
 			Death,
 			Idle,
 			Attack,
-			DiveAttack,
+			Dive_Anticipation,
+			Dive_Loop,
+			Dive_End,
 			Attack1,
 			Fly,
 			SpinAir,
@@ -35,7 +37,9 @@ namespace ya
 		void idle();
 		void attack();
 		void move();
-		void diveAttack();
+		void dive_anticipatiion();
+		void dive_loop();
+		void dive_end();
 		void attack1();
 		void fly();
 
@@ -52,6 +56,7 @@ namespace ya
 
 		UINT rand;
 		float mTime;
+		float mMovementTime;
 		float mAttackDelay;
 		float mflyTime;
 		float mfallingTime;

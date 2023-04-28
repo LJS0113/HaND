@@ -18,6 +18,7 @@ namespace ya
 		, mAttackDelay(0.0f)
 		, mflyTime(0.0f)
 		, mfallingTime(0.0f)
+		, mMovementTime(0.0f)
 	{
 	}
 
@@ -40,8 +41,12 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Attack1\\Right", Vector2::Zero, 0.01f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Attack1\\Left", Vector2::Zero, 0.01f);
 
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Dive\\Right", Vector2::Zero, 0.007f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Dive\\Left", Vector2::Zero, 0.007f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Dive\\Anticipation\\Right", Vector2::Zero, 0.007f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Dive\\Anticipation\\Left", Vector2::Zero, 0.007f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Dive\\Loop\\Right", Vector2::Zero, 0.007f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Dive\\Loop\\Left", Vector2::Zero, 0.007f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Dive\\End\\Right", Vector2::Zero, 0.007f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Dive\\End\\Left", Vector2::Zero, 0.007f);
 
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Fly_Stomp\\Right", Vector2::Zero, 0.01f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Fly_Stomp\\Left", Vector2::Zero, 0.01f);
@@ -80,8 +85,14 @@ namespace ya
 		case ya::Brad::eBradState::Idle:
 			idle();
 			break;
-		case ya::Brad::eBradState::DiveAttack:
-			diveAttack();
+		case ya::Brad::eBradState::Dive_Anticipation:
+			dive_anticipatiion();
+			break;
+		case ya::Brad::eBradState::Dive_Loop:
+			dive_loop();
+			break;
+		case ya::Brad::eBradState::Dive_End:
+			dive_end();
 			break;
 		case ya::Brad::eBradState::Attack1:
 			attack1();
@@ -138,14 +149,26 @@ namespace ya
 		rand = (std::rand() % 3) + 1;
 		mTime += Time::DeltaTime();
 
-		// 테스트용
-		if (Input::GetKeyDown(eKeyCode::K))
-		{
-			mAnimator->Play(L"BradAttack1Left", false);
-			colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
-			collider3 = colObj->GetComponent<Collider>();
-			mState = eBradState::Attack1;
-		}
+		//// 테스트용
+		//if (Input::GetKeyDown(eKeyCode::K))
+		//{
+		//	mbLeft = true;
+		//	mbRight = false;
+		//	mAnimator->Play(L"DiveAnticipationLeft", false);
+		//	colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+		//	collider3 = colObj->GetComponent<Collider>();
+		//	mState = eBradState::Dive_Anticipation;
+		//}
+		//// 테스트용
+		//if (Input::GetKeyDown(eKeyCode::L))
+		//{
+		//	mbLeft = false;
+		//	mbRight = true;
+		//	mAnimator->Play(L"DiveAnticipationRight", false);
+		//	colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+		//	collider3 = colObj->GetComponent<Collider>();
+		//	mState = eBradState::Dive_Anticipation;
+		//}
 
 		// 몬스터가 플레이어보다 오른쪽에 있을때, 왼쪽을 바라보고 왼쪽으로 이동.
 		if (monsterPos.x > playerPos.x)
@@ -159,16 +182,16 @@ namespace ya
 				{
 				case 1:
 					mAnimator->Play(L"BradAttack1Left", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
-					collider3->SetCenter(Vector2(-330.0f, -230.0f));
-					collider3->SetSize(Vector2(430.0f, 230.0f));
 					mState = eBradState::Attack1;
 					break;
 				case 2:
 					mAttackDelay += Time::DeltaTime();
-					mAnimator->Play(L"BradDiveLeft", false);
-					mState = eBradState::DiveAttack;
+					mAnimator->Play(L"DiveAnticipationLeft", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					mState = eBradState::Dive_Anticipation;
 					break;
 				case 3:
 					mAnimator->Play(L"BradFly_StompLeft", false);
@@ -193,13 +216,15 @@ namespace ya
 				{
 				case 1:
 					mAnimator->Play(L"BradAttack1Right", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					mState = eBradState::Attack1;
 					break;
 				case 2:
-					mAnimator->Play(L"BradDiveRight", false);
-					mState = eBradState::DiveAttack;
+					mAnimator->Play(L"DiveAnticipationRight", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					mState = eBradState::Dive_Anticipation;
 					break;
 				case 3:
 					mAnimator->Play(L"BradFly_StompRight", false);
@@ -237,45 +262,81 @@ namespace ya
 	{
 	}
 
-	void Brad::diveAttack()
+	void Brad::dive_anticipatiion()
+	{
+		if (mAnimator->IsComplete() && mbLeft)
+		{
+			mAnimator->Play(L"DiveLoopLeft", true);
+			mState = eBradState::Dive_Loop;
+		}
+		if (mAnimator->IsComplete() && mbRight)
+		{
+			mAnimator->Play(L"DiveLoopRight", true);
+			mState = eBradState::Dive_Loop;
+		}
+	}
+
+	void Brad::dive_loop()
 	{
 		Transform* tr = GetComponent<Transform>();
 		Vector2 monsterPos = tr->GetPos();
 
 		Transform* playTr = gPlayer->GetComponent<Transform>();
 		Vector2 playerPos = playTr->GetPos();
-		mTime += Time::DeltaTime();
 
-		if (mTime > 1.0f)
+		mTime += Time::DeltaTime();
+		mMovementTime += Time::DeltaTime();
+
+		if (mbLeft && monsterPos.x > 300)
+		{
+			monsterPos.x -= 200.0f * Time::DeltaTime();
+			collider3->SetCenter(Vector2((-200.0f * mMovementTime) - 130.0f, -120.0f));
+			collider3->SetSize(Vector2(270.0f, 120.0f));
+		}
+
+		if (mbRight && monsterPos.x < 1300)
+		{
+			monsterPos.x += 200.0f * Time::DeltaTime();
+			collider3->SetCenter(Vector2((200.0f * mMovementTime) - 130.0f, -120.0f));
+			collider3->SetSize(Vector2(270.0f, 120.0f));
+		}
+
+		if (mTime > 2.0f)
 		{
 			if (mbLeft)
 			{
-				if (monsterPos.x > 300)
-					monsterPos.x -= 300.0f * Time::DeltaTime();
+				mAnimator->Play(L"DiveEndLeft", false);
+				mState = eBradState::Dive_End;
+				mMovementTime = 0.0f;
+				mTime = 0.0f;
 			}
-
 			if (mbRight)
 			{
-				if (monsterPos.x < 1300)
-					monsterPos.x += 300.0f * Time::DeltaTime();
+				mAnimator->Play(L"DiveEndRight", false);
+				mState = eBradState::Dive_End;
+				mMovementTime = 0.0f;
+				mTime = 0.0f;
 			}
 		}
+		tr->SetPos(monsterPos);
+	}
+
+	void Brad::dive_end()
+	{
 		if (mAnimator->IsComplete() && mbLeft)
 		{
 			mAnimator->Play(L"BradIdleLeft", true);
 			mState = eBradState::Idle;
-			mTime = 0;
+			object::Destory(colObj);
 		}
 		if (mAnimator->IsComplete() && mbRight)
 		{
 			mAnimator->Play(L"BradIdleRight", true);
 			mState = eBradState::Idle;
-			mTime = 0;
+			object::Destory(colObj);
 		}
-
-
-		tr->SetPos(monsterPos);
 	}
+
 	void Brad::attack1()
 	{
 		Transform* tr = GetComponent<Transform>();
@@ -285,19 +346,21 @@ namespace ya
 		Transform* playTr = gPlayer->GetComponent<Transform>();
 		Vector2 playerPos = playTr->GetPos();
 
+		mMovementTime += Time::DeltaTime();
+
 		if (mbLeft)
 		{
 			if (monsterPos.x > 200)
 				monsterPos.x -= 200.0f * Time::DeltaTime();
-			collider3->SetCenter(Vector2(-330.0f, -230.0f));
-			collider3->SetSize(Vector2(180.0f, 300.0f));
+			collider3->SetCenter(Vector2((-200.0f * mMovementTime) - 200.0f, -300.0f));
+			collider3->SetSize(Vector2(200.0f, 300.0f));
 		}
 		if (mbRight)
 		{
 			if (monsterPos.x < 1400)
 				monsterPos.x += 200.0f * Time::DeltaTime();
-			collider3->SetCenter(Vector2(-330.0f, -230.0f));
-			collider3->SetSize(Vector2(180.0f, 300.0f));
+			collider3->SetCenter(Vector2((200.0f * mMovementTime), -300.0f));
+			collider3->SetSize(Vector2(200.0f, 300.0f));
 		}
 		if (mAnimator->IsComplete())
 		{
@@ -306,12 +369,14 @@ namespace ya
 				mAnimator->Play(L"BradIdleLeft", true);
 				object::Destory(colObj);
 				mState = eBradState::Idle;
+				mMovementTime = 0.0f;
 			}
 			if (mbRight)
 			{
 				mAnimator->Play(L"BradIdleRight", true);
 				object::Destory(colObj);
 				mState = eBradState::Idle;
+				mMovementTime = 0.0f;
 			}
 		}
 		tr->SetPos(monsterPos);
@@ -362,7 +427,7 @@ namespace ya
 		{
 			monsterPos.x -= 300.0f * Time::DeltaTime();
 
-			if (mAttackDelay > 0.5f) 
+			if (mAttackDelay > 0.5f)
 			{
 				object::Instantiate<Stone>(Vector2(monsterPos.x, monsterPos.y), eLayerType::Stone);
 				mAttackDelay = 0.0f;

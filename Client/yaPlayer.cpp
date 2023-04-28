@@ -12,8 +12,8 @@
 #include "yaScene.h"
 #include "yaObject.h"
 #include "yaRigidbody.h"
-#include "yaCollider2.h"
 #include "yaColliderObj.h"
+#include "yaGround.h"
 
 namespace ya
 {
@@ -120,17 +120,22 @@ namespace ya
 	}
 	void Player::OnCollisionEnter(Collider* other)
 	{
+		if (other->GetOwner()->GetLayerType() == eLayerType::Ground)
+			
 
+		int a = 0;
 	}
 
 	void Player::OnCollisionStay(Collider* other)
 	{
-
+		if (other->GetOwner()->GetLayerType() == eLayerType::Ground)
+			continue;
 	}
 
 	void Player::OnCollisionExit(Collider* other)
 	{
-
+		if (other->GetOwner()->GetLayerType() == eLayerType::Ground)
+			continue;
 	}
 
 	void Player::move()
@@ -179,7 +184,6 @@ namespace ya
 			}
 			else
 			{
-				//mRigidbody->AddForce(Vector2(-500.0f, 0.0f));
 				pos.x -= 400.0f * Time::DeltaTime();
 				mPrevState = ePlayerState::Move;
 				mState = ePlayerState::Move;
@@ -238,7 +242,6 @@ namespace ya
 			}
 			else
 			{
-				//mRigidbody->AddForce(Vector2(500.0f, 0.0f));
 				pos.x += 400.0f * Time::DeltaTime();
 				mPrevState = ePlayerState::Move;
 				mState = ePlayerState::Move;
@@ -306,7 +309,7 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack1Left", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-220.0f, -90.0f));
 					collider3->SetSize(Vector2(200.0f, 90.0f));
@@ -314,7 +317,7 @@ namespace ya
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack1Right", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(20.0f, -90.0f));
 					collider3->SetSize(Vector2(200.0f, 90.0f));
@@ -325,7 +328,7 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack2Left", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-130.0f, -220.0f));
 					collider3->SetSize(Vector2(100.0f, 220.0f));
@@ -333,7 +336,7 @@ namespace ya
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack2Right", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(20.0f, -220.0f));
 					collider3->SetSize(Vector2(100.0f, 220.0f));
@@ -344,7 +347,7 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack3Left", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-180.0f, -300.0f));
 					collider3->SetSize(Vector2(180.0f, 300.0f));
@@ -352,7 +355,7 @@ namespace ya
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack3Right", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(0.0f, -300.0f));
 					collider3->SetSize(Vector2(180.0f, 300.0f));
@@ -363,7 +366,7 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack4Left", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-240.0f, -390.0f));
 					collider3->SetSize(Vector2(240.0f, 390.0f));
@@ -371,7 +374,7 @@ namespace ya
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack4Right", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(0.0f, -390.0f));
 					collider3->SetSize(Vector2(240.0f, 390.0f));
@@ -398,7 +401,6 @@ namespace ya
 
 		if (Input::GetKeyDown(eKeyCode::A))
 		{
-			//mRigidbody->AddForce(Vector2(-200.0f, 0.0f));
 			pos.x -= 100.0f * Time::DeltaTime();
 			mAnimator->Play(L"PlayerRunLeft", true);
 			mPrevState = ePlayerState::Idle;
@@ -407,7 +409,6 @@ namespace ya
 
 		if (Input::GetKeyDown(eKeyCode::D))
 		{
-			//mRigidbody->AddForce(Vector2(200.0f, 0.0f));
 			pos.x += 100.0f * Time::DeltaTime();
 			mAnimator->Play(L"PlayerRunRight", true);
 			mPrevState = ePlayerState::Idle;
@@ -488,7 +489,7 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack1Left", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-220.0f, -90.0f));
 					collider3->SetSize(Vector2(200.0f, 90.0f));
@@ -496,7 +497,7 @@ namespace ya
 				if (mbRight)
 				{ 
 					mAnimator->Play(L"PlayerAttack1Right", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(20.0f, -90.0f));
 					collider3->SetSize(Vector2(200.0f, 90.0f));
@@ -507,7 +508,7 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack2Left", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-130.0f, -220.0f));
 					collider3->SetSize(Vector2(100.0f, 220.0f));
@@ -515,7 +516,7 @@ namespace ya
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack2Right", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(20.0f, -220.0f));
 					collider3->SetSize(Vector2(100.0f, 220.0f));
@@ -526,7 +527,7 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack3Left", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-180.0f, -300.0f));
 					collider3->SetSize(Vector2(180.0f, 300.0f));
@@ -534,7 +535,7 @@ namespace ya
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack3Right", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(0.0f, -300.0f));
 					collider3->SetSize(Vector2(180.0f, 300.0f));
@@ -545,7 +546,7 @@ namespace ya
 				if (mbLeft)
 				{
 					mAnimator->Play(L"PlayerAttack4Left", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-240.0f, -390.0f));
 					collider3->SetSize(Vector2(240.0f, 390.0f));
@@ -553,7 +554,7 @@ namespace ya
 				if (mbRight)
 				{
 					mAnimator->Play(L"PlayerAttack4Right", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::Collider);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(0.0f, -390.0f));
 					collider3->SetSize(Vector2(240.0f, 390.0f));

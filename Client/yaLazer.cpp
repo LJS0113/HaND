@@ -2,7 +2,9 @@
 #include "yaGameObject.h"
 #include "yaAnimator.h"
 #include "yaCollider.h"
-
+#include "yaTransform.h"
+#include "yaImage.h"
+#include "yaResources.h"
 
 namespace ya
 {
@@ -14,14 +16,11 @@ namespace ya
 	}
 	void Lazer::Initialize()
 	{
-		mAnimator = AddComponent<Animator>();
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\FX\\Lazer", Vector2::Zero, 0.1f);
+		mImage = Resources::Load<Image>(L"Lazer", L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\FX\\Lazer\\Lazer_01.bmp");
 
-		mAnimator->Play(L"BradV2FXLazer", false);
 		collider = AddComponent<Collider>();
-		collider->SetCenter(Vector2(-70.0f, -100.0f));
-		collider->SetSize(Vector2(150.0f, 150.0f));
-
+		collider->SetCenter(Vector2(0.0f, 0.0f));
+		collider->SetSize(Vector2(mImage->GetWidth(), mImage->GetHeight()));
 		GameObject::Initialize();
 	}
 	void Lazer::Update()
@@ -30,6 +29,13 @@ namespace ya
 	}
 	void Lazer::Render(HDC hdc)
 	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 pos = tr->GetPos();
+
+		TransparentBlt(hdc, pos.x, pos.y, mImage->GetWidth(), mImage->GetHeight()
+			, mImage->GetHdc(), 0, 0, mImage->GetWidth(), mImage->GetHeight()
+			, RGB(255, 0, 255));
+
 		GameObject::Render(hdc);
 	}
 	void Lazer::Release()

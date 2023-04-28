@@ -32,9 +32,6 @@
     <Filter Include="Engine\Layer">
       <UniqueIdentifier>{cc2bc656-3033-4f20-abdb-49d4ed8d7491}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Scene\PlayScene">
-      <UniqueIdentifier>{d6a1ddab-4fc8-4f3a-ab52-36def3516c98}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Contents\Player">
       <UniqueIdentifier>{fe7d43f7-efa7-4779-85c0-28b9564857a3}</UniqueIdentifier>
     </Filter>
@@ -253,9 +250,6 @@
     <ClInclude Include="yaHungAS.h">
       <Filter>Contents\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="yaCollider2.h">
-      <Filter>Contents\Bullet</Filter>
-    </ClInclude>
     <ClInclude Include="yaStone.h">
       <Filter>Contents\Bullet</Filter>
     </ClInclude>
@@ -419,9 +413,6 @@
       <Filter>Engine\Component\Base</Filter>
     </ClCompile>
     <ClCompile Include="yaHungAS.cpp">
-      <Filter>Contents\Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="yaCollider2.cpp">
       <Filter>Contents\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="yaStone.cpp">

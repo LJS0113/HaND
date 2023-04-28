@@ -26,8 +26,6 @@ namespace ya
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		mPos = tr->GetPos() + mCenter;
-
-		int a = 0;
 	}
 
 	void Collider::Update()
