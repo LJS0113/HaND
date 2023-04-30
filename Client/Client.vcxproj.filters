@@ -262,6 +262,9 @@
     <ClInclude Include="yaLazer.h">
       <Filter>Contents\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="yaMonsterColliderObj.h">
+      <Filter>Engine\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -426,6 +429,9 @@
     </ClCompile>
     <ClCompile Include="yaLazer.cpp">
       <Filter>Contents\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMonsterColliderObj.cpp">
+      <Filter>Engine\Resource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -16,6 +16,7 @@ namespace ya
 			Death,
 			Idle,
 			Attack,
+			End,
 		};
 		Hung();
 		~Hung();
@@ -30,10 +31,13 @@ namespace ya
 		void idle();
 		void attack();
 		void intro();
+		void end();
 
 		virtual void OnCollisionEnter(class Collider* other) override;
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
+
+		eHungState GetHungState() { return mState; }
 
 	private:
 		Animator* mAnimator;
@@ -41,8 +45,9 @@ namespace ya
 		eHungState mState;
 		Collider* collider;
 		Collider* collider3;
-		class ColliderObj* colObj;
+		class MonsterColliderObj* colObj;
 		UINT rand;
+		UINT hpCount;
 		float mTime;
 		bool mbLeft;
 		bool mbRight;

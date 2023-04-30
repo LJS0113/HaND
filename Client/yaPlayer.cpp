@@ -23,6 +23,8 @@ namespace ya
 		: mbRight(true)
 		, mbLeft(false)
 		, attackCount(0)
+		, hpCount(100)
+		, mbMonsterDead(false)
 	{
 	}
 	Player::~Player()
@@ -56,6 +58,9 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Dash\\Right", Vector2::Zero, 0.03f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Dash\\Left", Vector2::Zero, 0.03f);
 
+		// Death
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Dead_Screen", Vector2::Zero, 0.03f);
+
 		// Attack
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack1\\Right", Vector2::Zero, 0.02f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack2\\Right", Vector2::Zero, 0.05f);
@@ -84,6 +89,12 @@ namespace ya
 	void Player::Update()
 	{
 		GameObject::Update();
+
+		if (hpCount == 0)
+		{
+			mAnimator->Play(L"HaND_ResourcePlayerDead_Screen", false);
+			mState = ePlayerState::Death;
+		}
 
 		switch (mState)
 		{
@@ -120,22 +131,27 @@ namespace ya
 	}
 	void Player::OnCollisionEnter(Collider* other)
 	{
-		if (other->GetOwner()->GetLayerType() == eLayerType::Ground)
+		if (other->GetOwner()->GetLayerType() == eLayerType::HungAS)
+			hpCount -= 10;
+		if (other->GetOwner()->GetLayerType() == eLayerType::Stone)
+			hpCount -= 10;
+		if (other->GetOwner()->GetLayerType() == eLayerType::Lazer)
+			hpCount -= 10;
+		if (other->GetOwner()->GetLayerType() == eLayerType::MonsterColliderObj)
+			hpCount -= 10;
 			
-
-		int a = 0;
 	}
 
 	void Player::OnCollisionStay(Collider* other)
 	{
-		if (other->GetOwner()->GetLayerType() == eLayerType::Ground)
-			continue;
+		//if (other->GetOwner()->GetLayerType() == eLayerType::Ground)
+
 	}
 
 	void Player::OnCollisionExit(Collider* other)
 	{
-		if (other->GetOwner()->GetLayerType() == eLayerType::Ground)
-			continue;
+		//if (other->GetOwner()->GetLayerType() == eLayerType::Ground)
+
 	}
 
 	void Player::move()
@@ -387,6 +403,7 @@ namespace ya
 	}
 	void Player::death()
 	{
+
 	}
 	void Player::idle()
 	{

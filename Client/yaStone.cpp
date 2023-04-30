@@ -8,6 +8,7 @@
 namespace ya
 {
 	Stone::Stone()
+		: mLayerType(eLayerType::Stone)
 	{
 	}
 

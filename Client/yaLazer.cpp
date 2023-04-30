@@ -9,6 +9,7 @@
 namespace ya
 {
 	Lazer::Lazer()
+		: mLayerType(eLayerType::Lazer)
 	{
 	}
 	Lazer::~Lazer()

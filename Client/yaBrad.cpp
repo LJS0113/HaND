@@ -9,6 +9,7 @@
 #include "yaObject.h"
 #include "yaStone.h"
 #include "yaColliderObj.h"
+#include "yaMonsterColliderObj.h"
 
 namespace ya
 {
@@ -19,6 +20,7 @@ namespace ya
 		, mflyTime(0.0f)
 		, mfallingTime(0.0f)
 		, mMovementTime(0.0f)
+		, hpCount(100)
 	{
 	}
 
@@ -40,6 +42,9 @@ namespace ya
 		// Attack
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Attack1\\Right", Vector2::Zero, 0.01f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Attack1\\Left", Vector2::Zero, 0.01f);
+
+		// Dead
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\End", Vector2::Zero, 0.01f);
 
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Dive\\Anticipation\\Right", Vector2::Zero, 0.007f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Dive\\Anticipation\\Left", Vector2::Zero, 0.007f);
@@ -121,6 +126,20 @@ namespace ya
 		GameObject::Release();
 	}
 
+	void Brad::OnCollisionEnter(Collider* other)
+	{
+		if (other->GetOwner()->GetLayerType() == eLayerType::ColliderObj)
+			hpCount -= 10;
+	}
+
+	void Brad::OnCollisionStay(Collider* other)
+	{
+	}
+
+	void Brad::OnCollisionExit(Collider* other)
+	{
+	}
+
 	void Brad::intro()
 	{
 		if (mAnimator->IsComplete())
@@ -148,6 +167,12 @@ namespace ya
 		std::srand((unsigned int)time(NULL));
 		rand = (std::rand() % 3) + 1;
 		mTime += Time::DeltaTime();
+
+		if (hpCount == 0)
+		{
+			mAnimator->Play(L"MonsterBradEnd", false);
+			mState = eBradState::Death;
+		}
 
 		//// 테스트용
 		//if (Input::GetKeyDown(eKeyCode::K))
@@ -182,14 +207,14 @@ namespace ya
 				{
 				case 1:
 					mAnimator->Play(L"BradAttack1Left", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					mState = eBradState::Attack1;
 					break;
 				case 2:
 					mAttackDelay += Time::DeltaTime();
 					mAnimator->Play(L"DiveAnticipationLeft", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					mState = eBradState::Dive_Anticipation;
 					break;
@@ -216,13 +241,13 @@ namespace ya
 				{
 				case 1:
 					mAnimator->Play(L"BradAttack1Right", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					mState = eBradState::Attack1;
 					break;
 				case 2:
 					mAnimator->Play(L"DiveAnticipationRight", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					mState = eBradState::Dive_Anticipation;
 					break;

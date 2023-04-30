@@ -19,8 +19,11 @@ namespace ya
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
 
+		virtual eLayerType GetLayerType() override { return mLayerType; }
+
 	private:
 		Collider* collider;
 		float mTime;
+		eLayerType mLayerType;
 	};
 }

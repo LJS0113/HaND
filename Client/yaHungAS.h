@@ -15,9 +15,11 @@ namespace ya
 		virtual void Update() override;
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
+		virtual eLayerType GetLayerType() override { return mLayerType; }
 
 	private:
 		Animator* mAnimator;
 		class Collider* collider;
+		eLayerType mLayerType;
 	};
 }

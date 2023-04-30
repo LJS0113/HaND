@@ -9,6 +9,7 @@
 #include "yaPlayer.h"
 #include "yaInput.h"
 #include "yaTime.h"
+#include "yaMonsterColliderObj.h"
 
 namespace ya
 {
@@ -17,6 +18,7 @@ namespace ya
 		, mbLeft(true)
 		, mbRight(false)
 		, mMovementTime(0.0f)
+		, hpCount(100)
 	{
 	}
 
@@ -133,6 +135,20 @@ namespace ya
 		GameObject::Release();
 	}
 
+	void BradV2::OnCollisionEnter(Collider* other)
+	{
+		if (other->GetOwner()->GetLayerType() == eLayerType::ColliderObj)
+			hpCount -= 10;
+	}
+
+	void BradV2::OnCollisionStay(Collider* other)
+	{
+	}
+
+	void BradV2::OnCollisionExit(Collider* other)
+	{
+	}
+
 	void BradV2::intro()
 	{
 		if (mAnimator->IsComplete())
@@ -152,10 +168,17 @@ namespace ya
 
 	void BradV2::death()
 	{
+
 	}
 
 	void BradV2::idle()
 	{
+		if (hpCount == 0)
+		{
+			mAnimator->Play(L"MonsterBradV2Death", false);
+			mState = eBradV2State::Death;
+		}
+
 		collider->SetCenter(Vector2(-90.0f, -240.0f));
 		collider->SetSize(Vector2(180.0f, 250.0f));
 
@@ -175,7 +198,7 @@ namespace ya
 			mbLeft = true;
 			mbRight = false;
 			mAnimator->Play(L"BradV2Attack1Left", false);
-			colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+			colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 			collider3 = colObj->GetComponent<Collider>();
 			mState = eBradV2State::Attack1;
 		}
@@ -185,7 +208,7 @@ namespace ya
 			mbLeft = false;
 			mbRight = true;
 			mAnimator->Play(L"BradV2Attack1Right", false);
-			colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+			colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 			collider3 = colObj->GetComponent<Collider>();
 			mState = eBradV2State::Attack1;
 		}
@@ -393,7 +416,7 @@ namespace ya
 				{
 				case 1:
 					mAnimator->Play(L"BradV2Attack1Left", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-330.0f, -230.0f));
 					collider3->SetSize(Vector2(430.0f, 230.0f));
@@ -401,7 +424,7 @@ namespace ya
 					break;
 				case 2:
 					mAnimator->Play(L"BradV2Attack2Left", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-330.0f, -230.0f));
 					collider3->SetSize(Vector2(430.0f, 230.0f));
@@ -409,7 +432,7 @@ namespace ya
 					break;
 				case 3:
 					mAnimator->Play(L"Attack3SliceLeft", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-330.0f, -230.0f));
 					collider3->SetSize(Vector2(430.0f, 230.0f));
@@ -421,7 +444,7 @@ namespace ya
 					break;
 				case 5:
 					mAnimator->Play(L"Attack6ReadyLeft", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-330.0f, -230.0f));
 					collider3->SetSize(Vector2(430.0f, 230.0f));
@@ -448,7 +471,7 @@ namespace ya
 				{
 				case 1:
 					mAnimator->Play(L"BradV2Attack1Right", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-330.0f, -230.0f));
 					collider3->SetSize(Vector2(430.0f, 230.0f));
@@ -456,7 +479,7 @@ namespace ya
 					break;
 				case 2:
 					mAnimator->Play(L"BradV2Attack2Right", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-330.0f, -230.0f));
 					collider3->SetSize(Vector2(430.0f, 230.0f));
@@ -464,7 +487,7 @@ namespace ya
 					break;
 				case 3:
 					mAnimator->Play(L"Attack3SliceRight", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-330.0f, -230.0f));
 					collider3->SetSize(Vector2(430.0f, 230.0f));
@@ -476,7 +499,7 @@ namespace ya
 					break;
 				case 5:
 					mAnimator->Play(L"Attack6ReadyRight", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-330.0f, -230.0f));
 					collider3->SetSize(Vector2(430.0f, 230.0f));

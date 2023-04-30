@@ -26,6 +26,7 @@ enum class eLayerType
 	Player,
 	Collider,
 	ColliderObj,
+	MonsterColliderObj,
 	HungAS,
 	Stone,
 	Lazer,

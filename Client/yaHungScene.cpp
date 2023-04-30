@@ -37,18 +37,11 @@ namespace ya
 		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 600.0f), eLayerType::Player);
 		Ground* ground = object::Instantiate<Ground>(Vector2(-300.0f, 800.0f), eLayerType::Ground);
 		ground->SetPlayer(gPlayer);
+		Hung::eHungState hungState = hung->GetState();
 
 	}
 	void HungScene::Update()
 	{
-		if (Input::GetKeyState(eKeyCode::M) == eKeyState::Down)
-		{
-			Vector2 pos;
-			pos = hung->GetComponent<Transform>()->GetPos();
-			pos.x += 200 * Time::DeltaTime();
-			hung->GetComponent<Transform>()->SetPos(pos);
-			hung->GetComponent<Animator>()->Play(L"MonsterHungDeath", false);
-		}
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			SceneManager::LoadScene(eSceneType::Brad);
@@ -67,7 +60,7 @@ namespace ya
 	{
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
 
-		CollisionManager::SetLayer(eLayerType::Player, eLayerType::ColliderObj, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::MonsterColliderObj, true);
 		CollisionManager::SetLayer(eLayerType::ColliderObj, eLayerType::Monster, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::HungAS, true);
 	}

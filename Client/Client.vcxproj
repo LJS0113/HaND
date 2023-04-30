@@ -159,6 +159,7 @@
     <ClInclude Include="yaLoadingScene.h" />
     <ClInclude Include="yaLogoPlayer.h" />
     <ClInclude Include="yaMonster.h" />
+    <ClInclude Include="yaMonsterColliderObj.h" />
     <ClInclude Include="yaObject.h" />
     <ClInclude Include="yaResources.h" />
     <ClInclude Include="targetver.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="yaLoadingScene.cpp" />
     <ClCompile Include="yaLogoPlayer.cpp" />
     <ClCompile Include="yaMonster.cpp" />
+    <ClCompile Include="yaMonsterColliderObj.cpp" />
     <ClCompile Include="yaResources.cpp" />
     <ClCompile Include="yaApplication.cpp" />
     <ClCompile Include="yaComponent.cpp" />

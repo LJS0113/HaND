@@ -80,5 +80,4 @@ namespace ya
 		mActiveScene->Initialize();
 		mActiveScene->OnEnter();
 	}
-	
 }

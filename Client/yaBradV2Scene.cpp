@@ -59,7 +59,7 @@ namespace ya
 	{
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
 
-		CollisionManager::SetLayer(eLayerType::Player, eLayerType::ColliderObj, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::MonsterColliderObj, true);
 		CollisionManager::SetLayer(eLayerType::Monster, eLayerType::ColliderObj, true);
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Lazer, true);
 	}

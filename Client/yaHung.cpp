@@ -14,12 +14,14 @@
 #include "yaHungAS.h"
 #include "yaPlayer.h"
 #include "yaColliderObj.h"
+#include "yaMonsterColliderObj.h"
 
 namespace ya
 {
 	Hung::Hung()
 		: mbLeft(true)
 		, mbRight(false)
+		, hpCount(100)
 	{
 	}
 	Hung::~Hung()
@@ -72,6 +74,8 @@ namespace ya
 	{
 		GameObject::Update();
 		
+
+
 		switch (mState)
 		{
 		case ya::Hung::eHungState::Move:
@@ -88,6 +92,9 @@ namespace ya
 			break;
 		case ya::Hung::eHungState::Idle:
 			idle();
+			break;
+		case ya::Hung::eHungState::End:
+			end();
 			break;
 		default:
 			break;
@@ -153,21 +160,21 @@ namespace ya
 						rand = std::rand() % 1023;
 						object::Instantiate<HungAS>(Vector2(float(rand), 1200.0f), eLayerType::HungAS);
 					}
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-180.0f, -240.0f));
 					collider3->SetSize(Vector2(230.0f, 250.0f));
 					break;
 				case 2:
 					mAnimator->Play(L"AttackLassoLeftThrow", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-420.0f, -140.0f));
 					collider3->SetSize(Vector2(320.0f, 140.0f));
 					break;
 				case 3:
 					mAnimator->Play(L"HungAttackMeleeLeft", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-330.0f, -230.0f));
 					collider3->SetSize(Vector2(430.0f, 230.0f));
@@ -197,21 +204,21 @@ namespace ya
 						rand = std::rand() % 1023;
 						object::Instantiate<HungAS>(Vector2(float(rand), 1200.0f), eLayerType::HungAS);
 					}
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-50.0f, -240.0f));
 					collider3->SetSize(Vector2(230.0f, 250.0f));
 					break;
 				case 2:
 					mAnimator->Play(L"AttackLassoRightThrow", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(100.0f, -140.0f));
 					collider3->SetSize(Vector2(320.0f, 140.0f));
 					break;
 				case 3:
 					mAnimator->Play(L"HungAttackMeleeRight", false);
-					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
 					collider3->SetCenter(Vector2(-100.0f, -230.0f));
 					collider3->SetSize(Vector2(430.0f, 230.0f));
@@ -227,6 +234,15 @@ namespace ya
 	}
 	void Hung::death()
 	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 monsterPos = tr->GetPos();
+
+		monsterPos.x += 200 * Time::DeltaTime();
+
+		if (mAnimator->IsComplete())
+		{
+			mState = eHungState::End;
+		}
 	}
 	void Hung::idle()
 	{
@@ -235,6 +251,12 @@ namespace ya
 
 		Transform* playTr = gPlayer->GetComponent<Transform>();
 		Vector2 playerPos = playTr->GetPos();
+
+		if (hpCount == 0)
+		{
+			mAnimator->Play(L"MonsterHungDeath", false);
+			mState = eHungState::Death;
+		}
 
 		mTime += Time::DeltaTime();
 		if (mTime > 1.0f)
@@ -300,9 +322,14 @@ namespace ya
 			}
 		}
 	}
+	void Hung::end()
+	{
+
+	}
 	void Hung::OnCollisionEnter(Collider* other)
 	{
-		int a = 0;
+		if (other->GetOwner()->GetLayerType() == eLayerType::ColliderObj)
+			hpCount -= 10;
 	}
 	void Hung::OnCollisionStay(Collider* other)
 	{

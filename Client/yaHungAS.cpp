@@ -8,6 +8,7 @@
 namespace ya
 {
 	HungAS::HungAS()
+		: mLayerType(eLayerType::HungAS)
 	{
 	}
 	HungAS::~HungAS()

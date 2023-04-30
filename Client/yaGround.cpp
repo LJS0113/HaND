@@ -126,9 +126,4 @@ namespace ya
 		mCollider->SetSize(size);
 	}
 
-	eLayerType Ground::GetLayerType()
-	{
-		return mLayerType;
-	}
-
 }

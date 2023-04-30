@@ -32,6 +32,10 @@ namespace ya
 		virtual void Render(HDC hdc) override;
 		virtual void Release() override;
 
+		virtual void OnCollisionEnter(class Collider* other) override;
+		virtual void OnCollisionStay(class Collider* other) override;
+		virtual void OnCollisionExit(class Collider* other) override;
+
 		void intro();
 		void death();
 		void idle();
@@ -46,15 +50,18 @@ namespace ya
 		void spinAir();
 		void flyToIdle();
 
+		eBradState GetBradState() { return mState; }
+
 	private:
 		Animator* mAnimator;
 		Rigidbody* mRigidbody;
 		eBradState mState;
 		Collider* collider;
 		Collider* collider3;
-		class ColliderObj* colObj;
+		class MonsterColliderObj* colObj;
 
 		UINT rand;
+		UINT hpCount;
 		float mTime;
 		float mMovementTime;
 		float mAttackDelay;

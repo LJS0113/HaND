@@ -6,6 +6,7 @@ namespace ya
 {
 	ColliderObj::ColliderObj()
 		: mTime(0.0f)
+		, mLayerType(eLayerType::ColliderObj)
 	{
 	}
 	ColliderObj::~ColliderObj()
@@ -33,7 +34,6 @@ namespace ya
 	}
 	void ColliderObj::OnCollisionEnter(Collider* other)
 	{ 
-		int a = 0;
 	}
 	void ColliderObj::OnCollisionStay(Collider* other)
 	{

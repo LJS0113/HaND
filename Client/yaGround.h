@@ -23,7 +23,7 @@ namespace ya
 		void SetImage(const std::wstring& key, const std::wstring& fileName);
 		void SetSize(Vector2 size);
 
-		virtual eLayerType GetLayerType() override;
+		virtual eLayerType GetLayerType() override { return mLayerType;	}
 
 	private:
 		class Collider* mCollider;

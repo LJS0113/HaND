@@ -31,6 +31,8 @@ namespace ya
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
 
+		void SetMonsterDead(bool isDead) { mbMonsterDead = isDead; }
+
 	private:
 		void move();
 		void death();
@@ -47,10 +49,14 @@ namespace ya
 		Collider* collider;
 		Collider* collider3;
 		class ColliderObj* colObj;
+
+		UINT hpCount;
 		UINT attackCount;
 		float mTime;
+
 		bool mbRight;
 		bool mbLeft;
+		bool mbMonsterDead;
 	};
 
 	extern Player* gPlayer;
