@@ -151,6 +151,7 @@ namespace ya
 
 	void Brad::death()
 	{
+
 	}
 
 	void Brad::idle()

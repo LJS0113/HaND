@@ -14,6 +14,7 @@ namespace ya
 			Intro,
 			Move,
 			Death,
+			Death_Move,
 			Idle,
 			Attack,
 			End,
@@ -28,6 +29,7 @@ namespace ya
 
 		void move();
 		void death();
+		void death_move();
 		void idle();
 		void attack();
 		void intro();
@@ -47,8 +49,9 @@ namespace ya
 		Collider* collider3;
 		class MonsterColliderObj* colObj;
 		UINT rand;
-		UINT hpCount;
+		float hpCount;
 		float mTime;
+		float mDeathTime;
 		bool mbLeft;
 		bool mbRight;
 	};

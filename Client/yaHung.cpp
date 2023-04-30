@@ -15,13 +15,15 @@
 #include "yaPlayer.h"
 #include "yaColliderObj.h"
 #include "yaMonsterColliderObj.h"
+#include "yaElevator.h"
 
 namespace ya
 {
 	Hung::Hung()
 		: mbLeft(true)
 		, mbRight(false)
-		, hpCount(100)
+		, hpCount(100.0f)
+		, mDeathTime(0.0f)
 	{
 	}
 	Hung::~Hung()
@@ -50,7 +52,8 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\AttackSpecial\\FX", Vector2::Zero, 0.1f);
 
 		// Death
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Death", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Death\\Idle", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Death\\Move", Vector2::Zero, 0.1f);
 
 		// Intro
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Intro\\Start", Vector2::Zero, 0.1f);
@@ -73,7 +76,6 @@ namespace ya
 	void Hung::Update()
 	{
 		GameObject::Update();
-		
 
 
 		switch (mState)
@@ -89,6 +91,9 @@ namespace ya
 			break;
 		case ya::Hung::eHungState::Death:
 			death();
+			break;
+		case ya::Hung::eHungState::Death_Move:
+			death_move();
 			break;
 		case ya::Hung::eHungState::Idle:
 			idle();
@@ -237,12 +242,27 @@ namespace ya
 		Transform* tr = GetComponent<Transform>();
 		Vector2 monsterPos = tr->GetPos();
 
-		monsterPos.x += 200 * Time::DeltaTime();
-
 		if (mAnimator->IsComplete())
 		{
-			mState = eHungState::End;
+			mAnimator->Play(L"HungDeathMove", true);
+			mState = eHungState::Death_Move;
 		}
+	}
+	void Hung::death_move()
+	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 monsterPos = tr->GetPos();
+		mDeathTime += Time::DeltaTime();
+		monsterPos.x += 200 * Time::DeltaTime();
+
+		if (mDeathTime > 3.0f)
+		{
+			mAnimator->Play(L"HungDeathMove", false);
+			mState = eHungState::End;
+			mDeathTime = 0.0f;
+		}
+
+		tr->SetPos(monsterPos);
 	}
 	void Hung::idle()
 	{
@@ -252,9 +272,9 @@ namespace ya
 		Transform* playTr = gPlayer->GetComponent<Transform>();
 		Vector2 playerPos = playTr->GetPos();
 
-		if (hpCount == 0)
+		if (hpCount < 0)
 		{
-			mAnimator->Play(L"MonsterHungDeath", false);
+			mAnimator->Play(L"HungDeathIdle", false);
 			mState = eHungState::Death;
 		}
 
@@ -324,6 +344,7 @@ namespace ya
 	}
 	void Hung::end()
 	{
+		object::Instantiate<Elevator>(Vector2(1300.0f, 850.0f), eLayerType::Elevator);
 
 	}
 	void Hung::OnCollisionEnter(Collider* other)

@@ -15,6 +15,7 @@
 #include "yaScene.h"
 #include "yaAnimator.h"
 #include "yaTime.h"
+#include "yaElevator.h"
 
 extern ya::Player* gPlayer;
 
@@ -37,7 +38,6 @@ namespace ya
 		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 600.0f), eLayerType::Player);
 		Ground* ground = object::Instantiate<Ground>(Vector2(-300.0f, 800.0f), eLayerType::Ground);
 		ground->SetPlayer(gPlayer);
-		Hung::eHungState hungState = hung->GetState();
 
 	}
 	void HungScene::Update()
@@ -46,6 +46,7 @@ namespace ya
 		{
 			SceneManager::LoadScene(eSceneType::Brad);
 		}
+
 		Scene::Update();
 	}
 	void HungScene::Render(HDC hdc)
