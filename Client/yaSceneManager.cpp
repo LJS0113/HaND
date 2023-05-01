@@ -15,6 +15,7 @@ namespace ya
 {
 	std::vector<Scene*> SceneManager::mScenes = {};
 	Scene* SceneManager::mActiveScene = nullptr;
+	Scene* SceneManager::mPrevScene = nullptr;
 
 	void SceneManager::Initialize()
 	{
@@ -43,6 +44,27 @@ namespace ya
 
 	void SceneManager::Update()
 	{
+
+		if (mActiveScene == mScenes[(UINT)eSceneType::Title])
+		{
+			mPrevScene = mScenes[(UINT)eSceneType::Title];
+		}
+		if (mActiveScene == mScenes[(UINT)eSceneType::Play])
+		{
+			mPrevScene = mScenes[(UINT)eSceneType::Play];
+		}
+		if (mActiveScene == mScenes[(UINT)eSceneType::Hung])
+		{
+			mPrevScene = mScenes[(UINT)eSceneType::Hung];
+		}
+		if (mActiveScene == mScenes[(UINT)eSceneType::Brad])
+		{
+			mPrevScene = mScenes[(UINT)eSceneType::Brad];
+		}
+		if (mActiveScene == mScenes[(UINT)eSceneType::BradV2])
+		{
+			mPrevScene = mScenes[(UINT)eSceneType::BradV2];
+		}
 		mActiveScene->Update();
 	}
 

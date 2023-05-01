@@ -22,6 +22,7 @@ extern ya::Player* gPlayer;
 namespace ya
 {
 	HungScene::HungScene()
+		: mType(eSceneType::Hung)
 	{
 	}
 	HungScene::~HungScene()
@@ -44,7 +45,7 @@ namespace ya
 	{
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
-			SceneManager::LoadScene(eSceneType::Brad);
+			SceneManager::LoadScene(eSceneType::Loading);
 		}
 
 		Scene::Update();
@@ -60,6 +61,7 @@ namespace ya
 	void HungScene::OnEnter()
 	{
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Ground, true);
+		CollisionManager::SetLayer(eLayerType::Player, eLayerType::Elevator, true);
 
 		CollisionManager::SetLayer(eLayerType::Player, eLayerType::MonsterColliderObj, true);
 		CollisionManager::SetLayer(eLayerType::ColliderObj, eLayerType::Monster, true);

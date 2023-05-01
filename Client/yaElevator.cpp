@@ -6,6 +6,7 @@
 #include "yaInput.h"
 #include "yaSceneManager.h"
 #include "yaPlayer.h"
+#include "yaObject.h"
 
 extern ya::Player* gPlayer;
 
@@ -61,8 +62,7 @@ namespace ya
 		}
 		if (gPlayer->GetComponent<Animator>()->IsComplete())
 		{
-			SceneManager::LoadScene(eSceneType::Hung);
-			gPlayer->GetComponent<Animator>()->Play(L"PlayerIdleRight", true);
+			SceneManager::LoadScene(eSceneType::Loading);
 		}
 	}
 

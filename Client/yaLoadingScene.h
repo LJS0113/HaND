@@ -18,8 +18,13 @@ namespace ya
 
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
+
+		virtual eSceneType GetSceneType() override { return mType; }
+
 	private:
 		Image* mImage;
 		Animator* mAnimator;
+		eSceneType mType;
+		Loading* loading;
 	};
 }

@@ -61,7 +61,7 @@ namespace ya
 		class MonsterColliderObj* colObj;
 
 		UINT rand;
-		UINT hpCount;
+		float hpCount;
 		float mTime;
 		float mMovementTime;
 		float mAttackDelay;
@@ -70,5 +70,6 @@ namespace ya
 		bool mbLeft;
 		bool mbRight;
 
+		class BradV2* bradV2;
 	};
 }

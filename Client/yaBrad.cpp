@@ -10,6 +10,7 @@
 #include "yaStone.h"
 #include "yaColliderObj.h"
 #include "yaMonsterColliderObj.h"
+#include "yaBradV2.h"
 
 namespace ya
 {
@@ -20,7 +21,7 @@ namespace ya
 		, mflyTime(0.0f)
 		, mfallingTime(0.0f)
 		, mMovementTime(0.0f)
-		, hpCount(100)
+		, hpCount(100.0f)
 	{
 	}
 
@@ -151,7 +152,10 @@ namespace ya
 
 	void Brad::death()
 	{
+		Transform* tr = GetComponent<Transform>();
+		Vector2 monsterPos = tr->GetPos();
 
+		BradV2* bradV2 = object::Instantiate<BradV2>(Vector2(monsterPos.x, monsterPos.y), eLayerType::Monster);
 	}
 
 	void Brad::idle()
@@ -169,7 +173,7 @@ namespace ya
 		rand = (std::rand() % 3) + 1;
 		mTime += Time::DeltaTime();
 
-		if (hpCount == 0)
+		if (hpCount < 0)
 		{
 			mAnimator->Play(L"MonsterBradEnd", false);
 			mState = eBradState::Death;

@@ -255,9 +255,10 @@ namespace ya
 		mDeathTime += Time::DeltaTime();
 		monsterPos.x += 200 * Time::DeltaTime();
 
-		if (mDeathTime > 3.0f)
+		if (mDeathTime > 5.0f)
 		{
 			mAnimator->Play(L"HungDeathMove", false);
+			object::Instantiate<Elevator>(Vector2(1300.0f, 900.0f), eLayerType::Elevator);
 			mState = eHungState::End;
 			mDeathTime = 0.0f;
 		}
@@ -344,7 +345,7 @@ namespace ya
 	}
 	void Hung::end()
 	{
-		object::Instantiate<Elevator>(Vector2(1300.0f, 850.0f), eLayerType::Elevator);
+
 
 	}
 	void Hung::OnCollisionEnter(Collider* other)

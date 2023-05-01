@@ -22,7 +22,10 @@ namespace ya
 		void AddGameObeject(GameObject* obj, eLayerType layer);
 		std::vector<GameObject*>& GetGameObjects(eLayerType layer);
 
+		virtual eSceneType GetSceneType() { return mType; }
+
 	private:
 		std::vector<Layer> mLayers;
+		eSceneType mType;
 	};
 }

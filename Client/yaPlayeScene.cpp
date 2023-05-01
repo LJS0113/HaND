@@ -20,6 +20,7 @@
 namespace ya
 {
 	PlayeScene::PlayeScene()
+		: mType(eSceneType::Play)
 	{
 	}
 
@@ -29,7 +30,7 @@ namespace ya
 
 	void PlayeScene::Initialize()
 	{
-		//Scene::Initialize();
+
 
 		//Sound* mainTheme 
 		//	= Resources::Load<Sound>(L"MainTheme", L"..\\Resources\\Sound\\BGTheme.wav");
@@ -51,7 +52,7 @@ namespace ya
 		Scene::Update();
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
-			SceneManager::LoadScene(eSceneType::Hung);
+			SceneManager::LoadScene(eSceneType::Loading);
 		}
 	}
 

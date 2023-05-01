@@ -20,9 +20,10 @@ namespace ya
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
 
-	private:
-		Image* mBgImage;
-		Hung* hung;
+		virtual eSceneType GetSceneType() override { return mType; }
 
+	private:
+		class Hung* hung;
+		eSceneType mType;
 	};
 }

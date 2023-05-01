@@ -18,6 +18,7 @@ namespace ya
 {
 	BradScene::BradScene()
 		: mTime(0.0f)
+		, mType(eSceneType::Brad)
 	{
 
 	}

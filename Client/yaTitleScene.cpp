@@ -24,6 +24,7 @@ namespace ya
 	TitleScene::TitleScene()
 		: mBgLogoImage(nullptr)
 		, mAnimator(nullptr)
+		, mType(eSceneType::Title)
 	{
 	}
 	TitleScene::~TitleScene()

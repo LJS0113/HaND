@@ -9,6 +9,7 @@
 namespace ya
 {
 	LoadingScene::LoadingScene()
+		: mType(eSceneType::Loading)
 	{
 	}
 
@@ -18,10 +19,7 @@ namespace ya
 
 	void LoadingScene::Initialize()
 	{
-		//Scene::Initialize();
-
-		Loading* loading = object::Instantiate<Loading>(Vector2(800.0f, 450.0f), eLayerType::UI);
-
+		loading = object::Instantiate<Loading>(Vector2(800.0f, 450.0f), eLayerType::UI);
 	}
 
 	void LoadingScene::Update()
@@ -29,7 +27,29 @@ namespace ya
 		Scene::Update();
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
+			object::Destory(loading);
 			SceneManager::LoadScene(eSceneType::Play);
+		}
+
+		if (SceneManager::GetPrevScene()->GetSceneType() == eSceneType::Play)
+		{
+			object::Destory(loading);
+			SceneManager::LoadScene(eSceneType::Hung);
+			return;
+		}
+
+		if (SceneManager::GetPrevScene()->GetSceneType() == eSceneType::Hung)
+		{
+			object::Destory(loading);
+			SceneManager::LoadScene(eSceneType::Brad);
+			return;
+		}
+
+		if (SceneManager::GetPrevScene()->GetSceneType() == eSceneType::Brad)
+		{
+			object::Destory(loading);
+			SceneManager::LoadScene(eSceneType::BradV2);
+			return;
 		}
 	}
 
