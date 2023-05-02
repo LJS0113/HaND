@@ -23,8 +23,8 @@ namespace ya
 	void Elevator::Initialize()
 	{
 		mAnimator = AddComponent<Animator>();
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Map\\Elevator\\In", Vector2(0.0f, 0.0f), 0.05f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Map\\Elevator\\Out", Vector2(0.0f, 0.0f), 0.05f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Map\\Elevator\\In", Vector2(0.0f, 0.0f), 0.005f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Map\\Elevator\\Out", Vector2(0.0f, 0.0f), 0.005f);
 		
 		Collider* collider = AddComponent<Collider>();
 		collider->SetCenter(Vector2(-25.0f, -250.0f));

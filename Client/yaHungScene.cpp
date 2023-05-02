@@ -16,6 +16,7 @@
 #include "yaAnimator.h"
 #include "yaTime.h"
 #include "yaElevator.h"
+#include "yaLifebar.h"
 
 extern ya::Player* gPlayer;
 
@@ -31,15 +32,20 @@ namespace ya
 	void HungScene::Initialize()
 	{
 		//Scene::Initialize();
+		Ground* ground = object::Instantiate<Ground>(Vector2(-300.0f, 800.0f), eLayerType::Ground);
+		ground->SetPlayer(gPlayer);
 
 		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		bgImage->SetImage(L"HungBG", L"HungBG.bmp");
 
 		hung = object::Instantiate<Hung>(Vector2(1300.0f, 850.0f), eLayerType::Monster);
-		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 600.0f), eLayerType::Player);
-		Ground* ground = object::Instantiate<Ground>(Vector2(-300.0f, 800.0f), eLayerType::Ground);
-		ground->SetPlayer(gPlayer);
+		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 700.0f), eLayerType::Player);
 
+		gLifebar = object::Instantiate<Lifebar>(Vector2(1300.0f, 850.0f), eLayerType::UI);
+		gLifebar->SetBossLifebar(true);
+		gLifebar->SetPlayerIconImage(L"PlayerIcon", L"Player.bmp");
+		gLifebar->SetBossIconImage(L"HungIcon", L"Hung.bmp");
+		gLifebar->SetPlayerAttackCount(0.0f);
 	}
 	void HungScene::Update()
 	{

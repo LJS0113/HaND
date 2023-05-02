@@ -52,6 +52,7 @@ namespace ya
 		float hpCount;
 		float mTime;
 		float mDeathTime;
+		float atCount;
 		bool mbLeft;
 		bool mbRight;
 	};

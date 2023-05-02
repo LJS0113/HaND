@@ -32,6 +32,7 @@ namespace ya
 		virtual void OnCollisionExit(class Collider* other) override;
 
 		void SetMonsterDead(bool isDead) { mbMonsterDead = isDead; }
+		void SetHpCount(float hp) { hpCount = hp; }
 
 	private:
 		void move();
@@ -50,9 +51,11 @@ namespace ya
 		Collider* collider3;
 		class ColliderObj* colObj;
 
-		UINT hpCount;
 		UINT attackCount;
+
 		float mTime;
+		float hpCount;
+		float atCount;
 
 		bool mbRight;
 		bool mbLeft;

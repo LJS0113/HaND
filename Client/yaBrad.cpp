@@ -11,9 +11,11 @@
 #include "yaColliderObj.h"
 #include "yaMonsterColliderObj.h"
 #include "yaBradV2.h"
+#include "yaLifebar.h"
 
 namespace ya
 {
+	Brad* gBrad = nullptr;
 	Brad::Brad()
 		: mbLeft(true)
 		, mbRight(false)
@@ -21,7 +23,8 @@ namespace ya
 		, mflyTime(0.0f)
 		, mfallingTime(0.0f)
 		, mMovementTime(0.0f)
-		, hpCount(100.0f)
+		, hpCount(200.0f)
+		, atCount(0.0f)
 	{
 	}
 
@@ -130,7 +133,12 @@ namespace ya
 	void Brad::OnCollisionEnter(Collider* other)
 	{
 		if (other->GetOwner()->GetLayerType() == eLayerType::ColliderObj)
+		{
 			hpCount -= 10;
+			atCount = gLifebar->GetBossAttackCount();
+			atCount++;
+			gLifebar->SetBossAttackCount(atCount);
+		}
 	}
 
 	void Brad::OnCollisionStay(Collider* other)
@@ -152,10 +160,10 @@ namespace ya
 
 	void Brad::death()
 	{
-		Transform* tr = GetComponent<Transform>();
-		Vector2 monsterPos = tr->GetPos();
-
-		BradV2* bradV2 = object::Instantiate<BradV2>(Vector2(monsterPos.x, monsterPos.y), eLayerType::Monster);
+		if (mAnimator->IsComplete())
+		{
+			SceneManager::LoadScene(eSceneType::BradV2);
+		}
 	}
 
 	void Brad::idle()

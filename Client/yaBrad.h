@@ -67,9 +67,10 @@ namespace ya
 		float mAttackDelay;
 		float mflyTime;
 		float mfallingTime;
+		float atCount;
 		bool mbLeft;
 		bool mbRight;
 
-		class BradV2* bradV2;
 	};
+	extern Brad* gBrad;
 }

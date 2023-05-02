@@ -223,13 +223,7 @@
     <ClInclude Include="yaHung.h">
       <Filter>Contents\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="yaWaldo.h">
-      <Filter>Contents\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="yaHungScene.h">
-      <Filter>Contents\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="yaWaldoScene.h">
       <Filter>Contents\Scene</Filter>
     </ClInclude>
     <ClInclude Include="yaSound.h">
@@ -264,6 +258,9 @@
     </ClInclude>
     <ClInclude Include="yaMonsterColliderObj.h">
       <Filter>Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="yaLifebar.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -391,13 +388,7 @@
     <ClCompile Include="yaHung.cpp">
       <Filter>Contents\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="yaWaldo.cpp">
-      <Filter>Contents\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="yaHungScene.cpp">
-      <Filter>Contents\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="yaWaldoScene.cpp">
       <Filter>Contents\Scene</Filter>
     </ClCompile>
     <ClCompile Include="yaSound.cpp">
@@ -432,6 +423,9 @@
     </ClCompile>
     <ClCompile Include="yaMonsterColliderObj.cpp">
       <Filter>Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="yaLifebar.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

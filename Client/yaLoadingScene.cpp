@@ -5,6 +5,7 @@
 #include "yaObject.h"
 #include "yaScene.h"
 #include "yaTransform.h"
+#include "yaAnimator.h"
 
 namespace ya
 {
@@ -25,31 +26,35 @@ namespace ya
 	void LoadingScene::Update()
 	{
 		Scene::Update();
-		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
+
+		if (SceneManager::GetPrevScene()->GetSceneType() ==  eSceneType::Title)
 		{
-			object::Destory(loading);
-			SceneManager::LoadScene(eSceneType::Play);
+			if (loading->GetComponent<Animator>()->IsComplete())
+			{
+				object::Destory(loading);
+				SceneManager::LoadScene(eSceneType::Play);
+				return;
+			}
 		}
 
 		if (SceneManager::GetPrevScene()->GetSceneType() == eSceneType::Play)
 		{
-			object::Destory(loading);
-			SceneManager::LoadScene(eSceneType::Hung);
-			return;
+			if (loading->GetComponent<Animator>()->IsComplete())
+			{
+				object::Destory(loading);
+				SceneManager::LoadScene(eSceneType::Hung);
+				return;
+			}
 		}
 
 		if (SceneManager::GetPrevScene()->GetSceneType() == eSceneType::Hung)
 		{
-			object::Destory(loading);
-			SceneManager::LoadScene(eSceneType::Brad);
-			return;
-		}
-
-		if (SceneManager::GetPrevScene()->GetSceneType() == eSceneType::Brad)
-		{
-			object::Destory(loading);
-			SceneManager::LoadScene(eSceneType::BradV2);
-			return;
+			if (loading->GetComponent<Animator>()->IsComplete())
+			{
+				object::Destory(loading);
+				SceneManager::LoadScene(eSceneType::Brad);
+				return;
+			}
 		}
 	}
 

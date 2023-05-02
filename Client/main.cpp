@@ -22,7 +22,7 @@ ATOM                MyRegisterClass(HINSTANCE hInstance, LPCWSTR name, WNDPROC p
 
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-LRESULT CALLBACK    AtlasWndProc(HWND, UINT, WPARAM, LPARAM);
+//LRESULT CALLBACK    AtlasWndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 
@@ -49,7 +49,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MyRegisterClass(hInstance, szWindowClass, WndProc);
 
     // tile window
-    MyRegisterClass(hInstance, L"AtlasWindow", AtlasWndProc);
+   // MyRegisterClass(hInstance, L"AtlasWindow", AtlasWndProc);
 
     // 애플리케이션 초기화를 수행합니다:
     if (!InitInstance (hInstance, nCmdShow))
@@ -137,8 +137,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       0, 0, 1600, 900, nullptr, nullptr, hInstance, nullptr);
 
-   HWND hWnd2 = CreateWindowW(L"AtlasWindow", szTitle, WS_OVERLAPPEDWINDOW,
-       1600, 0, 500, 500, nullptr, nullptr, hInstance, nullptr);
+ //  HWND hWnd2 = CreateWindowW(L"AtlasWindow", szTitle, WS_OVERLAPPEDWINDOW,
+ //     1600, 0, 500, 500, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
@@ -148,11 +148,11 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
-   ShowWindow(hWnd2, nCmdShow);
-   UpdateWindow(hWnd2);
+   //ShowWindow(hWnd2, nCmdShow);
+   //UpdateWindow(hWnd2);
 
    application.Initialize(hWnd);
-   application.SetToolHwnd(hWnd2);
+   //application.SetToolHwnd(hWnd2);
    //ShowWindow(hWnd2, nCmdShow);
    //UpdateWindow(hWnd2);
 

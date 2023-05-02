@@ -16,14 +16,15 @@
 #include "yaColliderObj.h"
 #include "yaMonsterColliderObj.h"
 #include "yaElevator.h"
-
+#include "yaLifebar.h"
 namespace ya
 {
 	Hung::Hung()
 		: mbLeft(true)
 		, mbRight(false)
-		, hpCount(100.0f)
+		, hpCount(200.0f)
 		, mDeathTime(0.0f)
+		, atCount(0.0f)
 	{
 	}
 	Hung::~Hung()
@@ -52,8 +53,8 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\AttackSpecial\\FX", Vector2::Zero, 0.1f);
 
 		// Death
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Death\\Idle", Vector2::Zero, 0.1f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Death\\Move", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Death\\Idle", Vector2::Zero, 0.01f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Death\\Move", Vector2::Zero, 0.01f);
 
 		// Intro
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Intro\\Start", Vector2::Zero, 0.1f);
@@ -67,9 +68,7 @@ namespace ya
 		mState = eHungState::Intro;
 
 		collider = AddComponent<Collider>();
-
-		collider->SetCenter(Vector2(30.0f, -140.0f));
-		collider->SetSize(Vector2(60.0f, 140.0f));
+		collider->SetSize(Vector2::Zero);
 
 		GameObject::Initialize();
 	}
@@ -167,8 +166,6 @@ namespace ya
 					}
 					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
-					collider3->SetCenter(Vector2(-180.0f, -240.0f));
-					collider3->SetSize(Vector2(230.0f, 250.0f));
 					break;
 				case 2:
 					mAnimator->Play(L"AttackLassoLeftThrow", false);
@@ -211,8 +208,6 @@ namespace ya
 					}
 					colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
-					collider3->SetCenter(Vector2(-50.0f, -240.0f));
-					collider3->SetSize(Vector2(230.0f, 250.0f));
 					break;
 				case 2:
 					mAnimator->Play(L"AttackLassoRightThrow", false);
@@ -267,6 +262,9 @@ namespace ya
 	}
 	void Hung::idle()
 	{
+		collider->SetCenter(Vector2(30.0f, -140.0f));
+		collider->SetSize(Vector2(60.0f, 140.0f));
+
 		Transform* tr = GetComponent<Transform>();
 		Vector2 monsterPos = tr->GetPos();
 
@@ -345,13 +343,18 @@ namespace ya
 	}
 	void Hung::end()
 	{
-
-
+		object::Destory(this);
 	}
 	void Hung::OnCollisionEnter(Collider* other)
 	{
 		if (other->GetOwner()->GetLayerType() == eLayerType::ColliderObj)
+		{
 			hpCount -= 10;
+			atCount = gLifebar->GetBossAttackCount();
+			atCount++;
+			gLifebar->SetBossAttackCount(atCount);
+		}
+
 	}
 	void Hung::OnCollisionStay(Collider* other)
 	{

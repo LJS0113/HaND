@@ -15,7 +15,7 @@
 #include "yaApplication.h"
 #include "yaBGImageObject.h"
 #include "yaElevator.h"
-
+#include "yaLifebar.h"
 
 namespace ya
 {
@@ -36,14 +36,17 @@ namespace ya
 		//	= Resources::Load<Sound>(L"MainTheme", L"..\\Resources\\Sound\\BGTheme.wav");
 		//mainTheme->Play(true);
 
+		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
+		ground->SetPlayer(gPlayer);
+
 		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		bgImage->SetImage(L"LobbyBG", L"LobbyBG.bmp");
 
-		Elevator* elevator = object::Instantiate<Elevator>(Vector2(1300.0f, 850.0f), eLayerType::Elevator);
-		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 600.0f), eLayerType::Player);
+		gLifebar = object::Instantiate<Lifebar>(Vector2(50.0f, 50.0f), eLayerType::UI);
+		gLifebar->SetPlayerIconImage(L"PlayerIcon", L"Player.bmp");
 
-		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
-		ground->SetPlayer(gPlayer);
+		Elevator* elevator = object::Instantiate<Elevator>(Vector2(1300.0f, 850.0f), eLayerType::Elevator);
+		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 700.0f), eLayerType::Player);
 
 	}
 

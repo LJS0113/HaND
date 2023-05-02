@@ -10,6 +10,7 @@
 #include "yaInput.h"
 #include "yaTime.h"
 #include "yaMonsterColliderObj.h"
+#include "yaLifebar.h"
 
 namespace ya
 {
@@ -18,7 +19,8 @@ namespace ya
 		, mbLeft(true)
 		, mbRight(false)
 		, mMovementTime(0.0f)
-		, hpCount(100)
+		, hpCount(200.0f)
+		, atCount(0.0f)
 	{
 	}
 
@@ -62,7 +64,7 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack6\\Fire\\Left", Vector2::Zero, 0.01f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\BradV2\\Attack6\\Fire\\Right", Vector2::Zero, 0.01f);
 
-		mAnimator->Play(L"MonsterBradV2Intro", false);
+		//mAnimator->Play(L"MonsterBradV2Intro", false);
 
 		collider = AddComponent<Collider>();
 		collider->SetSize(Vector2::Zero);
@@ -138,7 +140,12 @@ namespace ya
 	void BradV2::OnCollisionEnter(Collider* other)
 	{
 		if (other->GetOwner()->GetLayerType() == eLayerType::ColliderObj)
+		{
 			hpCount -= 10;
+			atCount = gLifebar->GetBossAttackCount();
+			atCount++;
+			gLifebar->SetBossAttackCount(atCount);
+		}
 	}
 
 	void BradV2::OnCollisionStay(Collider* other)
@@ -151,29 +158,38 @@ namespace ya
 
 	void BradV2::intro()
 	{
-		if (mAnimator->IsComplete())
+		Transform* tr = GetComponent<Transform>();
+		Vector2 monsterPos = tr->GetPos();
+
+		Transform* playTr = gPlayer->GetComponent<Transform>();
+		Vector2 playerPos = playTr->GetPos();
+		if (monsterPos.x < playerPos.x)
 		{
-			if (mbLeft)
-			{
-				mAnimator->Play(L"BradV2IdleLeft", true);
-				mState = eBradV2State::Idle;
-			}
-			if (mbRight)
-			{
-				mAnimator->Play(L"BradV2IdleRight", true);
-				mState = eBradV2State::Idle;
-			}
+			mbLeft = false;
+			mbRight = true;
+			mAnimator->Play(L"BradV2IdleRight", true);
+			mState = eBradV2State::Idle;
+		}
+		if (monsterPos.x > playerPos.x)
+		{
+			mbLeft = true;
+			mbRight = false;
+			mAnimator->Play(L"BradV2IdleLeft", true);
+			mState = eBradV2State::Idle;
 		}
 	}
 
 	void BradV2::death()
 	{
-
+		if (mAnimator->IsComplete())
+		{
+			object::Destory(this);
+		}
 	}
 
 	void BradV2::idle()
 	{
-		if (hpCount == 0)
+		if (hpCount < 0)
 		{
 			mAnimator->Play(L"MonsterBradV2Death", false);
 			mState = eBradV2State::Death;
@@ -643,14 +659,14 @@ namespace ya
 			if (mbLeft)
 			{
 				mAnimator->Play(L"Attack5FireLeft", false);
-				mLazer = object::Instantiate<Lazer>(Vector2(monsterPos.x - 1070.0f, monsterPos.y-130.0f), eLayerType::Lazer);
+				mLazer = object::Instantiate<Lazer>(Vector2(monsterPos.x - 1070.0f, monsterPos.y - 130.0f), eLayerType::Lazer);
 				mState = eBradV2State::Attack5_Fire;
 			}
 			if (mbRight)
 			{
 				mAnimator->Play(L"Attack5FireRight", false);
 				mLazer = object::Instantiate<Lazer>(Vector2(monsterPos.x + 100.0f, monsterPos.y - 130.0f), eLayerType::Lazer);
-				
+
 				mState = eBradV2State::Attack5_Fire;
 			}
 		}
