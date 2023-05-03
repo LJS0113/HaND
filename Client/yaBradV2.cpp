@@ -89,9 +89,6 @@ namespace ya
 		case ya::BradV2::eBradV2State::Death:
 			death();
 			break;
-		case ya::BradV2::eBradV2State::Death_After:
-			death_after();
-			break;
 		case ya::BradV2::eBradV2State::Idle:
 			idle();
 			break;
@@ -118,9 +115,6 @@ namespace ya
 			break;
 		case ya::BradV2::eBradV2State::Attack6_Fire:
 			attack6_fire();
-			break;
-		case ya::BradV2::eBradV2State::End:
-			end();
 			break;
 		default:
 			break;
@@ -187,25 +181,8 @@ namespace ya
 
 	void BradV2::death()
 	{
-		if (mAnimator->IsComplete())
-		{
-			gPlayer->GetComponent<Animator>()->Play(L"HaND_ResourcePlayerRitual_End_Boss", false); 
-			mState = eBradV2State::Death_After;
-		}
-	}
-
-	void BradV2::death_after()
-	{
-
-		if (gPlayer->GetComponent<Animator>()->IsComplete())
-		{
-			if (gPlayer->IsLeft())
-				gPlayer->GetComponent<Animator>()->Play(L"PlayerIdleLeft", true);
-			else
-				gPlayer->GetComponent<Animator>()->Play(L"PlayerIdleRight", true);
-			gPlayer->SetPlayerState(Player::ePlayerState::Idle);
-			mState = eBradV2State::End;
-		}
+		if(mAnimator->IsComplete())
+			object::Destory(this);
 	}
 
 	void BradV2::idle()
@@ -213,6 +190,7 @@ namespace ya
 		if (hpCount < 0)
 		{
 			mAnimator->Play(L"MonsterBradV2Death", false);
+			collider->SetSize(Vector2::Zero);
 			mState = eBradV2State::Death;
 		}
 
@@ -411,6 +389,11 @@ namespace ya
 
 	void BradV2::move()
 	{
+		if (hpCount < 0)
+		{
+			mAnimator->Play(L"MonsterBradV2Death", false);
+			mState = eBradV2State::Death;
+		}
 		Transform* tr = GetComponent<Transform>();
 		Vector2 monsterPos = tr->GetPos();
 
@@ -545,11 +528,6 @@ namespace ya
 			}
 		}
 		tr->SetPos(monsterPos);
-	}
-
-	void BradV2::end()
-	{
-		object::Destory(this);
 	}
 
 	void BradV2::attack1()

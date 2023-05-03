@@ -129,6 +129,7 @@ namespace ya
 
 		mTime += Time::DeltaTime();
 
+		// 서로 엊갈렸을때 방향전환
 		if (mbLeft && (monsterPos.x < playerPos.x))
 		{
 			mbLeft = false;
@@ -139,7 +140,7 @@ namespace ya
 			collider->SetSize(Vector2(60.0f, 140.0f));
 			mState = eHungState::Move;
 		}
-		if (mbRight && (monsterPos.x > playerPos.x))
+		if (mbRight && (monsterPos.x >= playerPos.x))
 		{
 			mbLeft = true;
 			mbRight = false;
@@ -151,10 +152,10 @@ namespace ya
 		}
 
 		// 몬스터가 플레이어보다 오른쪽에 있을때, 왼쪽을 바라보고 왼쪽으로 이동.
-		if (monsterPos.x > playerPos.x)
+		if (/*monsterPos.x > playerPos.x*/mbLeft)
 		{
-			mbLeft = true;
-			mbRight = false;
+			//mbLeft = true;
+			//mbRight = false;
 			monsterPos.x -= 200 * Time::DeltaTime();
 
 			if (mTime > 2.0f)
@@ -193,10 +194,10 @@ namespace ya
 			}
 		}
 		// 몬스터가 플레이어보다 왼쪽에 있을 때, 오른쪽을 바라보고 오른쪽으로 이동.
-		if (monsterPos.x < playerPos.x)
+		if (/*monsterPos.x < playerPos.x*/mbRight)
 		{
-			mbLeft = false;
-			mbRight = true;
+			//mbLeft = false;
+			//mbRight = true;
 			monsterPos.x += 200 * Time::DeltaTime();
 
 			if (mTime > 3.0f)

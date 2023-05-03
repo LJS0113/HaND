@@ -57,13 +57,15 @@ namespace ya
 		class Collider* collider;
 		class Collider* collider3;
 		class MonsterColliderObj* colObj;
-		UINT rand;
-		float hpCount;
+		class Lazer* mLazer;
+		
 		bool mbLeft;
 		bool mbRight;
+
 		float mTime;
 		float mMovementTime;
 		float atCount;
-		class Lazer* mLazer;
+		float hpCount;
+		UINT rand;
 	};
 }

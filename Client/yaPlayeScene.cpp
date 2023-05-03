@@ -31,7 +31,6 @@ namespace ya
 	void PlayeScene::Initialize()
 	{
 
-
 		//Sound* mainTheme 
 		//	= Resources::Load<Sound>(L"MainTheme", L"..\\Resources\\Sound\\BGTheme.wav");
 		//mainTheme->Play(true);
