@@ -24,6 +24,7 @@ namespace ya
 		: mbRight(true)
 		, mbLeft(false)
 		, attackCount(0)
+		, hammerAttackCount(0)
 		, hpCount(100.0f)
 		, atCount(0.0f)
 		, mbMonsterDead(false)
@@ -73,6 +74,13 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack3\\Left", Vector2::Zero, 0.005f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack4\\Left", Vector2::Zero, 0.005f);
 
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Hammer\\Attack2\\Right", Vector2::Zero, 0.005f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Hammer\\Attack1\\Right", Vector2::Zero, 0.0005f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Hammer\\Attack3\\Right", Vector2::Zero, 0.005f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Hammer\\Attack1\\Left", Vector2::Zero, 0.0005f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Hammer\\Attack2\\Left", Vector2::Zero, 0.005f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Hammer\\Attack3\\Left", Vector2::Zero, 0.005f);
+
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Ritual_End_Boss", Vector2::Zero, 0.1f);
 
 		//mAnimator->GetStartEvent(L"IdleIdle") = std::bind(&Player::idleCompleteEvent, this);
@@ -111,6 +119,10 @@ namespace ya
 		case ya::Player::ePlayerState::Attack:
 			attack();
 			break;
+		case ya::Player::ePlayerState::Hammer:
+			hammer();
+			break;
+
 		case ya::Player::ePlayerState::Death:
 			death();
 			break;
@@ -160,7 +172,7 @@ namespace ya
 			atCount++;
 			gLifebar->SetPlayerAttackCount(atCount);
 		}
-			
+
 	}
 
 	void Player::OnCollisionStay(Collider* other)
@@ -433,6 +445,78 @@ namespace ya
 			mState = ePlayerState::Attack;
 		}
 
+		// attack
+		if (Input::GetKeyDown(eKeyCode::RBUTTON))
+		{
+			hammerAttackCount++;
+			if (hammerAttackCount > 3)
+				hammerAttackCount = 1;
+
+			if (hammerAttackCount == 1)
+			{
+				if (mbLeft)
+				{
+					mAnimator->Play(L"HammerAttack1Left", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-150.0f, -200.0f));
+					collider3->SetSize(Vector2(150.0f, 200.0f));
+					mState = ePlayerState::Attack;
+				}
+				if (mbRight)
+				{
+					mAnimator->Play(L"HammerAttack1Right", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(0.0f, -200.0f));
+					collider3->SetSize(Vector2(150.0f, 200.0f));
+					mState = ePlayerState::Attack;
+				}
+			}
+			if (hammerAttackCount == 2)
+			{
+				if (mbLeft)
+				{
+					mAnimator->Play(L"HammerAttack2Left", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-150.0f, -150.0f));
+					collider3->SetSize(Vector2(200.0f, 150.0f));
+					mState = ePlayerState::Attack;
+				}
+				if (mbRight)
+				{
+					mAnimator->Play(L"HammerAttack2Right", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-70.0f, -150.0f));
+					collider3->SetSize(Vector2(200.0f, 150.0f));
+					mState = ePlayerState::Attack;
+				}
+			}
+			if (hammerAttackCount == 3)
+			{
+				if (mbLeft)
+				{
+					mAnimator->Play(L"HammerAttack3Left", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-130.0f, -250.0f));
+					collider3->SetSize(Vector2(150.0f, 250.0f));
+					mState = ePlayerState::Attack;
+				}
+				if (mbRight)
+				{
+					mAnimator->Play(L"HammerAttack3Right", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-20.0f, -250.0f));
+					collider3->SetSize(Vector2(150.0f, 250.0f));
+					mState = ePlayerState::Attack;
+				}
+			}
+		}
+
 		tr->SetPos(pos);
 	}
 	void Player::death()
@@ -561,7 +645,7 @@ namespace ya
 					collider3->SetSize(Vector2(200.0f, 90.0f));
 				}
 				if (mbRight)
-				{ 
+				{
 					mAnimator->Play(L"PlayerAttack1Right", false);
 					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
 					collider3 = colObj->GetComponent<Collider>();
@@ -628,6 +712,79 @@ namespace ya
 			}
 			mState = ePlayerState::Attack;
 		}
+
+		// attack
+		if (Input::GetKeyDown(eKeyCode::RBUTTON))
+		{
+			hammerAttackCount++;
+			if (hammerAttackCount > 3)
+				hammerAttackCount = 1;
+
+			if (hammerAttackCount == 1)
+			{
+				if (mbLeft)
+				{
+					mAnimator->Play(L"HammerAttack1Left", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-150.0f, -200.0f));
+					collider3->SetSize(Vector2(150.0f, 200.0f));
+					mState = ePlayerState::Attack;
+				}
+				if (mbRight)
+				{
+					mAnimator->Play(L"HammerAttack1Right", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(0.0f, -200.0f));
+					collider3->SetSize(Vector2(150.0f, 200.0f));
+					mState = ePlayerState::Attack;
+				}
+			}
+			if (hammerAttackCount == 2)
+			{
+				if (mbLeft)
+				{
+					mAnimator->Play(L"HammerAttack2Left", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-150.0f, -150.0f));
+					collider3->SetSize(Vector2(200.0f, 150.0f));
+					mState = ePlayerState::Attack;
+				}
+				if (mbRight)
+				{
+					mAnimator->Play(L"HammerAttack2Right", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-70.0f, -150.0f));
+					collider3->SetSize(Vector2(200.0f, 150.0f));
+					mState = ePlayerState::Attack;
+				}
+			}
+			if (hammerAttackCount == 3)
+			{
+				if (mbLeft)
+				{
+					mAnimator->Play(L"HammerAttack3Left", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-130.0f, -250.0f));
+					collider3->SetSize(Vector2(150.0f, 250.0f));
+					mState = ePlayerState::Attack;
+				}
+				if (mbRight)
+				{
+					mAnimator->Play(L"HammerAttack3Right", false);
+					colObj = object::Instantiate<ColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::ColliderObj);
+					collider3 = colObj->GetComponent<Collider>();
+					collider3->SetCenter(Vector2(-20.0f, -250.0f));
+					collider3->SetSize(Vector2(150.0f, 250.0f));
+					mState = ePlayerState::Attack;
+				}
+			}
+		}
+
 		tr->SetPos(pos);
 	}
 
@@ -707,6 +864,7 @@ namespace ya
 			mPrevState = ePlayerState::Jump;
 			mState = ePlayerState::Dash;
 		}
+
 		tr->SetPos(pos);
 	}
 
@@ -738,4 +896,8 @@ namespace ya
 			mState = ePlayerState::Move;
 		}
 	}
+	void Player::hammer()
+	{
+	}
+
 }

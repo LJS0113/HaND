@@ -18,6 +18,7 @@ namespace ya
 			Death,
 			Idle,
 			Attack,
+			Hammer,
 		};
 
 		Player();
@@ -47,6 +48,8 @@ namespace ya
 		void jump();
 		void attack();
 
+		void hammer();
+
 	private:
 		ePlayerState mState;
 		ePlayerState mPrevState;
@@ -57,6 +60,7 @@ namespace ya
 		class ColliderObj* colObj;
 
 		UINT attackCount;
+		UINT hammerAttackCount;
 
 		float mTime;
 		float hpCount;
