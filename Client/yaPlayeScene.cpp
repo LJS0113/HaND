@@ -46,7 +46,7 @@ namespace ya
 		gLifebar->SetPlayerIconImage(L"PlayerIcon", L"Player.bmp");
 
 		Elevator* elevator = object::Instantiate<Elevator>(Vector2(1300.0f, 850.0f), eLayerType::Elevator);
-		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 700.0f), eLayerType::Player);
+		gPlayer = object::Instantiate<Player>(Vector2(100.0f, 850.0f), eLayerType::Player);
 
 	}
 

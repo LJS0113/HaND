@@ -21,9 +21,6 @@ namespace ya
 	}
 	void Lifebar::Initialize()
 	{
-		//mPlayerLifebarBase = Resources::Load<Image>(L"PlayerLifebarBase", L"..\\Resources\\HaND_Resource\\UI\\Lifebar\\PlayerLifebarBase.bmp");
-		//mPlayerLifebar = Resources::Load<Image>(L"PlayerLifebar", L"..\\Resources\\HaND_Resource\\UI\\Lifebar\\PlayerLifebar.bmp");
-
 		mLifebarBase = Resources::Load<Image>(L"BossLifebarBase", L"..\\Resources\\HaND_Resource\\UI\\Lifebar\\BossLifebarBase.bmp");
 		mLifebar = Resources::Load<Image>(L"BossLifebar", L"..\\Resources\\HaND_Resource\\UI\\Lifebar\\BossLifebar.bmp");
 

@@ -64,17 +64,19 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Dead_Screen", Vector2::Zero, 0.003f);
 
 		// Attack
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack1\\Right", Vector2::Zero, 0.002f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack1\\Right", Vector2::Zero, 0.0001f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack2\\Right", Vector2::Zero, 0.005f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack3\\Right", Vector2::Zero, 0.005f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack4\\Right", Vector2::Zero, 0.005f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack1\\Left", Vector2::Zero, 0.002f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack1\\Left", Vector2::Zero, 0.0001f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack2\\Left", Vector2::Zero, 0.005f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack3\\Left", Vector2::Zero, 0.005f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Attack4\\Left", Vector2::Zero, 0.005f);
 
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Player\\Ritual_End_Boss", Vector2::Zero, 0.1f);
+
 		//mAnimator->GetStartEvent(L"IdleIdle") = std::bind(&Player::idleCompleteEvent, this);
-		mAnimator->Play(L"PlayerIdleRight", true);
+		mAnimator->Play(L"PlayerElevatorOut", false);
 
 		collider = AddComponent<Collider>();
 		collider->SetCenter(Vector2(-50.0f, -130.0f));
@@ -84,7 +86,7 @@ namespace ya
 		mRigidbody->SetMass(1.0f);
 
 		mPrevState = ePlayerState::Idle;
-		mState = ePlayerState::Idle;
+		mState = ePlayerState::ElevatorOut;
 		GameObject::Initialize();
 	}
 
@@ -94,6 +96,9 @@ namespace ya
 
 		switch (mState)
 		{
+		case ya::Player::ePlayerState::ElevatorOut:
+			elevatorOut();
+			break;
 		case ya::Player::ePlayerState::Move:
 			move();
 			break;
@@ -168,8 +173,23 @@ namespace ya
 
 	}
 
+	void Player::elevatorOut()
+	{
+		if (mAnimator->IsComplete())
+		{
+			mAnimator->Play(L"PlayerIdleRight", true);
+			mState = ePlayerState::Idle;
+		}
+	}
+
 	void Player::move()
 	{
+		if (hpCount < 0.0f)
+		{
+			mAnimator->Play(L"HaND_ResourcePlayerDead_Screen", false);
+			mState = ePlayerState::Death;
+			return;
+		}
 
 		Transform* tr = GetComponent<Transform>();
 		Vector2 pos = tr->GetPos();
@@ -417,7 +437,15 @@ namespace ya
 	}
 	void Player::death()
 	{
-
+		Transform* tr = GetComponent<Transform>();
+		Vector2 pos = tr->GetPos();
+		if (mAnimator->IsComplete())
+		{
+			object::Destory(this);
+			gPlayer = object::Instantiate<Player>(Vector2(pos.x, pos.y), eLayerType::Player);
+			atCount = 0.0f;
+			gLifebar->SetPlayerAttackCount(atCount);
+		}
 	}
 	void Player::idle()
 	{
@@ -425,6 +453,7 @@ namespace ya
 		{
 			mAnimator->Play(L"HaND_ResourcePlayerDead_Screen", false);
 			mState = ePlayerState::Death;
+			return;
 		}
 
 		collider->SetCenter(Vector2(-50.0f, -130.0f));

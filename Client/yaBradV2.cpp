@@ -89,6 +89,9 @@ namespace ya
 		case ya::BradV2::eBradV2State::Death:
 			death();
 			break;
+		case ya::BradV2::eBradV2State::Death_After:
+			death_after();
+			break;
 		case ya::BradV2::eBradV2State::Idle:
 			idle();
 			break;
@@ -115,6 +118,9 @@ namespace ya
 			break;
 		case ya::BradV2::eBradV2State::Attack6_Fire:
 			attack6_fire();
+			break;
+		case ya::BradV2::eBradV2State::End:
+			end();
 			break;
 		default:
 			break;
@@ -171,7 +177,7 @@ namespace ya
 			mState = eBradV2State::Idle;
 		}
 		if (monsterPos.x > playerPos.x)
-		{
+		{ 
 			mbLeft = true;
 			mbRight = false;
 			mAnimator->Play(L"BradV2IdleLeft", true);
@@ -183,7 +189,22 @@ namespace ya
 	{
 		if (mAnimator->IsComplete())
 		{
-			object::Destory(this);
+			gPlayer->GetComponent<Animator>()->Play(L"HaND_ResourcePlayerRitual_End_Boss", false); 
+			mState = eBradV2State::Death_After;
+		}
+	}
+
+	void BradV2::death_after()
+	{
+
+		if (gPlayer->GetComponent<Animator>()->IsComplete())
+		{
+			if (gPlayer->IsLeft())
+				gPlayer->GetComponent<Animator>()->Play(L"PlayerIdleLeft", true);
+			else
+				gPlayer->GetComponent<Animator>()->Play(L"PlayerIdleRight", true);
+			gPlayer->SetPlayerState(Player::ePlayerState::Idle);
+			mState = eBradV2State::End;
 		}
 	}
 
@@ -213,24 +234,24 @@ namespace ya
 		//{
 		//	mbLeft = true;
 		//	mbRight = false;
-		//	mAnimator->Play(L"Attack6ReadyLeft", false);
+		//	mAnimator->Play(L"Attack5ReadyLeft", false);
 		//	colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 		//	collider3 = colObj->GetComponent<Collider>();		
-		//	collider3->SetCenter(Vector2(-230.0f, -240.0f));
-		//	collider3->SetSize(Vector2(200.0f, 250.0f));
-		//	mState = eBradV2State::Attack6_Ready;
+		//	//collider3->SetCenter(Vector2(-230.0f, -240.0f));
+		//	//collider3->SetSize(Vector2(200.0f, 250.0f));
+		//	mState = eBradV2State::Attack5_Ready;
 		//}
 		//// 테스트용
 		//if (Input::GetKeyDown(eKeyCode::L))
 		//{
 		//	mbLeft = false;
 		//	mbRight = true;
-		//	mAnimator->Play(L"Attack6ReadyRight", false);
+		//	mAnimator->Play(L"Attack5ReadyRight", false);
 		//	colObj = object::Instantiate<MonsterColliderObj>(Vector2(tr->GetPos().x, tr->GetPos().y), eLayerType::MonsterColliderObj);
 		//	collider3 = colObj->GetComponent<Collider>();
-		//	collider3->SetCenter(Vector2(0.0f, -240.0f));
-		//	collider3->SetSize(Vector2(200.0f, 250.0f));
-		//	mState = eBradV2State::Attack6_Ready;
+		//	//collider3->SetCenter(Vector2(0.0f, -240.0f));
+		//	//collider3->SetSize(Vector2(200.0f, 250.0f));
+		//	mState = eBradV2State::Attack5_Ready;
 		//}
 
 
@@ -524,6 +545,11 @@ namespace ya
 			}
 		}
 		tr->SetPos(monsterPos);
+	}
+
+	void BradV2::end()
+	{
+		object::Destory(this);
 	}
 
 	void BradV2::attack1()

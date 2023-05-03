@@ -10,7 +10,8 @@ namespace ya
 	public:
 		enum class eBradState
 		{
-			Intro,
+			Intro_Loop,
+			Intro_Start,
 			Move,
 			Death,
 			Idle,
@@ -36,7 +37,8 @@ namespace ya
 		virtual void OnCollisionStay(class Collider* other) override;
 		virtual void OnCollisionExit(class Collider* other) override;
 
-		void intro();
+		void intro_loop();
+		void intro_start();
 		void death();
 		void idle();
 		void attack();
@@ -59,7 +61,7 @@ namespace ya
 		Collider* collider;
 		Collider* collider3;
 		class MonsterColliderObj* colObj;
-
+		class Desk* desk;
 		UINT rand;
 		float hpCount;
 		float mTime;

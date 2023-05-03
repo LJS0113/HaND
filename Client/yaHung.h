@@ -11,7 +11,8 @@ namespace ya
 	public:
 		enum class eHungState
 		{
-			Intro,
+			Intro_Loop,
+			Intro_Start,
 			Move,
 			Death,
 			Death_Move,
@@ -32,7 +33,8 @@ namespace ya
 		void death_move();
 		void idle();
 		void attack();
-		void intro();
+		void intro_loop();
+		void intro_start();
 		void end();
 
 		virtual void OnCollisionEnter(class Collider* other) override;

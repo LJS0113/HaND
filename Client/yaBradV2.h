@@ -40,7 +40,6 @@ namespace ya
 		void idle();
 		void attack();
 		void move();
-
 		void attack1();
 		void attack2();
 		void attack3_slice();

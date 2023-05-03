@@ -10,6 +10,7 @@
 #include "yaCollisionManager.h"
 #include "yaBrad.h"
 #include "yaLifebar.h"
+#include "yaAnimator.h"
 
 namespace ya
 {
@@ -24,12 +25,6 @@ namespace ya
 
 	void BradV2Scene::Initialize()
 	{
-		Ground* ground = object::Instantiate<Ground>(Vector2(-300.0f, 800.0f), eLayerType::Ground);
-		ground->SetPlayer(gPlayer);
-
-		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
-		bgImage->SetImage(L"BradBG", L"BradBG.bmp");
-
 		Transform* bradTr = gBrad->GetComponent<Transform>();
 		Vector2 bradPos = bradTr->GetPos();
 
@@ -38,7 +33,23 @@ namespace ya
 
 		BradV2* bradV2 = object::Instantiate<BradV2>(Vector2(bradPos.x, bradPos.y), eLayerType::Monster);
 		gPlayer = object::Instantiate<Player>(Vector2(playerPos.x, playerPos.y), eLayerType::Player);
+
+		Ground* ground = object::Instantiate<Ground>(Vector2(-300.0f, 800.0f), eLayerType::Ground);
+		ground->SetPlayer(gPlayer);
+
+		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
+		bgImage->SetImage(L"BradBG", L"BradBG.bmp");
+
+		Transform* bradV2Tr = bradV2->GetComponent<Transform>();
+		Vector2 bradV2Pos = bradV2Tr->GetPos();
+
+		if(bradV2Pos.x < playerPos.x)
+			gPlayer->GetComponent<Animator>()->Play(L"PlayerIdleLeft", true);
+		else
+			gPlayer->GetComponent<Animator>()->Play(L"PlayerIdleRight", true);
+		gPlayer->SetPlayerState(Player::ePlayerState::Idle);
 		gPlayer->SetHpCount(100.0f);
+
 		gLifebar = object::Instantiate<Lifebar>(Vector2(1300.0f, 850.0f), eLayerType::UI);
 		gLifebar->SetBossLifebar(true);
 		gLifebar->SetPlayerIconImage(L"PlayerIcon", L"Player.bmp");

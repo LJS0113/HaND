@@ -10,6 +10,7 @@
 #include "yaStone.h"
 #include "yaColliderObj.h"
 #include "yaMonsterColliderObj.h"
+#include "yaDesk.h"
 #include "yaBradV2.h"
 #include "yaLifebar.h"
 
@@ -42,7 +43,7 @@ namespace ya
 
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Intro\\Intro", Vector2::Zero, 0.01f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Intro\\Desk", Vector2::Zero, 0.01f);
-
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Intro\\Idle", Vector2::Zero, 0.01f);
 		// Attack
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Attack1\\Right", Vector2::Zero, 0.01f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\Attack1\\Left", Vector2::Zero, 0.01f);
@@ -66,8 +67,8 @@ namespace ya
 
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Brad\\End", Vector2::Zero, 0.01f);
 
-		mAnimator->Play(L"BradIntroIntro", false);
-		mState = eBradState::Intro;
+		mAnimator->Play(L"BradIntroIdle", true);
+		mState = eBradState::Intro_Loop;
 		collider = AddComponent<Collider>();
 		collider->SetSize(Vector2::Zero);
 		GameObject::Initialize();
@@ -79,8 +80,11 @@ namespace ya
 
 		switch (mState)
 		{
-		case ya::Brad::eBradState::Intro:
-			intro();
+		case ya::Brad::eBradState::Intro_Loop:
+			intro_loop();
+			break;
+		case ya::Brad::eBradState::Intro_Start:
+			intro_start();
 			break;
 		case ya::Brad::eBradState::Move:
 			move();
@@ -149,14 +153,28 @@ namespace ya
 	{
 	}
 
-	void Brad::intro()
+	void Brad::intro_loop()
+	{
+		mTime += Time::DeltaTime();
+		if (mTime > 6.0f)
+		{
+			mAnimator->Play(L"BradIntroIntro", false);
+			desk = object::Instantiate<Desk>(Vector2(1300.0f, 850.0f), eLayerType::BG);
+			mState = eBradState::Intro_Start;
+			mTime = 0.0f;
+		}
+	}
+
+	void Brad::intro_start()
 	{
 		if (mAnimator->IsComplete())
 		{
+			object::Destory(desk);
 			mAnimator->Play(L"BradIdleLeft", true);
 			mState = eBradState::Idle;
 		}
 	}
+
 
 	void Brad::death()
 	{

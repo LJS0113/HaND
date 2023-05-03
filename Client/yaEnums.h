@@ -46,3 +46,11 @@ enum class eComponentType
 	Audio,
 	End,
 };
+
+enum class eElevatorState
+{
+	In,
+	Out,
+	Disappear,
+	End,
+};

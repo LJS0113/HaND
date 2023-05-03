@@ -22,8 +22,14 @@ namespace ya
 
 		virtual eSceneType GetSceneType() override { return mType; }
 
+		void eleIn();
+		void eleOut();
+		void eleDisappear();
+
 	private:
 		float mTime;
+		class Elevator* elevator;
+		eElevatorState mEleState;
 		eSceneType mType;
 	};
 }

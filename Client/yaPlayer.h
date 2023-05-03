@@ -11,6 +11,7 @@ namespace ya
 	public:
 		enum class ePlayerState
 		{
+			ElevatorOut,
 			Move,
 			Dash,
 			Jump,
@@ -33,8 +34,12 @@ namespace ya
 
 		void SetMonsterDead(bool isDead) { mbMonsterDead = isDead; }
 		void SetHpCount(float hp) { hpCount = hp; }
+		void SetPlayerState(ePlayerState state) { mState = state; }
+
+		bool IsLeft() { return mbLeft; }
 
 	private:
+		void elevatorOut();
 		void move();
 		void death();
 		void idle();

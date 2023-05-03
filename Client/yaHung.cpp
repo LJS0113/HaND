@@ -24,6 +24,7 @@ namespace ya
 		, mbRight(false)
 		, hpCount(200.0f)
 		, mDeathTime(0.0f)
+		, mTime(0.0f)
 		, atCount(0.0f)
 	{
 	}
@@ -36,8 +37,8 @@ namespace ya
 		mAnimator = AddComponent<Animator>();
 
 		// Idle
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Idle\\Left", Vector2::Zero, 0.05f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Idle\\Right", Vector2::Zero, 0.05f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Idle\\Left", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Idle\\Right", Vector2::Zero, 0.1f);
 
 		// Attack
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\AttackLasso\\Right\\Throw", Vector2::Zero, 0.08f);
@@ -53,19 +54,19 @@ namespace ya
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\AttackSpecial\\FX", Vector2::Zero, 0.1f);
 
 		// Death
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Death\\Idle", Vector2::Zero, 0.01f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Death\\Move", Vector2::Zero, 0.01f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Death\\Idle", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Death\\Move", Vector2::Zero, 0.1f);
 
 		// Intro
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Intro\\Start", Vector2::Zero, 0.1f);
 		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Intro\\Loop", Vector2::Zero, 0.1f);
 
 		// Run
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Run\\Right", Vector2::Zero, 0.05f);
-		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Run\\Left", Vector2::Zero, 0.05f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Run\\Right", Vector2::Zero, 0.1f);
+		mAnimator->CreateAnimations(L"..\\Resources\\HaND_Resource\\Monster\\Hung\\Run\\Left", Vector2::Zero, 0.1f);
 
-		mAnimator->Play(L"HungIntroStart", false);
-		mState = eHungState::Intro;
+		mAnimator->Play(L"HungIntroLoop", true);
+		mState = eHungState::Intro_Loop;
 
 		collider = AddComponent<Collider>();
 		collider->SetSize(Vector2::Zero);
@@ -82,8 +83,11 @@ namespace ya
 		case ya::Hung::eHungState::Move:
 			move();
 			break;
-		case ya::Hung::eHungState::Intro:
-			intro();
+		case ya::Hung::eHungState::Intro_Loop:
+			intro_loop();
+			break;
+		case ya::Hung::eHungState::Intro_Start:
+			intro_start();
 			break;
 		case ya::Hung::eHungState::Attack:
 			attack();
@@ -253,7 +257,7 @@ namespace ya
 		if (mDeathTime > 5.0f)
 		{
 			mAnimator->Play(L"HungDeathMove", false);
-			object::Instantiate<Elevator>(Vector2(1300.0f, 900.0f), eLayerType::Elevator);
+			object::Instantiate<Elevator>(Vector2(1300.0f, 850.0f), eLayerType::Elevator);
 			mState = eHungState::End;
 			mDeathTime = 0.0f;
 		}
@@ -274,6 +278,7 @@ namespace ya
 		if (hpCount < 0)
 		{
 			mAnimator->Play(L"HungDeathIdle", false);
+			collider->SetSize(Vector2::Zero);
 			mState = eHungState::Death;
 		}
 
@@ -321,24 +326,22 @@ namespace ya
 			mState = eHungState::Idle;
 		}
 	}
-	void Hung::intro()
+	void Hung::intro_loop()
+	{
+		mTime += Time::DeltaTime();
+		if (mTime > 6.0f)
+		{
+			mAnimator->Play(L"HungIntroStart", false);
+			mState = eHungState::Intro_Start;
+			mTime = 0.0f;
+		}
+	}
+	void Hung::intro_start()
 	{
 		if (mAnimator->IsComplete())
 		{
-			if (mbLeft)
-			{
-				mAnimator->Play(L"HungIdleLeft", true);
-				collider->SetCenter(Vector2(30.0f, -140.0f));
-				collider->SetSize(Vector2(60.0f, 140.0f));
-				mState = eHungState::Idle;
-			}
-			if (mbRight)
-			{
-				mAnimator->Play(L"HungIdleRight", true);
-				collider->SetCenter(Vector2(-90.0f, -140.0f));
-				collider->SetSize(Vector2(60.0f, 140.0f));
-				mState = eHungState::Idle;
-			}
+			mAnimator->Play(L"HungIdleLeft", true);
+			mState = eHungState::Idle;
 		}
 	}
 	void Hung::end()
