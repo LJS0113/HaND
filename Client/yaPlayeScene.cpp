@@ -31,9 +31,6 @@ namespace ya
 	void PlayeScene::Initialize()
 	{
 
-		//Sound* mainTheme 
-		//	= Resources::Load<Sound>(L"MainTheme", L"..\\Resources\\Sound\\BGTheme.wav");
-		//mainTheme->Play(true);
 
 		Ground* ground = object::Instantiate<Ground>(Vector2(-100.0f, 800.0f), eLayerType::Ground);
 		ground->SetPlayer(gPlayer);

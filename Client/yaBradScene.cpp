@@ -15,6 +15,7 @@
 #include "yaLifebar.h"
 #include "yaAnimator.h"
 #include "yaElevator.h"
+#include "yaSound.h"
 
 namespace ya
 {
@@ -31,6 +32,8 @@ namespace ya
 
 	void BradScene::Initialize()
 	{
+
+
 		Ground* ground = object::Instantiate<Ground>(Vector2(-300.0f, 800.0f), eLayerType::Ground);
 		ground->SetPlayer(gPlayer);
 		gPlayer->SetHpCount(100.0f);
@@ -54,7 +57,7 @@ namespace ya
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			SceneManager::LoadScene(eSceneType::BradV2);
-		}	
+		}
 		switch (mEleState)
 		{
 		case eElevatorState::In:

@@ -17,6 +17,7 @@
 #include "yaTime.h"
 #include "yaElevator.h"
 #include "yaLifebar.h"
+#include "yaSound.h"
 
 extern ya::Player* gPlayer;
 
@@ -33,6 +34,8 @@ namespace ya
 	void HungScene::Initialize()
 	{
 		//Scene::Initialize();
+
+
 		Ground* ground = object::Instantiate<Ground>(Vector2(-300.0f, 800.0f), eLayerType::Ground);
 		ground->SetPlayer(gPlayer);
 

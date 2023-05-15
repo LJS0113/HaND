@@ -3,6 +3,7 @@
 
 namespace ya
 {
+	Sound* gSound = nullptr;
 	HRESULT Sound::Load(const std::wstring& path)
 	{
 		if (nullptr == SoundManager::GetDevice())

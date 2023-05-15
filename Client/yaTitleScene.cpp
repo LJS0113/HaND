@@ -16,6 +16,7 @@
 #include "yaGameObject.h"
 #include "yaLogoPlayer.h"
 #include "yaBGImageObject.h"
+#include "yaSound.h"
 
 extern ya::Application application;
 
@@ -33,6 +34,9 @@ namespace ya
 	void TitleScene::Initialize()
 	{
 		Scene::Initialize();
+
+		gSound = Resources::Load<Sound>(L"TitleTheme", L"..\\Resources\\Sound\\y2mate.com-Have-A-Nice-Death-OST-Main-Menu.wav");
+		gSound->Play(true);
 
 		BGImageObject* bgImage = object::Instantiate<BGImageObject>(Vector2(0.0f, 0.0f), eLayerType::BG);
 		bgImage->SetImage(L"TitleBG", L"TitleScene.bmp");
@@ -58,8 +62,8 @@ namespace ya
 		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
 		{
 			SceneManager::LoadScene(eSceneType::Loading);
+			gSound->Stop(true);
 		}
-
 	}
 	void TitleScene::Render(HDC hdc)
 	{

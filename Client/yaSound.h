@@ -19,4 +19,5 @@ namespace ya
 		DSBUFFERDESC			mBufferDesc;
 		int mVolume;
 	};
+	extern Sound* gSound;
 }

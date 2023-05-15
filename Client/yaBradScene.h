@@ -31,5 +31,6 @@ namespace ya
 		class Elevator* elevator;
 		eElevatorState mEleState;
 		eSceneType mType;
+		class Sound* mainTheme;
 	};
 }

@@ -24,5 +24,6 @@ namespace ya
 		Image* mBgLogoImage;
 		Animator* mAnimator;
 		eSceneType mType;
+		class Sound* mainTheme;
 	};
 }

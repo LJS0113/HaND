@@ -26,5 +26,6 @@ namespace ya
 		Animator* mAnimator;
 		eSceneType mType;
 		Loading* loading;
+		class Sound* mainTheme;
 	};
 }

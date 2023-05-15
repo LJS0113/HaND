@@ -6,6 +6,8 @@
 #include "yaScene.h"
 #include "yaTransform.h"
 #include "yaAnimator.h"
+#include "yaResources.h"
+#include "yaSound.h"
 
 namespace ya
 {
@@ -26,12 +28,15 @@ namespace ya
 	void LoadingScene::Update()
 	{
 		Scene::Update();
+		gSound->Stop(true);
 
 		if (SceneManager::GetPrevScene()->GetSceneType() ==  eSceneType::Title)
 		{
 			if (loading->GetComponent<Animator>()->IsComplete())
 			{
 				object::Destory(loading);
+				gSound = Resources::Load<Sound>(L"PlayTheme", L"..\\Resources\\Sound\\y2mate.com-Have-A-Nice-Death-OST-CEOs-Office.wav");
+				gSound->Play(true);
 				SceneManager::LoadScene(eSceneType::Play);
 				return;
 			}
@@ -42,6 +47,8 @@ namespace ya
 			if (loading->GetComponent<Animator>()->IsComplete())
 			{
 				object::Destory(loading);
+				gSound = Resources::Load<Sound>(L"HungTheme", L"..\\Resources\\Sound\\y2mate.com-Have-A-Nice-Death-OST-W-Hung.wav");
+				gSound->Play(true);
 				SceneManager::LoadScene(eSceneType::Hung);
 				return;
 			}
@@ -52,6 +59,8 @@ namespace ya
 			if (loading->GetComponent<Animator>()->IsComplete())
 			{
 				object::Destory(loading);
+				gSound = Resources::Load<Sound>(L"BradTheme", L"..\\Resources\\Sound\\y2mate.com-Have-A-Nice-Death-OST-Brad-Theme-1.wav");
+				gSound->Play(true);
 				SceneManager::LoadScene(eSceneType::Brad);
 				return;
 			}

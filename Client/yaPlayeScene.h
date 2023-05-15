@@ -23,5 +23,6 @@ namespace ya
 
 	private:
 		eSceneType mType;
+		class Sound* mainTheme;
 	};
 }

@@ -32,5 +32,6 @@ namespace ya
 		float mTime;
 		class Elevator* elevator;
 		eElevatorState mEleState;
+		class Sound* mainTheme;
 	};
 }

@@ -11,6 +11,7 @@
 #include "yaBrad.h"
 #include "yaLifebar.h"
 #include "yaAnimator.h"
+#include "yaSound.h"
 
 namespace ya
 {
@@ -25,6 +26,10 @@ namespace ya
 
 	void BradV2Scene::Initialize()
 	{
+		gSound->Stop(true);
+		gSound = Resources::Load<Sound>(L"BradV2Theme", L"..\\Resources\\Sound\\y2mate.com-Have-A-Nice-Death-OST-Brad-Theme-2.wav");
+		gSound->Play(true);
+
 		Transform* bradTr = gBrad->GetComponent<Transform>();
 		Vector2 bradPos = bradTr->GetPos();
 
@@ -59,11 +64,6 @@ namespace ya
 
 	void BradV2Scene::Update()
 	{
-		if (Input::GetKeyState(eKeyCode::N) == eKeyState::Down)
-		{
-			SceneManager::LoadScene(eSceneType::Waldo);
-		}
-
 		Scene::Update();
 	}
 
